@@ -1,0 +1,209 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+//name,coupon,date,isActive
+
+model Coupon {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  date      DateTime
+  coupon    String
+  isActive  Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// banner model schema
+model Banner {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  imgUrl    String
+  link      String
+  isActive  Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Category model schema name,slug,imgUrl,description,
+model Category {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  slug        String     @unique
+  imgUrl      String?
+  description String?
+  products    Product[]
+  trainings   Training[]
+  markets     Market[]
+  isActive    Boolean
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+// Market model schema  name,slug,imgUrl,description
+model Market {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  slug        String   @unique
+  imgUrl      String?
+  description String?
+  categoryIds String   @db.ObjectId
+  categories  Category @relation(fields: [categoryIds], references: [id])
+  isActive    Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// name,slug,imgUrl,isActive
+model Brand {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  slug      String    @unique
+  imgUrl    String?
+  products  Product[]
+  isActive  Boolean
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Tag {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  slug       String    @unique
+  productIds String[]  @default([]) @db.ObjectId
+  products   Product[] @relation(fields: [productIds], references: [id])
+  isActive   Boolean
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+// Product model schema  name,slug,imgUrl,description,barCode,price,salesPrice,categories,farmers,brands,tags,isActive
+model Product {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  slug            String   @unique
+  imgUrl          String[]
+  barCode         String
+  productCode     String
+  price           Int
+  salesPrice      Int
+  wholesalesPrice Int
+  minWholeSaleQty Int
+  unit            Int
+  stock           Int
+  description     String
+  userId          String   @db.ObjectId
+  user            User     @relation(fields: [userId], references: [id])
+  tagIds          String[] @db.ObjectId
+  tags            Tag[]    @relation(fields: [tagIds], references: [id])
+  brandId         String   @db.ObjectId
+  brand           Brand    @relation(fields: [brandId], references: [id])
+  categoryId      String   @db.ObjectId
+  category        Category @relation(fields: [categoryId], references: [id])
+  isActive        Boolean
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  carts           Cart[]
+}
+
+// phone,email,address,contact,uniqueCode,description,terms,notes,imgUrl,isActive
+model Farmerprofile {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  address     String
+  uniqueCode  String   @unique
+  email       String   @unique
+  phone       String
+  imgUrl      String?
+  description String?
+  landSize    String?
+  mainCrop    String?
+  contact     String
+  userId      String   @unique @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id])
+  terms       String?
+  notes       String?
+  isActive    Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Training {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  slug        String   @unique
+  imgUrl      String?
+  description String?
+  content     String?
+  categoryIds String   @db.ObjectId
+  category    Category @relation(fields: [categoryIds], references: [id])
+  isActive    Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum UserRole {
+  ADMIN
+  USER
+  FARMER
+  CUSTOMER
+  MODERATOR
+}
+
+model User {
+  id                String         @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  email             String         @unique
+  password          String
+  emailVerified     DateTime?
+  verificationToken String?
+  products          Product[]
+  imgUrl            String?
+  farmerProfile     Farmerprofile?
+  role              UserRole       @default(USER)
+  carts             Cart[]
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+}
+
+model Staff {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  email         String    @unique
+  password      String
+  phone         String
+  emailVerified DateTime?
+  imgUrl        String?
+  idNumber      String
+  dob           DateTime
+  address       String
+  description   String
+  notes         String
+  code          String
+  isActive      Boolean
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Cart {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId String   @db.ObjectId @unique
+  userId    String        @db.ObjectId
+  user      User          @relation(fields: [userId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+  total     Int
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
