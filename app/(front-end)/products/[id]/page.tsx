@@ -5,13 +5,14 @@ import ContainerBox from "@/components/frontend/ContainerBox";
 
 import SingleProudcutImg from "./../../../../components/frontend/SingleProudcutImg";
 import ProductReview from "./../../../../components/frontend/ProductReview";
+import Loading from './../../../../components/Loading';
 const SingleProduct = ({params}:{params: {
   id: string;
 }}) => {
   
   const {id} = params;
   if (!id) {
-    return <div>Loading...</div>;
+    return <div className="w-full h-full mt-10"><Loading className="mx-auto my-auto"/></div>;
   }
   return (
     <ContainerBox>
