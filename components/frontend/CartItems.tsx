@@ -129,7 +129,7 @@ const CartItems = ({ id }: { id: string }) => {
                           <button
                             onClick={() => handleDelete(cart?.id)}
                             type="button"
-                            className="font-medium text-indigo-600 hover:text-indigo-500"
+                            className="font-medium text-blue-600 hover:text-blue-500"
                           >
                             Remove
                           </button>
@@ -161,7 +161,7 @@ const CartItems = ({ id }: { id: string }) => {
             <div className="mt-6">
               <a
                 href="#"
-                className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                className="flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-700"
               >
                 Checkout
               </a>
@@ -171,7 +171,7 @@ const CartItems = ({ id }: { id: string }) => {
                 or
                 <button
                   type="button"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                  className="font-medium text-blue-600 hover:text-blue-500"
                 >
                   Continue Shopping<span aria-hidden="true"> &rarr;</span>
                 </button>

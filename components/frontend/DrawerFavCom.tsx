@@ -31,7 +31,7 @@ export default function DrawerDemoFav() {
             className="bg-slate-200 !px-0 !py-0  w-full h-full hover:bg-slate-200 flex justify-center items-center dark:bg-slate-800"
             variant="default"
           >
-           {session?.user?.id && <FavTotal id={session?.user?.id} />}
+           {session?.user?.id ? <FavTotal id={session?.user?.id} />:<FavTotal id="" />}
           </Button>
         </DrawerTrigger>
         <DrawerContent className="border-none">

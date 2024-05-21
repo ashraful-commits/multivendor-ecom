@@ -32,8 +32,9 @@ export default function DrawerDemo() {
             className="bg-slate-200 !px-0 !py-0  w-full h-full hover:bg-slate-200 flex justify-center items-center dark:bg-slate-800"
             variant="default"
           >
-            {session?.user?.id &&
-            <CartTotal id={session?.user?.id} />
+            {session?.user?.id ?
+            <CartTotal id={session?.user?.id} />:
+            <CartTotal id="" />
             }
           </Button>
         </DrawerTrigger>
