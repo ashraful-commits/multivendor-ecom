@@ -115,30 +115,8 @@ const Products = ({ products }: { products: ProductData[] }) => {
                   alt={`Image+${index}`}
                 />
               </Link>
-              <div className="w-[60px] transition-all duration-500 delay-100 ease-in-out translate-x-16 group-hover:translate-x-0 gap-y-2 bg-slate-200 dark:bg-slate-900 absolute right-0 bottom-16 p-1 flex flex-col justify-center max-sm:translate-x-0">
+              <div className="w-[60px] transition-all duration-500 delay-100 ease-in-out translate-x-16 group-hover:translate-x-0 gap-y-2 bg-slate-100 dark:bg-slate-900 absolute right-0 bottom-14  p-1 flex flex-col justify-center max-sm:translate-x-0">
               <Button
-                  onClick={() => handleAddToFavorite(product?.id)}
-                  variant="default"
-                  size="sm"
-                  className="flex  rounded-none  text-sm gap-x-1"
-                >
-                  {isFaLoading ? (
-                    <Loading />
-                  ) : favorites?.some(
-                      (item) => item.productId === product?.id
-                    ) ? (
-                      <Heart className="size-5 text-transparent fill-red-500" />
-                    ) : (
-                      <Heart className="size-5" />
-                  )}
-                </Button>
-              <CartQuantity
-                  quantity={quantity}
-                  setQuantity={setQuantity}
-                  className="flex  p-1rounded-none  flex-col gap-x-3 items-center"
-                />
-               
-                <Button
                   onClick={() =>
                     handleAddToCart(product?.id, product?.salesPrice)
                   }
@@ -155,6 +133,30 @@ const Products = ({ products }: { products: ProductData[] }) => {
                     <Plus className="size-5" />
                   )}
                 </Button>
+              
+              
+              <CartQuantity
+                  quantity={quantity}
+                  setQuantity={setQuantity}
+                  className="flex  p-1rounded-none  flex-col gap-x-3 items-center"
+                />
+               <Button
+                  onClick={() => handleAddToFavorite(product?.id)}
+                  variant="default"
+                  size="sm"
+                  className="flex  rounded-none  text-sm gap-x-1"
+                >
+                  {isFaLoading ? (
+                    <Loading />
+                  ) : favorites?.some(
+                      (item) => item.productId === product?.id
+                    ) ? (
+                      <Heart className="size-5 text-transparent fill-red-500" />
+                    ) : (
+                      <Heart className="size-5" />
+                  )}
+                </Button>
+                
                 
               </div>
               <div className="absolute backdrop-blur-sm bg-white dark:bg-slate-900 opacity-0 max-sm:opacity-100 max-sm:translate-y-0 translate-y-5 group-hover:translate-y-0 group-hover:opacity-100 duration-500 transition-all ease-in-out bottom-0 left-0 w-full py-2 px-3">

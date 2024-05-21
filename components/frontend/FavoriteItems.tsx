@@ -79,7 +79,7 @@ const Favorite = ({ id }: { id: string }) => {
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full bg-slate-200 dark:bg-slate-700">
       <div className="lg:flex px-5 md:flex sm:flex-col w-full  shadow-xl">
         <div className="flex-1 w-full px-4 py-6 sm:px-6">
           <div className="flex items-start justify-between">
