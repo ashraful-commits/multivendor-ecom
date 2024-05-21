@@ -30,13 +30,13 @@ export const authOptions: any = {
         });
 
         if (!existingUser) {
-          console.log("No user found");
+          //console.log("No user found");
           throw new Error("No user found");
         }
 
         const passwordMatch = await compare(credentials.password, existingUser.password);
         if (!passwordMatch) {
-          console.log("Password incorrect");
+          //console.log("Password incorrect");
           throw new Error("Password Incorrect");
         }
     

@@ -15,7 +15,7 @@ const CartItems = ({ id }: { id: string }) => {
   const { data: carts, isLoading } = useGetCartQuery(id);
   const [deleteCart, { isSuccess: isDeleteSuccess, isError: isDeleteError }] = useDeleteCartMutation();
   const [editCart, { isSuccess: isEditSuccess, isError: isEditError }] = useEditCartMutation();
-  console.log(isEditSuccess)
+  //console.log(isEditSuccess)
   useEffect(() => {
     if (isDeleteSuccess) {
       toast.success("Product deleted!");
@@ -68,10 +68,10 @@ const CartItems = ({ id }: { id: string }) => {
           </div>
           <div className="mt-8">
             <div className="flow-root">
-              <ul role="list" className="-my-6 divide-y divide-gray-200">
+              <ul role="list" className="-my-6 divide-y  divide-gray-200">
                 {carts?.length > 0 ? (
                   carts.map((cart, index) => (
-                    <li key={index} className="flex justify-between w-full py-3">
+                    <li key={index} className="flex items-center justify-between w-full py-3">
                       <div className="h-10 w-10 flex items-center gap-x-5 rounded-md border border-gray-200">
                         <Image
                           width={1000}
@@ -88,14 +88,14 @@ const CartItems = ({ id }: { id: string }) => {
                         </div>
                       </div>
                      
-                      <div className="ml-4 grid grid-cols-2 items-end">
+                      <div className="ml-4 grid grid-cols-2 gap-x-4 items-center justify-center">
                         
-                        <div className="flex gap-x-5 text-base font-medium text-gray-900">
-                          <Button onClick={() => handleQuantityPlus(cart.quantity, cart.id,cart.product.salesPrice)} size="sm">
+                        <div className="flex gap-x-5 text-base max-sm:flex-col items-center justify-center  font-medium text-gray-900">
+                          <Button size="sm" onClick={() => handleQuantityPlus(cart.quantity, cart.id,cart.product.salesPrice)} size="sm">
                             <Plus />
                           </Button>
                           <span>{cart.quantity}</span>
-                          <Button onClick={() => handleQuantityMinus(cart.quantity, cart.id,cart.product.salesPrice)} size="sm">
+                          <Button size="sm" onClick={() => handleQuantityMinus(cart.quantity, cart.id,cart.product.salesPrice)} size="sm">
                             <Minus />
                           </Button>
                         </div>

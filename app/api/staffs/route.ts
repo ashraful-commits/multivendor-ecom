@@ -58,7 +58,7 @@ try {
     })
   return NextResponse.json(newStaff)
 } catch (error) {
-  console.log(error)
+  //console.log(error)
   return NextResponse.json({
     message:"Failed to create staff",
     error

@@ -21,7 +21,7 @@ export async function GET(
 
     return NextResponse.json(carts);
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     return NextResponse.json(
       { message: "Failed to fetch cart", error },
       { status: 500 }
@@ -42,7 +42,7 @@ export async function DELETE(
 
     return NextResponse.json(deleteUser);
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     return NextResponse.json(
       { message: "Failed to delete cart", error },
       { status: 500 }
@@ -55,7 +55,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   try {
     const { id } = params;
     const { quantity,total }:{quantity:number;total:number} = await req.json();
-    console.log(id,quantity)
+    //console.log(id,quantity)
     const cartItem = await db.cart.findUnique({
       where: {
         id,

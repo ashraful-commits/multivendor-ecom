@@ -83,7 +83,7 @@ export async function POST(req: Request) {
       return NextResponse.json(newProduct);
     }
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     return NextResponse.json(
       {
         message: "Failed to create Product",

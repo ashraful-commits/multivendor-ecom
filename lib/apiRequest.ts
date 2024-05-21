@@ -39,7 +39,7 @@ export async function makePostRequest(
     }
   } catch (error) {
     setLoading(false);
-    console.log(error);
+    //console.log(error);
   }
 }
 
@@ -71,7 +71,7 @@ export async function makePutRequest(
     }
   } catch (error) {
     setLoading(false);
-    console.log(error);
+    //console.log(error);
   }
 }
 
@@ -84,7 +84,7 @@ export async function getData(endpoint: string): Promise<any> {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     throw new Error("Failed to fetch data");
   }
 }

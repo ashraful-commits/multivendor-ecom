@@ -29,7 +29,7 @@ try {
   }) 
   return NextResponse.json(newMarket)
 } catch (error) {
-  console.log(error)
+  //console.log(error)
   return NextResponse.json({
     message:"Failed to create market",
     error

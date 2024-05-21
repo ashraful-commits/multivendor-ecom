@@ -51,7 +51,7 @@ export async function PUT(req: Request) {
     });
     return NextResponse.json(updatedUser);
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     return NextResponse.json(
       {
         message: "Failed to Update User",

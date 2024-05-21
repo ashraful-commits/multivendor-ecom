@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     const newBanner = await db.banner.create({
       data: { title, link, imgUrl, isActive }
     });
-    console.log(newBanner);
+    //console.log(newBanner);
     return NextResponse.json(newBanner);
   } catch (error) {
     return NextResponse.json({ message: "Failed to create Banners", error }, { status: 500 });

@@ -61,7 +61,6 @@ const AllProducts = () => {
     isLoading,
   } = useGetFilterProductQuery(filter);
 
-  console.log(products);
   if (isLoading)
     return (
       <div className="w-full h-full">

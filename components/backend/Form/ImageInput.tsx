@@ -21,7 +21,7 @@ export default function ImageUpload({image,setImage,endpoint}:ImageUploadProps) 
         endpoint={endpoint}
         onClientUploadComplete={(res) => {
           // Do something with the response
-          console.log("Files: ", res[0].url);
+          //console.log("Files: ", res[0].url);
           setImage(res[0].url)
         }}
         onUploadError={(error: Error) => {

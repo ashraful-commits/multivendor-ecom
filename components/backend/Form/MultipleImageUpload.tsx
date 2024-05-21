@@ -28,7 +28,7 @@ export default function MultipleImageUpload({ multiple,images, setImages, endpoi
 
             endpoint={endpoint}
             onClientUploadComplete={(res) => {
-              console.log(res)
+              //console.log(res)
               setImages(res?.map((item)=>item.url))
             }}
             onUploadError={(error: Error) => {
