@@ -1,22 +1,117 @@
-"use client"
-import React,{useState,useEffect} from "react";
-import Image from "next/image"
-import ReactMagnify from './ReactMagnify';
-import {useGetSingleProductQuery} from "../../lib/features/productapi"
-import Loading from './../Loading';
-const SingleProudcutImg = ({id}:{id:string}) => {
-    const {data:product,isLoading} =useGetSingleProductQuery(id)
-    const [Img,setImg] = useState<string|null>(null)
-    useEffect(() => {
-        if (product?.imgUrl && product.imgUrl.length > 0) {
-          setImg(product.imgUrl[0]);
-        }
-      }, [product]);
-    if(isLoading) return <div className="w-full h-full"><Loading className="mx-auto my-auto"/></div>
-  return <div>
-    <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
+"use client";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import ReactMagnify from "./ReactMagnify";
+import { useGetSingleProductQuery } from "../../lib/features/productapi";
+import Loading from "./../Loading";
+import CategoryProduct from "./CategoryProduct";
+import CartQuantity from "./CartQuantity";
+import {
+  useAddNewCartMutation,
+  useGetCartQuery,
+} from "../../lib/features/cartapi";
+import {
+  useGetFavoriteQuery,
+  useAddNewFavoriteMutation,
+} from "../../lib/features/favoriteapi";
+import { useRouter } from "next/navigation";
+import useSessionData from "./../../hooks/useSessionData";
+import { Button } from "@/components/ui/button";
+import { toast } from "react-hot-toast";
+import { Heart, Check, Plus } from "lucide-react";
+interface SessionData {
+  user: {
+    id: string;
+    name: string | null | undefined;
+    email: string | null | undefined;
+    image: string | null | undefined;
+  };
+  expires: string;
+}
+const SingleProudcutImg = ({ id }: { id: string }) => {
+  const { data: product, isLoading } = useGetSingleProductQuery(id);
+  const session = useSessionData() as SessionData;
+  const [Img, setImg] = useState<string | null>(null);
+  const [quantity, setQuantity] = useState<number>(1);
+  const {
+    data: favorites,
+    isLoading: isGetFavLoading,
+    isError: isGetFavError,
+  } = useGetFavoriteQuery(session?.user?.id as string);
+  const {
+    data: carts,
+    isLoading: isGetLoading,
+    isError: isGetError,
+  } = useGetCartQuery(session?.user?.id as string);
+  const [addNewCart, { isSuccess, isLoading: isAddLoading, isError }] =
+    useAddNewCartMutation();
+  const [
+    addNewFavorite,
+    {
+      isSuccess: isAddFaveSuccess,
+      isLoading: isAddFavLoading,
+      isError: isAddFavError,
+    },
+  ] = useAddNewFavoriteMutation();
+  const router = useRouter();
 
-    <div className="mt-6 sm:mt-8 lg:mt-0">
+  console.log(carts);
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(`Added to cart`);
+    }
+    if (isError) {
+      toast.error(`Failed to add to cart`);
+    }
+  }, [isSuccess, isError]);
+
+  const handleAddToCart = (id: string, price: number) => {
+    if (!session) {
+      router.push("/login");
+    } else {
+      const data = {
+        productId: id,
+        userId: session?.user?.id,
+        quantity,
+        total: quantity * price,
+      };
+      addNewCart(data);
+    }
+  };
+  const handleAddToFavorite = (id: string) => {
+    if (!session) {
+      router.push("/login");
+    } else {
+      const data = {
+        productId: id,
+        userId: session?.user?.id,
+      };
+      addNewFavorite(data);
+    }
+  };
+  useEffect(() => {
+    if (product?.imgUrl && product.imgUrl.length > 0) {
+      setImg(product.imgUrl[0]);
+    }
+  }, [product]);
+  if (isGetLoading)
+    return (
+      <div className="w-full h-full">
+        <Loading className="mx-auto my-auto" />
+      </div>
+    );
+
+  if (isLoading)
+    return (
+      <div className="w-full h-full">
+        <Loading className="mx-auto my-auto" />
+      </div>
+    );
+
+  return (
+    <div>
+      <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
+        <div className="mt-6 sm:mt-8 lg:mt-0">
           <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
             {product?.name}
           </h1>
@@ -94,82 +189,93 @@ const SingleProudcutImg = ({id}:{id:string}) => {
             </div>
           </div>
           <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
-            <a
-              href="#"
-              title=""
-              className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-              role="button"
-            >
-              <svg
-                className="w-5 h-5 -ms-2 me-2"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width={24}
-                height={24}
-                fill="none"
-                viewBox="0 0 24 24"
+            {product && (
+              <button
+                onClick={() =>
+                  !isAddFavLoading && handleAddToFavorite(product?.id)
+                }
+                className={`text-white mt-4 sm:mt-0 bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-slate-600 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800 flex items-center justify-center ${
+                  isAddFavLoading ? "cursor-not-allowed opacity-50" : ""
+                }`}
+                disabled={isAddFavLoading}
               >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"
-                />
-              </svg>
-              Add to favorites
-            </a>
-            <a
-              href="#"
-              title=""
-              className="text-white mt-4 sm:mt-0 bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-slate-600 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800 flex items-center justify-center"
-              role="button"
-            >
-              <svg
-                className="w-5 h-5 -ms-2 me-2"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width={24}
-                height={24}
-                fill="none"
-                viewBox="0 0 24 24"
+                {isAddFavLoading ? (
+                  <Loading />
+                ) : favorites?.some((item) => item.productId === product.id) ? (
+                  <>
+                    <Heart />
+                    <span className="ml-2">Added to cart</span>
+                  </>
+                ) : (
+                  <>
+                    <Heart className="fill-red-500" />
+                    <span className="ml-2">Add to Favorites</span>
+                  </>
+                )}
+              </button>
+            )}
+            {product && (
+              <button
+                onClick={() =>
+                  !isAddLoading &&
+                  handleAddToCart(product?.id, product?.salesPrice)
+                }
+                className={`text-white mt-4 sm:mt-0 bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-slate-600 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800 flex items-center justify-center ${
+                  isAddLoading ? "cursor-not-allowed opacity-50" : ""
+                }`}
+                disabled={isAddLoading}
               >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"
-                />
-              </svg>
-              Add to cart
-            </a>
+                {isAddLoading ? (
+                  <Loading />
+                ) : carts?.some((item) => item.productId === product.id) ? (
+                  <>
+                    <Check />
+                    <span className="ml-2">Added to cart</span>
+                  </>
+                ) : (
+                  <>
+                    <Plus />
+                    <span className="ml-2">Add to cart</span>
+                  </>
+                )}
+              </button>
+            )}
+            <CartQuantity
+              className="flex items-center gap-x-5"
+              quantity={quantity}
+              setQuantity={setQuantity}
+            />
           </div>
           <hr className="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
           <p className="mb-6 text-gray-500 dark:text-gray-400">
-          {product?.description}
+            {product?.description}
           </p>
         </div>
-    <div className="shrink-0 max-w-md lg:max-w-lg mx-auto">
-          
-  <ReactMagnify imageUrl={Img?Img:""}/>
-  <div className="my-2 flex flex-wrap gap-x-2 justify-end">
-  {product && product?.imgUrl?.length > 0 && product?.imgUrl?.map((img, index) => (
-    <Image
-      key={index}
-      onClick={() => setImg(img)}
-      width={1000}
-      height={1000}
-      className="w-14 h-14 cursor-pointer"
-      src={img}
-      alt="subimg"
-    />
-  ))}
-</div>
-  </div>
-</div>
-
-</div>;
+        <div className="shrink-0 max-w-md lg:max-w-lg mx-auto">
+          <ReactMagnify imageUrl={Img ? Img : ""} />
+          <div className="my-2 flex flex-wrap gap-x-2 justify-end">
+            {product &&
+              product?.imgUrl?.length > 0 &&
+              product?.imgUrl?.map((img, index) => (
+                <Image
+                  key={index}
+                  onClick={() => setImg(img)}
+                  width={1000}
+                  height={1000}
+                  className="w-14 h-14 cursor-pointer"
+                  src={img}
+                  alt="subimg"
+                />
+              ))}
+          </div>
+        </div>
+        <div className="col-span-2 w-full">
+          {/* {console.log(product)} */}
+          {product && <CategoryProduct id={product?.categoryId} />}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default SingleProudcutImg;

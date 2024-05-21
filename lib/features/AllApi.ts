@@ -7,6 +7,6 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/api`,
   }),
-  tagTypes: ['Banner','Brand','Category','Community','Coupon','Customer','Farmer','Market','Product','Staff','Tag','Cart','User'],
+  tagTypes: ['Favorite','Banner','Brand','Category','Community','Coupon','Customer','Farmer','Market','Product','Staff','Tag','Cart','User'],
   endpoints: () => ({}),
 })

@@ -400,8 +400,15 @@ export interface cartData {
   id: string;
   productId:string;
   userId:string;
-  total :number;
-  quantity :number;
+  quantity:number;
+  total:number;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface FavoriteData {
+  id: string;
+  productId:string;
+  userId:string;
   createdAt: string;
   updatedAt: string;
 }

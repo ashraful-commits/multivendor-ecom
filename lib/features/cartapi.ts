@@ -9,7 +9,7 @@ type CartTag = { type: 'Cart'; id?: string };
 export const CartApi = api.injectEndpoints({
 
   endpoints: (builder) => ({
-    getCart: builder.query<cartData[], void>({
+    getCart: builder.query<cartData[], string>({
       query: (id) => `carts/${id}`,
       providesTags: (result) =>
         result

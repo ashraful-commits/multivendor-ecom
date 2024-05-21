@@ -2,7 +2,6 @@
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useTheme } from 'next-themes';
-import  DrawerDemo  from './DrawerCom';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -264,7 +263,7 @@ const Navbar = () => {
               <Moon className="size-5" />
             )}
           </button>
-          <DrawerDemo />
+          
           <button
             type="button"
             className="relative inline-flex items-center p-2 text-sm font-medium text-center text-blue-500  rounded-lg hover:bg-blue-800 focus:ring-2 dark:text-white dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

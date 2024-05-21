@@ -43,8 +43,7 @@ export default function RootLayout({
             containerClassName=""
             containerStyle={{}}
             toastOptions={{
-              // Define default options
-              className: '',
+              className: 'z-[99999999999]',
               duration: 5000,
               style: {
                 background: '#363636',

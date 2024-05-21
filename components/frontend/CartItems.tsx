@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import {
   useGetCartQuery,
   useDeleteCartMutation,
-  useEditCartMutation
+  useEditCartMutation,
 } from "../../lib/features/cartapi";
 import Loading from "../Loading";
 import Image from "next/image";
@@ -13,9 +13,10 @@ import { Plus, Minus } from "lucide-react";
 
 const CartItems = ({ id }: { id: string }) => {
   const { data: carts, isLoading } = useGetCartQuery(id);
-  const [deleteCart, { isSuccess: isDeleteSuccess, isError: isDeleteError }] = useDeleteCartMutation();
-  const [editCart, { isSuccess: isEditSuccess, isError: isEditError }] = useEditCartMutation();
-  //console.log(isEditSuccess)
+  const [deleteCart, { isSuccess: isDeleteSuccess, isError: isDeleteError }] =
+    useDeleteCartMutation();
+  const [editCart, { isSuccess: isEditSuccess, isError: isEditError }] =
+    useEditCartMutation();
   useEffect(() => {
     if (isDeleteSuccess) {
       toast.success("Product deleted!");
@@ -42,27 +43,29 @@ const CartItems = ({ id }: { id: string }) => {
     deleteCart(id);
   };
 
-  const handleQuantityPlus = (q: number, id: string,price:number) => {
+  const handleQuantityPlus = (q: number, id: string, price: number) => {
     const quantity = q + 1;
-    const total = quantity*price;
-    editCart({ id,quantity,total });
+    const total = quantity * price;
+    editCart({ id, quantity, total });
   };
 
-  const handleQuantityMinus = (q: number, id: string,price:number) => {
-
+  const handleQuantityMinus = (q: number, id: string, price: number) => {
     const quantity = q - 1;
-    const total = quantity*price;
+    const total = quantity * price;
     if (quantity > 0) {
-      editCart({ id, quantity,total});
+      editCart({ id, quantity, total });
     }
   };
 
   return (
-    <div className="w-full h-full">
-      <div className="lg:flex md:flex sm:flex-col w-full bg-white shadow-xl">
+    <div className="w-full h-full  ">
+      <div className="lg:flex px-5 md:flex sm:flex-col w-full shadow-xl">
         <div className="flex-1 w-full px-4 py-6 sm:px-6">
           <div className="flex items-start justify-between">
-            <h2 className="text-lg font-medium text-gray-900" id="slide-over-title">
+            <h2
+              className="text-lg font-medium"
+              id="slide-over-title"
+            >
               Shopping cart
             </h2>
           </div>
@@ -71,7 +74,10 @@ const CartItems = ({ id }: { id: string }) => {
               <ul role="list" className="-my-6 divide-y  divide-gray-200">
                 {carts?.length > 0 ? (
                   carts.map((cart, index) => (
-                    <li key={index} className="flex items-center justify-between w-full py-3">
+                    <li
+                      key={index}
+                      className="flex items-center justify-between w-full py-3"
+                    >
                       <div className="h-10 w-10 flex items-center gap-x-5 rounded-md border border-gray-200">
                         <Image
                           width={1000}
@@ -80,22 +86,41 @@ const CartItems = ({ id }: { id: string }) => {
                           alt={cart?.product?.name}
                           className="w-full h-full object-cover object-center"
                         />
-                         <div className="flex flex-col text-base font-medium text-gray-900">
+                        <div className="flex flex-col font-medium">
                           <h3>
                             <a href="#">{cart?.product?.name}</a>
                           </h3>
-                          <p className="text-gray-500">Qty {cart.quantity}</p>
+                          <p className="">Qty {cart.quantity}</p>
                         </div>
                       </div>
-                     
+
                       <div className="ml-4 grid grid-cols-2 gap-x-4 items-center justify-center">
-                        
                         <div className="flex gap-x-5 text-base max-sm:flex-col items-center justify-center  font-medium text-gray-900">
-                          <Button size="sm" onClick={() => handleQuantityPlus(cart.quantity, cart.id,cart.product.salesPrice)} size="sm">
+                          <Button
+                            size="sm"
+                            onClick={() =>
+                              handleQuantityPlus(
+                                cart.quantity,
+                                cart.id,
+                                cart.product.salesPrice
+                              )
+                            }
+                          
+                          >
                             <Plus />
                           </Button>
                           <span>{cart.quantity}</span>
-                          <Button size="sm" onClick={() => handleQuantityMinus(cart.quantity, cart.id,cart.product.salesPrice)} size="sm">
+                          <Button
+                            size="sm"
+                            onClick={() =>
+                              handleQuantityMinus(
+                                cart.quantity,
+                                cart.id,
+                                cart.product.salesPrice
+                              )
+                            }
+                            
+                          >
                             <Minus />
                           </Button>
                         </div>

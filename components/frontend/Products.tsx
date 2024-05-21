@@ -5,10 +5,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import CartQuantity from "./CartQuantity";
-import { ShoppingCart, Plus } from "lucide-react";
+import { ShoppingCart, Plus, Heart, Check } from "lucide-react";
 import { useGetProductQuery } from "../../lib/features/productapi";
-import { useAddNewCartMutation } from "../../lib/features/cartapi";
+import {
+  useAddNewCartMutation,
+  useGetCartQuery,
+} from "../../lib/features/cartapi";
 import { useGetSingleUserQuery } from "../../lib/features/userapi";
+import {
+  useAddNewFavoriteMutation,
+  useGetFavoriteQuery,
+} from "../../lib/features/favoriteapi";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -22,7 +29,7 @@ import { getSession } from "next-auth/react";
 import useSessionData from "../../hooks/useSessionData";
 import { toast } from "react-hot-toast";
 import Loading from "../Loading";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 interface SessionData {
   user: {
@@ -34,9 +41,22 @@ interface SessionData {
   expires: string;
 }
 const Products = ({ products }: { products: ProductData[] }) => {
+  const session = useSessionData() as SessionData;
   const [quantity, setQuantity] = useState<number>(1);
-  const [addNewCart, { isSuccess, isError }] = useAddNewCartMutation();
-const router= useRouter()
+  const [addNewCart, { isSuccess,isLoading:isAddLoading, isError }] = useAddNewCartMutation();
+  const [addNewFavorite, { isSuccess: isFaSuccess,isLoading:isFaLoading, isError: isFaError }] =
+    useAddNewFavoriteMutation();
+  const {
+    data: favorites,
+    isLoading: isGetFavLoading,
+    isError: isGetFavError,
+  } = useGetFavoriteQuery(session?.user?.id as string);
+  const {
+    data: carts,
+    isLoading: isGetLoading,
+    isError: isGetError,
+  } = useGetCartQuery(session?.user?.id as string);
+  const router = useRouter();
   useEffect(() => {
     if (isSuccess) {
       toast.success(`Added to cart`);
@@ -44,14 +64,18 @@ const router= useRouter()
     if (isError) {
       toast.error(`Failed to add to cart`);
     }
-  }, [isSuccess, isError]);
+    if (isFaSuccess) {
+      toast.success(`Added to Favorite`);
+    }
+    if (isFaError) {
+      toast.error(`Failed to add to Favorite`);
+    }
+  }, [isSuccess, isError, isFaSuccess, isFaError]);
 
-  const session = useSessionData() as SessionData;
-  
   const handleAddToCart = (id: string, price: number) => {
-    if(!session){
-      router.push("/login")
-    }else{
+    if (!session) {
+      router.push("/login");
+    } else {
       const data = {
         productId: id,
         userId: session?.user?.id,
@@ -59,6 +83,17 @@ const router= useRouter()
         total: quantity * price,
       };
       addNewCart(data);
+    }
+  };
+  const handleAddToFavorite = (id: string) => {
+    if (!session) {
+      router.push("/login");
+    } else {
+      const data = {
+        productId: id,
+        userId: session?.user?.id,
+      };
+      addNewFavorite(data);
     }
   };
 
@@ -92,6 +127,20 @@ const router= useRouter()
                     / ${product?.salesPrice}
                   </h5>
                   <Button
+                    onClick={() => handleAddToFavorite(product?.id)}
+                    variant="default"
+                    size="sm"
+                    className="flex  text-sm gap-x-1"
+                  >
+                    {isFaLoading?<Loading/>:favorites?.some(
+                      (item) => item.productId === product?.id
+                    ) ? (
+                      <Heart className="size-5 fill-red-500" />
+                    ) : (
+                      <Heart className="size-5" />
+                    )}
+                  </Button>
+                  <Button
                     onClick={() =>
                       handleAddToCart(product?.id, product?.salesPrice)
                     }
@@ -100,7 +149,12 @@ const router= useRouter()
                     className="flex text-sm gap-x-1"
                   >
                     <ShoppingCart className="size-5" />
-                    <Plus className="size-5" />
+                    {isAddLoading ?<Loading  className="!px-0 !mx-0"/>:carts?.some((item) => item.productId === product?.id) ? (
+                      <Check className="size-5" />
+                    ) : (
+                      <Plus className="size-5" />
+                    )}
+                    
                   </Button>
                 </div>
               </div>

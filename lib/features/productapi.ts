@@ -26,6 +26,13 @@ export const ProductApi = api.injectEndpoints({
       query: (id) => `products/${id}`,
       providesTags: (result, error, id) => [{ type: "Product", id }],
     }),
+    getCatProduct: builder.query<ProductData[], string>({
+      query: (catId) => `products/category/${catId}`,
+      providesTags: (result) =>
+        result
+          ? result.map(({ id }) => ({ type: "Product", id } as const))
+          : [{ type: "Product" }],
+    }),
     addNewProduct: builder.mutation<ProductData, Partial<ProductData>>({
       query: (newProduct) => ({
         url: "products",
@@ -51,4 +58,5 @@ export const {
   useGetSingleProductQuery,
   useAddNewProductMutation,
   useEditProductMutation,
+  useGetCatProductQuery
 } = ProductApi;
