@@ -1,6 +1,5 @@
 "use client";
-
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { ProductData } from '../../typescript';
 import Link from "next/link";
 import Image from "next/image";
@@ -18,23 +17,47 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-
 import MasonryContainer from './MasonaryContainer';
+import { getSession } from 'next-auth/react'
+import useSessionData from '../../hooks/useSessionData';
+import { toast } from 'react-hot-toast';
 
-const Products = ({ session,products }: { session?: string;products:ProductData[] }) => {
-  const { data: users } = useGetSingleUserQuery(session as string);
+interface SessionData {
+  user: {
+    id: string;
+    name: string | null | undefined;
+    email: string | null | undefined;
+    image: string | null | undefined;
+  };
+  expires: string;
+}
+const Products = ({ products }: { products:ProductData[] }) => {
   const [quantity, setQuantity] = useState<number>(1);
-  const [addNewCart] = useAddNewCartMutation();
+  const [addNewCart,{isSuccess,isError}] = useAddNewCartMutation();
 
+    useEffect(()=>{
+      if (isSuccess) {
+        toast.success(`Added to cart`);
+      }
+      if (isError) {
+        toast.error(`Failed to add to cart`);
+      }
+    },[isSuccess,isError])
+  
+  const session = useSessionData() as SessionData
+  if (!session) {
+    return <div>Loading...</div>;
+  }
   const handleAddToCart = (id: string, price: number) => {
     const data = {
       productId: id,
-      userId: users?.id,
+      userId: session?.user?.id,
       quantity,
       total: quantity * price
     };
     addNewCart(data);
   };
+
   return (
     <>
     {products?.length ?

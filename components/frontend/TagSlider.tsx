@@ -26,7 +26,7 @@ const TagSlider = () => {
       <TitleComponent
         className="my-5 flex justify-between w-full !px-0 items-center"
         title="Tags"
-        link="/tags"
+        link=""
       />
       <Carousel
         opts={{

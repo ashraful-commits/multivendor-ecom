@@ -27,12 +27,19 @@ export const CartApi = api.injectEndpoints({
     editCart: builder.mutation<cartData, Partial<cartData>>({
       query: (Cart) => ({
         url: `carts/${Cart.id}`,
-        method: 'PATCH',
-        body: Cart,
+        method: 'PUT',
+        body: {quantity:Cart.quantity,total:Cart.total},
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Cart', id }],
+    }),
+    deleteCart: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `carts/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result, error, id) => [{ type: 'Cart', id }],
     }),
   }),
 });
 
-export const { useGetCartQuery, useAddNewCartMutation, useEditCartMutation } = CartApi;
+export const { useGetCartQuery, useAddNewCartMutation,useDeleteCartMutation, useEditCartMutation } = CartApi;

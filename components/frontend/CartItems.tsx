@@ -1,59 +1,113 @@
 "use client";
-import React from "react";
-import { useGetCartQuery } from "../../lib/features/cartapi";
+import React, { useEffect, useState } from "react";
+import {
+  useGetCartQuery,
+  useDeleteCartMutation,
+  useEditCartMutation
+} from "../../lib/features/cartapi";
 import Loading from "../Loading";
-import  Image  from 'next/image';
+import Image from "next/image";
+import { toast } from "react-hot-toast";
+import { Button } from "@/components/ui/button";
+import { Plus, Minus } from "lucide-react";
+
 const CartItems = ({ id }: { id: string }) => {
   const { data: carts, isLoading } = useGetCartQuery(id);
+  const [deleteCart, { isSuccess: isDeleteSuccess, isError: isDeleteError }] = useDeleteCartMutation();
+  const [editCart, { isSuccess: isEditSuccess, isError: isEditError }] = useEditCartMutation();
+  console.log(isEditSuccess)
+  useEffect(() => {
+    if (isDeleteSuccess) {
+      toast.success("Product deleted!");
+    }
+    if (isDeleteError) {
+      toast.error("Product not deleted!");
+    }
+    if (isEditSuccess) {
+      toast.success("Product edited!");
+    }
+    if (isEditError) {
+      toast.error("Product not edited!");
+    }
+  }, [isDeleteSuccess, isDeleteError, isEditSuccess, isEditError]);
+
   if (isLoading)
     return (
       <div className="w-full h-full">
         <Loading className="mx-auto my-auto" />
       </div>
     );
+
+  const handleDelete = (id: string) => {
+    deleteCart(id);
+  };
+
+  const handleQuantityPlus = (q: number, id: string,price:number) => {
+    const quantity = q + 1;
+    const total = quantity*price;
+    editCart({ id,quantity,total });
+  };
+
+  const handleQuantityMinus = (q: number, id: string,price:number) => {
+
+    const quantity = q - 1;
+    const total = quantity*price;
+    if (quantity > 0) {
+      editCart({ id, quantity,total});
+    }
+  };
+
   return (
     <div className="w-full h-full">
-      <div className="lg:flex md:flex sm:flex-col w-full  bg-white shadow-xl">
+      <div className="lg:flex md:flex sm:flex-col w-full bg-white shadow-xl">
         <div className="flex-1 w-full px-4 py-6 sm:px-6">
           <div className="flex items-start justify-between">
-            <h2
-              className="text-lg font-medium text-gray-900"
-              id="slide-over-title"
-            >
+            <h2 className="text-lg font-medium text-gray-900" id="slide-over-title">
               Shopping cart
             </h2>
-            
           </div>
           <div className="mt-8">
             <div className="flow-root">
               <ul role="list" className="-my-6 divide-y divide-gray-200">
                 {carts?.length > 0 ? (
-                  carts?.map((cart, index) => (
-                    <li key={index} className="flex py-6">
-                      <div className="h-24 w-24 flex-shrink-0 rounded-md border border-gray-200">
-                        <Image width={1000} height={1000} src={cart?.product?.imgUrl[0]} alt={cart?.product?.name} className="w-full h-full object-cover object-center" />
-                      </div>
-
-                      <div className="ml-4 flex flex-1 flex-col">
-                        <div>
-                          <div className="flex justify-between text-base font-medium text-gray-900">
-                            <h3>
-                              <a href="#">Throwback Hip Bag</a>
-                            </h3>
-                            <p className="ml-4">$90.00</p>
-                          </div>
-                          <p className="mt-1 text-sm text-gray-500">Salmon</p>
+                  carts.map((cart, index) => (
+                    <li key={index} className="flex justify-between w-full py-3">
+                      <div className="h-10 w-10 flex items-center gap-x-5 rounded-md border border-gray-200">
+                        <Image
+                          width={1000}
+                          height={1000}
+                          src={cart?.product?.imgUrl[0]}
+                          alt={cart?.product?.name}
+                          className="w-full h-full object-cover object-center"
+                        />
+                         <div className="flex flex-col text-base font-medium text-gray-900">
+                          <h3>
+                            <a href="#">{cart?.product?.name}</a>
+                          </h3>
+                          <p className="text-gray-500">Qty {cart.quantity}</p>
                         </div>
-                        <div className="flex flex-1 items-end justify-between text-sm">
-                          <p className="text-gray-500">Qty 1</p>
-                          <div className="flex">
-                            <button
-                              type="button"
-                              className="font-medium text-indigo-600 hover:text-indigo-500"
-                            >
-                              Remove
-                            </button>
-                          </div>
+                      </div>
+                     
+                      <div className="ml-4 grid grid-cols-2 items-end">
+                        
+                        <div className="flex gap-x-5 text-base font-medium text-gray-900">
+                          <Button onClick={() => handleQuantityPlus(cart.quantity, cart.id,cart.product.salesPrice)} size="sm">
+                            <Plus />
+                          </Button>
+                          <span>{cart.quantity}</span>
+                          <Button onClick={() => handleQuantityMinus(cart.quantity, cart.id,cart.product.salesPrice)} size="sm">
+                            <Minus />
+                          </Button>
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                          <p className="ml-4">${cart?.total}</p>
+                          <button
+                            onClick={() => handleDelete(cart?.id)}
+                            type="button"
+                            className="font-medium text-indigo-600 hover:text-indigo-500"
+                          >
+                            Remove
+                          </button>
                         </div>
                       </div>
                     </li>
@@ -69,7 +123,12 @@ const CartItems = ({ id }: { id: string }) => {
           <div className="border-t max-h-[300px] border-gray-200 px-4 py-6 sm:px-6">
             <div className="flex justify-between text-base font-medium text-gray-900">
               <p>Subtotal</p>
-              <p>$262.00</p>
+              <p>
+                $
+                {carts?.reduce((total, item) => {
+                  return total + item.total;
+                }, 0)}
+              </p>
             </div>
             <p className="mt-0.5 text-sm text-gray-500">
               Shipping and taxes calculated at checkout.

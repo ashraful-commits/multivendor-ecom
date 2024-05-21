@@ -77,9 +77,9 @@ const AllProducts = () => {
   };
 
   return (
-    <ContainerBox className="mx-auto relative w-full overflow-x-scroll ">
+    <ContainerBox className="mx-auto relative w-full  ">
       <div
-        className={`m-2  max-h-[65px] max-sm:hidden fixed top-20 left-[20%] flex gap-5 bg-slate-200 dark:bg-slate-900 p-2 z-[99999] mx-auto`}
+        className={`m-2  max-h-[65px] max-sm:hidden fixed top-[72px] lg:left-[18%] md:left-[0%] flex gap-5 bg-slate-200 dark:bg-slate-900 p-2 z-[99999] mx-auto`}
       >
         <Input
           placeholder="Search product"
