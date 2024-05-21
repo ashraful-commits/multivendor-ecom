@@ -188,13 +188,13 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
               </a>
             </div>
           </div>
-          <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
+          <div className="mt-6 sm:gap-4 w-full sm:items-center sm:flex sm:mt-8">
             {product && (
               <button
                 onClick={() =>
                   !isAddFavLoading && handleAddToFavorite(product?.id)
                 }
-                className={`text-white mt-4 sm:mt-0 bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-slate-600 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800 flex items-center justify-center ${
+                className={`text-white max-sm:w-full mt-4 sm:mt-0 bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-slate-600 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800 flex items-center justify-center ${
                   isAddFavLoading ? "cursor-not-allowed opacity-50" : ""
                 }`}
                 disabled={isAddFavLoading}
@@ -203,12 +203,12 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
                   <Loading />
                 ) : favorites?.some((item) => item.productId === product.id) ? (
                   <>
-                    <Heart />
+                    <Heart className="fill-red-500 text-transparent" />
                     <span className="ml-2">Added to cart</span>
                   </>
                 ) : (
                   <>
-                    <Heart className="fill-red-500" />
+                  <Heart />
                     <span className="ml-2">Add to Favorites</span>
                   </>
                 )}
@@ -220,7 +220,7 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
                   !isAddLoading &&
                   handleAddToCart(product?.id, product?.salesPrice)
                 }
-                className={`text-white mt-4 sm:mt-0 bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-slate-600 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800 flex items-center justify-center ${
+                className={`text-white mt-4  max-sm:w-full sm:mt-0 bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-slate-600 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800 flex items-center justify-center ${
                   isAddLoading ? "cursor-not-allowed opacity-50" : ""
                 }`}
                 disabled={isAddLoading}
@@ -240,11 +240,14 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
                 )}
               </button>
             )}
+            <div className="max-sm:mt-5">
+
             <CartQuantity
-              className="flex items-center gap-x-5"
+              className="flex items-center justify-evenly mx-auto bg-slate-600 dark:bg-slate-700 p-1 !rounded-xl gap-x-5"
               quantity={quantity}
               setQuantity={setQuantity}
             />
+            </div>
           </div>
           <hr className="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
           <p className="mb-6 text-gray-500 dark:text-gray-400">

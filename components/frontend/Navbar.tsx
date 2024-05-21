@@ -255,7 +255,7 @@ const Navbar = () => {
 
           <button
             onClick={() => setTheme(theme == 'light' ? 'dark' : 'light')}
-            className="relative inline-flex max-sm:hidden items-center p-2 text-sm font-medium text-center text-blue-500 dark:text-white  rounded-lg hover:bg-blue-800 focus:ring-2  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="relative inline-flex  items-center p-2 text-sm font-medium text-center text-blue-500 dark:text-white  rounded-lg hover:bg-blue-800 focus:ring-2  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             {theme == 'light' ? (
               <Sun className="fill-blue-500 size-5 " />

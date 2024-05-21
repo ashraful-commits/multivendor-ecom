@@ -43,9 +43,12 @@ interface SessionData {
 const Products = ({ products }: { products: ProductData[] }) => {
   const session = useSessionData() as SessionData;
   const [quantity, setQuantity] = useState<number>(1);
-  const [addNewCart, { isSuccess,isLoading:isAddLoading, isError }] = useAddNewCartMutation();
-  const [addNewFavorite, { isSuccess: isFaSuccess,isLoading:isFaLoading, isError: isFaError }] =
-    useAddNewFavoriteMutation();
+  const [addNewCart, { isSuccess, isLoading: isAddLoading, isError }] =
+    useAddNewCartMutation();
+  const [
+    addNewFavorite,
+    { isSuccess: isFaSuccess, isLoading: isFaLoading, isError: isFaError },
+  ] = useAddNewFavoriteMutation();
   const {
     data: favorites,
     isLoading: isGetFavLoading,
@@ -102,7 +105,7 @@ const Products = ({ products }: { products: ProductData[] }) => {
       {products?.length ? (
         <MasonryContainer>
           {products.map((product: any, index: number) => (
-            <div key={index} className="image-item relative group">
+            <div key={index} className="image-item relative group overflow-hidden">
               <Link href={`/products/${product?.id}`}>
                 <Image
                   width={1000}
@@ -112,50 +115,59 @@ const Products = ({ products }: { products: ProductData[] }) => {
                   alt={`Image+${index}`}
                 />
               </Link>
+              <div className="w-[60px] transition-all duration-500 delay-100 ease-in-out translate-x-16 group-hover:translate-x-0 gap-y-2 bg-slate-200 dark:bg-slate-900 absolute right-0 bottom-16 p-1 flex flex-col justify-center max-sm:translate-x-0">
+              <Button
+                  onClick={() => handleAddToFavorite(product?.id)}
+                  variant="default"
+                  size="sm"
+                  className="flex  rounded-none  text-sm gap-x-1"
+                >
+                  {isFaLoading ? (
+                    <Loading />
+                  ) : favorites?.some(
+                      (item) => item.productId === product?.id
+                    ) ? (
+                      <Heart className="size-5 text-transparent fill-red-500" />
+                    ) : (
+                      <Heart className="size-5" />
+                  )}
+                </Button>
               <CartQuantity
-                quantity={quantity}
-                setQuantity={setQuantity}
-                className="flex opacity-0 p-1 transition-all duration-500 ease-in-out border rounded-md group-hover:opacity-100 max-sm:opacity-100 absolute bottom-14 right-0 gap-x-3 items-center bg-slate-200 dark:bg-slate-900"
-              />
+                  quantity={quantity}
+                  setQuantity={setQuantity}
+                  className="flex  p-1rounded-none  flex-col gap-x-3 items-center"
+                />
+               
+                <Button
+                  onClick={() =>
+                    handleAddToCart(product?.id, product?.salesPrice)
+                  }
+                  variant="default"
+                  size="sm"
+                  className="flex rounded-none  text-sm gap-x-1"
+                >
+                  <ShoppingCart className="size-5" />
+                  {isAddLoading ? (
+                    <Loading className="!px-0 !mx-0" />
+                  ) : carts?.some((item) => item.productId === product?.id) ? (
+                    <Check className="size-5" />
+                  ) : (
+                    <Plus className="size-5" />
+                  )}
+                </Button>
+                
+              </div>
               <div className="absolute backdrop-blur-sm bg-white dark:bg-slate-900 opacity-0 max-sm:opacity-100 max-sm:translate-y-0 translate-y-5 group-hover:translate-y-0 group-hover:opacity-100 duration-500 transition-all ease-in-out bottom-0 left-0 w-full py-2 px-3">
                 <div className="flex justify-between gap-x-2 px-1 items-center">
-                  <h5 className="p-2 max-sm:text-sm text-md font-bold">{product?.name}</h5>
+                  <h5 className="p-2 max-sm:text-sm text-md font-bold">
+                    {product?.name}
+                  </h5>
                   <h5 className="px-2 text-sm font-bold border-2 border-slate-500 rounded-lg backdrop-blur-sm ">
-                    <del className="px-2 max-sm:flex max-sm:flex-col max-sm:justify-center text-sm font-bold text-slate-500">
+                    <del className="px-2 max-sm:justify-center text-sm font-bold text-slate-500">
                       ${product?.price}
                     </del>{" "}
                     / ${product?.salesPrice}
                   </h5>
-                  <Button
-                    onClick={() => handleAddToFavorite(product?.id)}
-                    variant="default"
-                    size="sm"
-                    className="flex  text-sm gap-x-1"
-                  >
-                    {isFaLoading?<Loading/>:favorites?.some(
-                      (item) => item.productId === product?.id
-                    ) ? (
-                      <Heart className="size-5 fill-red-500" />
-                    ) : (
-                      <Heart className="size-5" />
-                    )}
-                  </Button>
-                  <Button
-                    onClick={() =>
-                      handleAddToCart(product?.id, product?.salesPrice)
-                    }
-                    variant="default"
-                    size="sm"
-                    className="flex text-sm gap-x-1"
-                  >
-                    <ShoppingCart className="size-5" />
-                    {isAddLoading ?<Loading  className="!px-0 !mx-0"/>:carts?.some((item) => item.productId === product?.id) ? (
-                      <Check className="size-5" />
-                    ) : (
-                      <Plus className="size-5" />
-                    )}
-                    
-                  </Button>
                 </div>
               </div>
             </div>
