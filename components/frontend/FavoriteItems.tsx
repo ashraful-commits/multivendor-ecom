@@ -97,7 +97,7 @@ const Favorite = ({ id }: { id: string }) => {
                   favorites.map((favorite, index) => (
                     <li
                       key={index}
-                      className="flex items-center justify-between w-full py-3"
+                      className="grid grid-cols-3 items-center justify-between w-full py-3"
                     >
                       <div className="h-10 w-10 flex items-center gap-x-5 rounded-md border border-gray-200">
                         <Image
@@ -117,13 +117,13 @@ const Favorite = ({ id }: { id: string }) => {
                       </div>
                       <div>
                         <CartQuantity
-                          className="flex gap-x-4 items-center"
+                          className="flex gap-x-4 max-sm:flex-col items-center"
                           quantity={quantity}
                           setQuantity={setQuantity}
                         />
                       </div>
                       <div className="ml-4 grid grid-cols-1 gap-x-4 items-center justify-center">
-                        <div className="flex  gap-x-3 items-center justify-center">
+                        <div className="flex max-sm:flex-col gap-x-3 gap-y-3 items-center justify-center">
                           <Button
                             variant="default"
                             size="sm"

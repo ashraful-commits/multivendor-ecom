@@ -115,13 +115,13 @@ const Products = ({ products }: { products: ProductData[] }) => {
               <CartQuantity
                 quantity={quantity}
                 setQuantity={setQuantity}
-                className="flex opacity-0 p-1 transition-all duration-500 ease-in-out border rounded-md group-hover:opacity-100 absolute bottom-14 right-0 gap-x-3 items-center bg-slate-200 dark:bg-slate-900"
+                className="flex opacity-0 p-1 transition-all duration-500 ease-in-out border rounded-md group-hover:opacity-100 max-sm:opacity-100 absolute bottom-14 right-0 gap-x-3 items-center bg-slate-200 dark:bg-slate-900"
               />
-              <div className="absolute backdrop-blur-sm bg-white dark:bg-slate-900 opacity-0 translate-y-5 group-hover:translate-y-0 group-hover:opacity-100 duration-500 transition-all ease-in-out bottom-0 left-0 w-full py-2 px-3">
+              <div className="absolute backdrop-blur-sm bg-white dark:bg-slate-900 opacity-0 max-sm:opacity-100 max-sm:translate-y-0 translate-y-5 group-hover:translate-y-0 group-hover:opacity-100 duration-500 transition-all ease-in-out bottom-0 left-0 w-full py-2 px-3">
                 <div className="flex justify-between gap-x-2 px-1 items-center">
-                  <h5 className="p-2 text-md font-bold">{product?.name}</h5>
+                  <h5 className="p-2 max-sm:text-sm text-md font-bold">{product?.name}</h5>
                   <h5 className="px-2 text-sm font-bold border-2 border-slate-500 rounded-lg backdrop-blur-sm ">
-                    <del className="px-2 text-sm font-bold text-slate-500">
+                    <del className="px-2 max-sm:flex max-sm:flex-col max-sm:justify-center text-sm font-bold text-slate-500">
                       ${product?.price}
                     </del>{" "}
                     / ${product?.salesPrice}

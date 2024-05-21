@@ -30,7 +30,7 @@ export default function DrawerDemo() {
       </div>
     );
   return (
-    <div className="fixed  top-36 rounded-lg rounded-tr-none rounded-br-none right-0 bg-slate-200 dark:bg-slate-800 z-[9999999999] shadow-xl border-2 px-2 w-[100px] h-[60px] border-blue-500 border-r-0 flex justify-center items-center">
+    <div className="fixed  top-36 rounded-lg rounded-tr-none rounded-br-none right-0 bg-slate-200 dark:bg-slate-800 z-[9999999999] shadow-xl border-2 w-[100px]  max-sm:w-[60px] max-sm:h-[80px] h-[60px]  border-blue-500 border-r-0 flex justify-center items-center">
       <Drawer>
         <DrawerTrigger asChild>
           <Button

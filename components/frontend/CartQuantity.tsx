@@ -14,10 +14,10 @@ const CartQuantity = ({ className, setQuantity, quantity }: { className?: string
     };
   
     return (
-      <div className={`${className}`}>
-        <Button onClick={increaseQuantity} variant="default"><Plus/></Button>
+      <div className={` border-none rounded-none ${className}`}>
+        <Button size="sm" onClick={increaseQuantity} variant="default"><Plus/></Button>
         <span className="block text-slate-900 dark:text-slate-100 px-2">{quantity}</span>
-        <Button onClick={decreaseQuantity} variant="default"><Minus/></Button>
+        <Button size="sm" onClick={decreaseQuantity} variant="default"><Minus/></Button>
       </div>
     );
   };
