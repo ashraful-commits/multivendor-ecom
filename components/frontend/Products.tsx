@@ -22,6 +22,7 @@ import { getSession } from "next-auth/react";
 import useSessionData from "../../hooks/useSessionData";
 import { toast } from "react-hot-toast";
 import Loading from "../Loading";
+import { useRouter } from 'next/navigation';
 
 interface SessionData {
   user: {
@@ -35,7 +36,7 @@ interface SessionData {
 const Products = ({ products }: { products: ProductData[] }) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [addNewCart, { isSuccess, isError }] = useAddNewCartMutation();
-
+const router= useRouter()
   useEffect(() => {
     if (isSuccess) {
       toast.success(`Added to cart`);
@@ -48,13 +49,17 @@ const Products = ({ products }: { products: ProductData[] }) => {
   const session = useSessionData() as SessionData;
   
   const handleAddToCart = (id: string, price: number) => {
-    const data = {
-      productId: id,
-      userId: session?.user?.id,
-      quantity,
-      total: quantity * price,
-    };
-    addNewCart(data);
+    if(!session){
+      router.push("/login")
+    }else{
+      const data = {
+        productId: id,
+        userId: session?.user?.id,
+        quantity,
+        total: quantity * price,
+      };
+      addNewCart(data);
+    }
   };
 
   return (
