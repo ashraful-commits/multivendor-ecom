@@ -403,6 +403,7 @@ export interface cartData {
   quantity:number;
   total:number;
   createdAt: string;
+  product:ProductData;
   updatedAt: string;
 }
 export interface FavoriteData {
@@ -421,3 +422,57 @@ export interface userData {
   createdAt: string;
   updatedAt: string;
 }
+export interface orderData {
+  id:string;
+  lastName:string;
+  email:string;
+  phone:string;
+  quantity:number;
+  total:number;
+  shippingCost:number;
+  paymentMethod:string;
+  firstName:string;
+  userId: string;
+  zipCode:string;
+  streetAddress:string;
+  city:string;
+  country:string;
+  cartItems:string[]
+  createdAt: string;
+  updatedAt: string;
+}
+export interface PaymentData {
+  name: string;
+  phone: string;
+  email: string;
+  streetAddress: string;
+  city: string;
+  country: string;
+  zipCode: string;
+  url:string;
+  carts: cartData[];
+}
+export interface SessionData {
+  user: {
+    id: string;
+    name: string | null | undefined;
+    email: string | null | undefined;
+    image: string | null | undefined;
+  };
+  expires: string;
+}
+export interface CheckoutFormData {
+  
+  lastName:string;
+  email:string;
+  phone:string;
+  shippingCost:number;
+  paymentMethod:string;
+  firstName:string;
+  userId: string;
+  zipCode:string;
+  streetAddress:string;
+  city:string;
+  country:string;
+  
+} 

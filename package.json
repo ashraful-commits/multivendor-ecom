@@ -2,13 +2,13 @@
   "name": "multi-vendor-admin",
   "version": "0.1.0",
   "private": true,
-    "scripts": {
-      "dev": "next dev",
-      "build": "next build",
-      "start": "next start",
-      "lint": "next lint",
-      "postinstall":"prisma generate"
-    },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postinstall": "prisma generate"
+  },
   "dependencies": {
     "@auth/prisma-adapter": "^2.0.0",
     "@faker-js/faker": "^8.4.1",
@@ -61,6 +61,7 @@
     "react-select": "^5.8.0",
     "resend": "^3.2.0",
     "sharp": "^0.33.3",
+    "stripe": "^15.7.0",
     "swiper": "^11.1.1",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",

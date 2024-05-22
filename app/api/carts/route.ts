@@ -15,14 +15,17 @@ export async function POST(req: Request) {
     const { productId, userId, quantity, total }: CartData = await req.json();
 
     // Check if the product already exists in the cart
-    const existingCart = await db.cart.findUnique({
-      where: { productId, userId },
+    const existingCart = await db.cart.findFirst({
+      where: {
+        productId,
+        userId,
+      },
     });
 
     if (existingCart) {
       // If the product exists, update the quantity and total
       const updatedCart = await db.cart.update({
-        where: { productId, userId },
+        where: { id: existingCart.id },
         data: {
           quantity: existingCart.quantity + quantity,
           total: existingCart.total + total,
