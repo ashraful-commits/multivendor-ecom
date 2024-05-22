@@ -52,7 +52,7 @@ const Products = ({ products }: { products: ProductData[] }) => {
   const {
     data: favorites,
     isLoading: isGetFavLoading,
-    isError: isGetFavError,
+    isError: isGetFavError
   } = useGetFavoriteQuery(session?.user?.id as string);
   const {
     data: carts,

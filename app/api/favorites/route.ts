@@ -24,7 +24,6 @@ export async function POST(req: Request) {
       },
     });
     if (existingFavorite) {
-      // If the favorite exists, remove it
     const deleteFav = await db.favorite.delete({
         where: {
           id: existingFavorite.id,

@@ -1,7 +1,7 @@
-'use client';
-import React from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useTheme } from 'next-themes';
+"use client";
+import React from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useTheme } from "next-themes";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,10 +15,12 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuPortal,
   DropdownMenuSubContent,
-} from '@/components/ui/dropdown-menu';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/dropdown-menu";
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import useSessionData from "./../../hooks/useSessionData";
+import { SessionData } from "../../hooks/useSessionData";
 import {
   Sun,
   User,
@@ -31,8 +33,13 @@ import {
   X,
   Moon,
   Search,
-} from 'lucide-react';
+} from "lucide-react";
+import { signOut } from "next-auth/react"
 const Navbar = () => {
+  const handleSignOut=()=>{
+    signOut()
+  }
+  const session = useSessionData() as SessionData;
   const { theme, setTheme } = useTheme();
   return (
     <div className="bg-slate-200 sticky top-0 left-0 z-[999999]  dark:bg-slate-800">
@@ -220,24 +227,20 @@ const Navbar = () => {
                 </Link>
               </DropdownMenuItem>
 
-              <DropdownMenuItem className="h-32 w-32 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
-              </DropdownMenuItem>
               <DropdownMenuItem className="h-32 w-32 max-sm:w-full hidden max-sm:flex items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
                 <Link
-                  href="/register"
+                  href="/login"
                   className="text-white min-w-24 inline-block bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                 >
-                  Sign up
+                  Login
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="h-32 w-32 max-sm:w-full hidden  m-auto max-sm:flex items-center justify-center border-none">
                 <button
-                  onClick={() => setTheme(theme == 'light' ? 'dark' : 'light')}
+                  onClick={() => setTheme(theme == "light" ? "dark" : "light")}
                   className=" flex justify-center items-center p-3 text-sm font-medium text-center text-blue-500 dark:text-white  rounded-lg hover:bg-blue-800 focus:ring-4  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
-                  {theme == 'light' ? (
+                  {theme == "light" ? (
                     <Sun className="fill-blue-500 " />
                   ) : (
                     <Moon />
@@ -246,24 +249,18 @@ const Navbar = () => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Link
-            href="/register"
-            className="text-white min-w-24 max-sm:hidden inline-block bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          >
-            Sign up
-          </Link>
 
           <button
-            onClick={() => setTheme(theme == 'light' ? 'dark' : 'light')}
+            onClick={() => setTheme(theme == "light" ? "dark" : "light")}
             className="relative inline-flex  items-center p-2 text-sm font-medium text-center text-blue-500 dark:text-white  rounded-lg hover:bg-blue-800 focus:ring-2  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            {theme == 'light' ? (
+            {theme == "light" ? (
               <Sun className="fill-blue-500 size-5 " />
             ) : (
               <Moon className="size-5" />
             )}
           </button>
-          
+
           <button
             type="button"
             className="relative inline-flex items-center p-2 text-sm font-medium text-center text-blue-500  rounded-lg hover:bg-blue-800 focus:ring-2 dark:text-white dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -372,37 +369,50 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </button>
-          <DropdownMenu>
-            <DropdownMenuTrigger className="w-10 h-10 flex juc items-center ">
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>AB</AvatarFallback>
-              </Avatar>
-              {/* <User /> */}
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className=" bg-slate-200 z-[999999] shadow-lg mt-5 mr-5 dark:bg-slate-800 border-none dark:border-slate-500 text-slate-900 dark:text-white">
-              <DropdownMenuItem className="h-10 w-full max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
-                <User className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">
-                  <span>Edit Profile</span>
-                </Link>
-              </DropdownMenuItem>
+          {session ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="w-10 h-10 flex juc items-center ">
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>AB</AvatarFallback>
+                </Avatar>
+                {/* <User /> */}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className=" bg-slate-200 z-[99999999999] shadow-lg mt-5 mr-5 dark:bg-slate-800 border-none dark:border-slate-500 text-slate-900 dark:text-white">
+                <DropdownMenuItem className="h-10 w-full max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
+                  <User className="mr-2 h-4 w-4" />
+                  <Link href="/dashboard">
+                    <span>Edit Profile</span>
+                  </Link>
+                </DropdownMenuItem>
 
-              <DropdownMenuItem className="h-10 w-full max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
-                <Settings className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">
-                  <span>Settings</span>
-                </Link>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem className="h-10 w-full max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
-                <LifeBuoy className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">
-                  <span>Support</span>
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <DropdownMenuItem className="h-10 w-full max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
+                  <Settings className="mr-2 h-4 w-4" />
+                  <Link href="/dashboard">
+                    <span>Settings</span>
+                  </Link>
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem className="h-10 w-full max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
+                  <LifeBuoy className="mr-2 h-4 w-4" />
+                  <Link href="/dashboard">
+                    <span>Support</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleSignOut} className=" w-32 py-3 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link
+              href="/login"
+              className="text-white min-w-24 max-sm:hidden inline-block bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </div>
