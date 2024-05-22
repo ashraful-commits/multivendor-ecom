@@ -31,7 +31,11 @@ import {
   Moon
 } from 'lucide-react';
 import {NavbarProps} from "../../typescript"
+import { signOut } from 'next-auth/react';
 const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
+  const handleLogout=()=>{
+    signOut()
+  }
   const {theme,setTheme} = useTheme()
   return (
     <div className="flex items-center  right-0 justify-between bg-slate-800 dark:bg-slate-200 text-slate-100 dark:text-slate-900 h-20 px-4">
@@ -150,7 +154,6 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
                 <User className="mr-2 h-4 w-4" />
                 <span>Edit Profile</span>
               </DropdownMenuItem>
-
               <DropdownMenuItem>
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>
@@ -162,7 +165,7 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
               <span>Support</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>
             </DropdownMenuItem>

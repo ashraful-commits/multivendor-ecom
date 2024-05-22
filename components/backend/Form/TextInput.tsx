@@ -21,10 +21,10 @@ const TextInput = ({
       <Input
         type={type}
         name={name}
-        defaultValue={defaultValue}
         className={`${className} text-sm w-full ${errors && "placeholder:text-red-500 capitalize"} bg-transparent w-full`}
         id={name}
         autoComplete={name}
+        defaultValue={defaultValue}
         placeholder={errors ? errors : placeholder}
         {...register(`${name}`, { required: isRequired })}
       />

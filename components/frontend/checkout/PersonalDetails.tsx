@@ -9,6 +9,8 @@ import * as yup from 'yup';
 import { useForm,FieldValues} from 'react-hook-form';
 import NextButton from './NextButton';
 import { RootState } from '../../../lib/store';
+import useSessionData from './../../../hooks/useSessionData';
+import { SessionData } from './../../../typescript';
 const schema = yup.object().shape({
     firstName: yup.string().required('first name is required'),
     lastName: yup.string().required('last name is required'),
@@ -17,6 +19,7 @@ const schema = yup.object().shape({
 
   });
 const PersonalDetails = () => {
+  const session = useSessionData() as SessionData
   const currentStep = useSelector((state:RootState)=>state.checkout.currentStep)
   const existingData = useSelector((state:RootState)=>state.checkout.checkoutFormData)
     const {
@@ -29,6 +32,7 @@ const PersonalDetails = () => {
         resolver: yupResolver(schema),
         defaultValues: {
           ...existingData
+          
         },
         
       });

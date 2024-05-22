@@ -9,6 +9,7 @@ import TextInput from './../backend/Form/TextInput';
 import { SubmitButton } from './../backend/Form/SubmitButton';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'next/navigation';
 
 const schema = yup.object().shape({
   email: yup.string().email('Invalid email format').required('Email is required'),
@@ -25,7 +26,7 @@ export default function LoginForm() {
     resolver: yupResolver(schema),
   });
   
-  // const router = useRouter();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data:any) => {
@@ -40,7 +41,7 @@ export default function LoginForm() {
       } else {
         toast.success('Login Successful');
         reset();
-        // router.push('/');
+        router.push('/');
       }
     } catch (error) {
       console.error('Network Error:', error);

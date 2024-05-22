@@ -28,7 +28,7 @@ export function middleware(request: NextRequest) {
     }
   } else {
     if (!token) {
-      return NextResponse.redirect(new URL("/login", request.nextUrl))
+      return NextResponse.redirect(new URL("/", request.nextUrl))
     }
   }
 }
