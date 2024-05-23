@@ -45,7 +45,6 @@ export async function POST(req: Request) {
         phone,
         shippingCost,
         paymentMethod,
-
         userId,
         zipCode,
         cartItems,
@@ -54,6 +53,19 @@ export async function POST(req: Request) {
         country,
       },
     });
+
+    if (newOrder && cartItems.length > 0) {
+      await db.cart.deleteMany({
+        where: {
+          id: { in: cartItems },
+        },
+      });
+    }
+    
+
+
+
+
     const customerExist = await db.customer.findUnique({
       where: { email },
     });

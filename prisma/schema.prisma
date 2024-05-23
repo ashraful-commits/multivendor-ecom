@@ -170,7 +170,7 @@ model User {
   password          String
   emailVerified     DateTime?
   verificationToken String?
-  products          Product[]
+  products          Product[] 
   imgUrl            String?
   farmerProfile     Farmerprofile?
   role              UserRole       @default(USER)
