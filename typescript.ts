@@ -405,6 +405,7 @@ export interface cartData {
   createdAt: string;
   product:ProductData;
   updatedAt: string;
+  msg:string;
 }
 export interface FavoriteData {
   id: string;
@@ -412,6 +413,7 @@ export interface FavoriteData {
   userId:string;
   createdAt: string;
   updatedAt: string;
+  msg:string;
 }
 export interface userData {
   id: string;

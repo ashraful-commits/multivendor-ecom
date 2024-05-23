@@ -43,35 +43,49 @@ interface SessionData {
 const Products = ({ products }: { products: ProductData[] }) => {
   const session = useSessionData() as SessionData;
   const [quantity, setQuantity] = useState<number>(1);
-  const [addNewCart, { isSuccess, isLoading: isAddLoading, isError }] =
+  const [addNewCart, { data:addCartData,isSuccess, isLoading: isAddLoading, isError }] =
     useAddNewCartMutation();
   const [
     addNewFavorite,
-    { isSuccess: isFaSuccess, isLoading: isFaLoading, isError: isFaError },
+    {data:addFavData, isSuccess: isFaSuccess, isLoading: isFaLoading, isError: isFaError },
   ] = useAddNewFavoriteMutation();
+
   const {
-    data: favorites,refetch ,
+    data: favorites,
+    refetch,
     isLoading: isGetFavLoading,
-    isError: isGetFavError
+    isError: isGetFavError,
   } = useGetFavoriteQuery(session?.user?.id as string);
   const {
     data: carts,
     isLoading: isGetLoading,
-    isError: isGetError,refetch:cartRefetch
+    isError: isGetError,
+    refetch: cartRefetch,
   } = useGetCartQuery(session?.user?.id as string);
   const router = useRouter();
   useEffect(() => {
     if (isSuccess) {
-      toast.success(`Added to cart`);
-      cartRefetch()
+      if(addCartData?.msg){
+        toast.error(addCartData.msg);
+      }else{
+
+        toast.success(`Added to cart`);
+      }
+      cartRefetch();
     }
     if (isError) {
       toast.error(`Failed to add to cart`);
     }
     if (isFaSuccess) {
-      toast.success(`Added to Favorite`);
-      
-refetch()
+      if(addFavData?.msg){
+        toast.error(addFavData?.msg);
+        
+      }else{
+
+        toast.success(`Added to Favorite`);
+      }
+
+      refetch();
     }
     if (isFaError) {
       toast.error(`Failed to add to Favorite`);
@@ -89,8 +103,6 @@ refetch()
         total: quantity * price,
       };
       addNewCart(data);
-     
-
     }
   };
   const handleAddToFavorite = (id: string) => {
@@ -101,7 +113,7 @@ refetch()
         productId: id,
         userId: session?.user?.id,
       };
-      
+
       addNewFavorite(data);
     }
   };
@@ -111,7 +123,10 @@ refetch()
       {products?.length ? (
         <MasonryContainer>
           {products.map((product: any, index: number) => (
-            <div key={index} className="image-item relative group overflow-hidden">
+            <div
+              key={index}
+              className="image-item relative group overflow-hidden"
+            >
               <Link href={`/products/${product?.id}`}>
                 <Image
                   width={1000}
@@ -122,7 +137,7 @@ refetch()
                 />
               </Link>
               <div className="w-[60px] transition-all duration-500 delay-100 ease-in-out translate-x-16 group-hover:translate-x-0  bg-slate-100 dark:bg-slate-900 absolute right-0 bottom-14  p-1 flex flex-col justify-center max-sm:translate-x-0">
-              <Button
+                <Button
                   onClick={() =>
                     handleAddToCart(product?.id, product?.salesPrice)
                   }
@@ -139,10 +154,8 @@ refetch()
                     <Plus className="size-5" />
                   )}
                 </Button>
-              
-              
-             
-               <Button
+
+                <Button
                   onClick={() => handleAddToFavorite(product?.id)}
                   variant="default"
                   size="sm"
@@ -153,13 +166,11 @@ refetch()
                   ) : favorites?.some(
                       (item) => item.productId === product?.id
                     ) ? (
-                      <Heart className="size-5 text-transparent fill-red-500" />
-                    ) : (
-                      <Heart className="size-5" />
+                    <Heart className="size-5 text-transparent fill-red-500" />
+                  ) : (
+                    <Heart className="size-5" />
                   )}
                 </Button>
-                
-                
               </div>
               <div className="absolute backdrop-blur-sm bg-white dark:bg-slate-900 opacity-0 max-sm:opacity-100 max-sm:translate-y-0 translate-y-5 group-hover:translate-y-0 group-hover:opacity-100 duration-500 transition-all ease-in-out bottom-0 left-0 w-full py-2 px-3">
                 <div className="flex justify-between  px-1 items-center">

@@ -29,7 +29,7 @@ export async function POST(req: Request) {
           id: existingFavorite.id,
         },
       });
-      return NextResponse.json(deleteFav);
+      return NextResponse.json({msg:"removed to Favorite"});
     } else {
       // If the favorite does not exist, add it
       const createFav = await db.favorite.create({

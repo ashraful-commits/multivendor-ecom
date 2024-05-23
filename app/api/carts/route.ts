@@ -23,18 +23,10 @@ export async function POST(req: Request) {
     });
 
     if (existingCart) {
-      // If the product exists, update the quantity and total
-      const updatedCart = await db.cart.update({
-        where: { id: existingCart.id },
-        data: {
-          quantity: existingCart.quantity + quantity,
-          total: existingCart.total + total,
-        },
-      });
-
-      return NextResponse.json(updatedCart);
+      await db.cart.delete({ where: { id: existingCart.id } });
+      return NextResponse.json({msg:"Removed to cart"});
     } else {
-      // If the product does not exist, create a new entry in the cart
+
       const newCart = await db.cart.create({
         data: { productId, userId, quantity, total },
       });
