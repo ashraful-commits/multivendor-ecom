@@ -117,6 +117,7 @@ const Favorite = ({ id }: { id: string }) => {
                       </div>
                       <div>
                         <CartQuantity
+                        id={favorite?.id}
                           className="flex gap-x-4 max-sm:flex-col items-center"
                           quantity={quantity}
                           setQuantity={setQuantity}

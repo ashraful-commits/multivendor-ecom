@@ -14,8 +14,18 @@ import {
 } from '@/components/ui/carousel';
 import {useGetBrandQuery}from "../../lib/features/brandapi"
 import Loading from "../Loading"
+import {useRouter} from 'next/navigation'
+import {useSelector,useDispatch} from "react-redux"
+import { RootState } from '../../lib/store';
+import {updateFilterData} from "../../lib/features/filterSlice"
 const BrandSlider = () => {
-
+  const dispatch = useDispatch()
+  const filter = useSelector((state:RootState)=>state.filter.filter)
+  const router = useRouter()
+ const handleBrand=(id:string)=>{
+     dispatch(updateFilterData({...filter,brand:id}))
+     router.push("/products")
+  }
 const {data:brands,isLoading} = useGetBrandQuery()
 if (isLoading) return <div className="flex justify-center w-full items-center min-h-[200px] "><Loading className="mx-auto my-auto"/></div>;
    
@@ -36,11 +46,12 @@ if (isLoading) return <div className="flex justify-center w-full items-center mi
           <CarouselContent className="">
             {brands?.map((item: any, index: number) => (
               <CarouselItem
+              onClick={()=>handleBrand(item?.id)}
                 key={index}
                 className="md:basis-1/2 h-full lg:basis-1/5 basis-1/2"
               >
                 <div className="p-1">
-                  <Card className="border-none bg-slate-200 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 cursor-pointer transition-all duration-500 ease-in-out">
+                  <Card className={`${filter.brand==item.id ?"border border-blue-500":"border-none"} bg-slate-200 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 cursor-pointer transition-all duration-500 ease-in-out`}>
                     <CardContent className="flex items-center justify-start p-4 gap-x-4">
                       <Image
                         width={1000}

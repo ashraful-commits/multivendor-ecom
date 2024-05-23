@@ -68,7 +68,7 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
     if (isError) {
       toast.error(`Failed to add to cart`);
     }
-  }, [isSuccess, isError,isAddFaveSuccess]);
+  }, [isSuccess, isError,isAddFaveSuccess,cartRefetch,refetchFav]);
 
   const handleAddToCart = (id: string, price: number) => {
     if (!session) {

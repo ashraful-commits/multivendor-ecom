@@ -1,6 +1,6 @@
 import {Plus,Minus} from "lucide-react"
 import { Button } from '@/components/ui/button';
-const CartQuantity = ({ className, setQuantity, quantity }: { className?: string; setQuantity: (quantity: number) => void; quantity: number; }) => {
+const CartQuantity = ({ className, setQuantity, quantity }: { className?: string; setQuantity: (quantity: number) => void; quantity: number;}) => {
     const increaseQuantity = () => {
       if(quantity>=1){
           setQuantity(quantity + 1);

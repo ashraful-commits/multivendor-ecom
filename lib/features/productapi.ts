@@ -6,9 +6,9 @@ type ProductTag = { type: "Product"; id?: string };
 
 export const ProductApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getFilterProduct: builder.query<ProductData[], { search: string; category: string; brand: string; minPrice: number; maxPrice: number;}>({
+    getFilterProduct: builder.query<ProductData[], { search: string; category: string; brand: string; minPrice: number; maxPrice: number;tag:string[];}>({
       query: (filter) =>
-        `products?search=${filter.search}&maxPrice=${filter.maxPrice}&minPrice=${filter.minPrice}&category=${filter.category}&brand=${filter.brand}`,
+        `products?search=${filter.search}&maxPrice=${filter.maxPrice}&minPrice=${filter.minPrice}&category=${filter.category}&brand=${filter.brand}&tag=${filter.tag}`,
       providesTags: (result) =>
         result
           ? result.map(({ id }) => ({ type: 'Product', id } as const))

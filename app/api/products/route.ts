@@ -96,44 +96,52 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
-    let search = url.searchParams.get('search') || '';
-    search = search.charAt(0).toUpperCase() + search.slice(1).toLowerCase();
-    const minPrice = parseInt(url.searchParams.get('minPrice') ?? '') || 0;
-    const maxPrice = parseInt(url.searchParams.get('maxPrice') ?? '') || 100000;
-    const category = url.searchParams.get('category') || '';
-    const brand = url.searchParams.get('brand') || '';
+    const search = url.searchParams.get('search')?.trim() || '';
+    const minPrice = parseInt(url.searchParams.get('minPrice') || '0', 10);
+    const maxPrice = parseInt(url.searchParams.get('maxPrice') || '1000000', 10);
+    const category = url.searchParams.get('category')?.trim() || '';
+    const brand = url.searchParams.get('brand')?.trim() || '';
+    const tags = url.searchParams.get('tag')?.split(',') || [];
 
-    // Type-safe construction of the `where` object
+    // Construct the `where` object based on the provided query parameters
     const where: {
       name?: { startsWith: string };
       salesPrice?: { gte?: number; lte?: number };
       categoryId?: string;
       brandId?: string;
+      tagIds?: { hasEvery?: string[] };
     } = {};
 
-    if (search !== "") {
+    if (search) {
       where.name = {
-        startsWith: search,
+        startsWith: search.charAt(0).toUpperCase() + search.slice(1).toLowerCase(),
       };
     }
 
-    // Initialize `where.salesPrice` if minPrice or maxPrice is set
-    if (minPrice !== 0 || maxPrice !== 100000) {
+    if (minPrice > 0 || maxPrice < 1000000) {
       where.salesPrice = {};
-      if (minPrice !== 0) {
+      if (minPrice > 0) {
         where.salesPrice.gte = minPrice;
       }
-      if (maxPrice !== 100000) {
+      if (maxPrice < 1000000) {
         where.salesPrice.lte = maxPrice;
       }
     }
 
-    if (category !== "") {
+    if (category) {
       where.categoryId = category;
     }
 
-    if (brand !== "") {
+    if (brand) {
       where.brandId = brand;
+    }
+
+    if (tags.length > 0 && tags.some(tag => tag.trim() !== '')) {
+      // Filter out empty strings from tags
+      const filteredTags = tags.filter(tag => tag.trim() !== '');
+      where.tagIds = {
+        hasEvery: filteredTags,
+      };
     }
 
     const products = await db.product.findMany({
@@ -145,11 +153,10 @@ export async function GET(req: Request) {
 
     return NextResponse.json(products);
   } catch (error) {
-    console.error(error);
+
     return NextResponse.json(
       {
-        message: "Failed to fetch products",
-        error,
+        message: error
       },
       { status: 500 }
     );

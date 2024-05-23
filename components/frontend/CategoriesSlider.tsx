@@ -13,10 +13,15 @@ import {
 } from "@/components/ui/carousel";
 import { useGetCategoryQuery } from "../../lib/features/categoryapi";
 import Loading from "./../Loading";
-
+import { RootState } from '../../lib/store';
+import { useSelector, useDispatch } from 'react-redux';
+import {updateFilterData} from "../../lib/features/filterSlice"
+import {useRouter} from 'next/navigation'
 const CategoriesSlider = () => {
   const { data: categories, isLoading } = useGetCategoryQuery();
-
+  const dispatch = useDispatch()
+  const filter = useSelector((state:RootState)=>state.filter.filter)
+  const router = useRouter()
   if (isLoading) {
     return (
       <div className="flex justify-center container min-w-screen items-center sm:min-h-[200px] lg:min-h-[200px] md:min-h-[200px]">
@@ -24,7 +29,11 @@ const CategoriesSlider = () => {
       </div>
     );
   }
-
+  const handleCategory=(id:string)=>{
+     dispatch(updateFilterData({...filter,category:id}))
+     router.push("/products")
+  }
+    
   return (
     <ContainerBox className="my-5">
       <TitleComponent
@@ -42,10 +51,11 @@ const CategoriesSlider = () => {
             {categories.map((item: any, index: number) => (
               <CarouselItem
                 key={index}
-                className="md:basis-1/1 h-full lg:basis-1/5 basis-1/2"
+                onClick={()=>handleCategory(item?.id)}
+                className={`md:basis-1/1 h-full lg:basis-1/5 basis-1/2 `}
               >
                 <div className="p-1">
-                  <Card className="border-none  bg-slate-200 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 cursor-pointer  transition-all duration-500 ease-in-out">
+                  <Card className={` ${filter?.category===item?.id ? "border border-blue-500":"border-none"} bg-slate-200 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 cursor-pointer  transition-all duration-500 ease-in-out`}>
                     <CardContent className="flex items-center justify-start p-4 gap-x-4">
                       <Image
                         width={1000}

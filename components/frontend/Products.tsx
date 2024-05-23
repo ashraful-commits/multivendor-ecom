@@ -90,7 +90,7 @@ const Products = ({ products }: { products: ProductData[] }) => {
     if (isFaError) {
       toast.error(`Failed to add to Favorite`);
     }
-  }, [isSuccess, isError, isFaSuccess, isFaError]);
+  }, [isSuccess, isError, isFaSuccess, isFaError,addCartData, addFavData,cartRefetch, refetch]);
 
   const handleAddToCart = (id: string, price: number) => {
     if (!session) {
