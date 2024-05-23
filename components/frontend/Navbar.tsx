@@ -34,25 +34,25 @@ import {
   Moon,
   Search,
 } from "lucide-react";
-import { signOut } from "next-auth/react"
-import {useRouter} from 'next/navigation'
-import {useSelector,useDispatch} from "react-redux"
-import { RootState } from '../../lib/store';
-import {updateFilterData} from "../../lib/features/filterSlice"
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../lib/store";
+import { updateFilterData } from "../../lib/features/filterSlice";
 const Navbar = () => {
- const dispatch = useDispatch()
-  const filter = useSelector((state:RootState)=>state.filter.filter)
-  const router = useRouter()
-  const handleSearch = (e:any) => {
-    dispatch(updateFilterData({...filter, search: e.target.value}))
+  const dispatch = useDispatch();
+  const filter = useSelector((state: RootState) => state.filter.filter);
+  const router = useRouter();
+  const handleSearch = (e: any) => {
+    dispatch(updateFilterData({ ...filter, search: e.target.value }));
   };
-  const handleGoToProduct = (e:any) => {
-    router.push("/products")
+  const handleGoToProduct = (e: any) => {
+    router.push("/products");
   };
-  
-  const handleSignOut=()=>{
-    signOut()
-  }
+
+  const handleSignOut = () => {
+    signOut();
+  };
   const session = useSessionData() as SessionData;
   const { theme, setTheme } = useTheme();
   return (
@@ -74,9 +74,8 @@ const Navbar = () => {
           </span>
         </Link>
         <form className="flex max-sm:hidden items-center w-full md:px-20 px-10">
-         
           <div className="relative w-full">
-            <div  className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg
                 aria-hidden="true"
                 className="w-5 h-5 text-gray-500 dark:text-gray-400"
@@ -101,7 +100,6 @@ const Navbar = () => {
               required
             />
           </div>
-          
         </form>
         <DropdownMenu className=" w-full ">
           <DropdownMenuTrigger className="w-10 h-10 hidden max-sm:block items-center ">
@@ -129,8 +127,8 @@ const Navbar = () => {
                   </svg>
                 </div>
                 <input
-                onChange={handleSearch}
-                onClick={handleGoToProduct}
+                  onChange={handleSearch}
+                  onClick={handleGoToProduct}
                   type="text"
                   id="simple-search"
                   className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -409,14 +407,17 @@ const Navbar = () => {
                     <span>Settings</span>
                   </Link>
                 </DropdownMenuItem>
-                
+
                 <DropdownMenuItem className="h-10 w-full max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
                   <LifeBuoy className="mr-2 h-4 w-4" />
                   <Link href="/dashboard">
                     <span>Support</span>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleSignOut} className=" w-32 py-3 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
+                <DropdownMenuItem
+                  onClick={handleSignOut}
+                  className=" w-32 py-3 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900"
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
                 </DropdownMenuItem>
@@ -425,7 +426,7 @@ const Navbar = () => {
           ) : (
             <Link
               href="/login"
-              className="text-white min-w-24 max-sm:hidden inline-block bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+              className="text-white min-w-24 inline-block bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             >
               Login
             </Link>
