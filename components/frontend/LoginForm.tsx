@@ -57,15 +57,15 @@ export default function LoginForm() {
   
 
   return (
-    <div className="max-w-[500px] rounded-lg bg-slate-200 dark:bg-slate-800">
-      <form onSubmit={handleSubmit(onSubmit)} className="max-w-md min-w-[35vw] mx-auto p-5 rounded-md">
-        <div className="mb-5">
+    <div className=" rounded-lg bg-slate-200 dark:bg-slate-800 w-full lg:max-w-[25vw]  md:max-w-[55vw]">
+      <form onSubmit={handleSubmit(onSubmit)} className=" w-full mx-auto p-5 rounded-md">
+        <div className="mb-5 w-full">
           <TextInput
             label="Your email"
             placeholder="Enter your email"
             name="email"
             type="text"
-            className="border border-slate-500"
+            className="border border-slate-500 w-full"
             register={register}
             errors={errors?.email?.message}
           />
@@ -74,7 +74,7 @@ export default function LoginForm() {
             placeholder="Enter your password"
             name="password"
             type="password"
-            className="border border-slate-500"
+            className="border border-slate-500 w-full"
             register={register}
             errors={errors?.password?.message}
           />
@@ -84,6 +84,23 @@ export default function LoginForm() {
             <Link className="font-bold hover:underline" href="/register">
               Register
             </Link>
+           
+          </p>
+          <p className="text-slate-600 dark:text-white my-4 flex items-center gap-x-4">
+            Don&apos;t have an account?
+            
+            <Link className="font-bold hover:underline" href="/register-seller">
+             Seller Register
+            </Link>
+           
+          </p>
+          <p className="text-slate-600 dark:text-white my-4 flex items-center gap-x-4">
+            Don&apos;t have an account?
+            
+            <Link className="font-bold hover:underline" href="/register-farmer">
+             Farmer Register
+            </Link>
+           
           </p>
           <SubmitButton loading={loading} title="Login now" />
         </div>

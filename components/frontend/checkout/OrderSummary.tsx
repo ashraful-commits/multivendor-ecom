@@ -46,6 +46,7 @@ const OrderSummary = () => {
       }
     }
     useEffect(()=>{
+      console.log(paymentReturnData)
       if(paymentReturnData){
         window.location.href=paymentReturnData?.url
       }

@@ -46,10 +46,10 @@ const RegisterForm = ({role="USER",id}:{role?:string;id?:string;}) => {
     makePostRequest(setLoading, '/api/users', data, 'User', reset,redirect);
   }
   return (
-    <div className="w-full">
+    <div className="w-full l lg:max-w-[25vw]  md:max-w-[55vw]">
       
 
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-md min-w-[35vw] mx-auto bg-slate-200 dark:bg-slate-800  p-5 rounded-md">
+    <form onSubmit={handleSubmit(onSubmit)} className=" w-full mx-auto bg-slate-200 dark:bg-slate-800  p-5 rounded-md">
       <div className="mb-5">
         <TextInput label="Your name" placeholder="Enter your name" name="name" type="text" register={register} errors={errors?.name?.message}/>
         <TextInput  defaultValue={role} name="role" type="hidden" register={register} errors={errors?.role?.message}/>

@@ -159,6 +159,7 @@ enum UserRole {
   USER
   FARMER
   CUSTOMER
+  SELLER
   MODERATOR
 }
 
@@ -237,6 +238,19 @@ model Order {
   userId        String   @db.ObjectId
   user          User     @relation(fields: [userId], references: [id])
   cartItems     String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Customer {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  firstName     String
+  lastName      String
+  email         String @unique
+  phone         String
+  streetAddress String
+  city          String
+  country       String
+  zipCode       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

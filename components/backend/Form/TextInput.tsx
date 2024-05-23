@@ -16,12 +16,12 @@ const TextInput = ({
 }: TextInputProps) => {
   
   return (
-    <div className="flex w-full flex-col gap-y-2 my-2">
+    <div className="flex flex-col gap-y-2 my-2">
       <Label className="text-md capitalize" htmlFor={name}>{label}</Label>
       <Input
         type={type}
         name={name}
-        className={`${className} text-sm w-full ${errors && "placeholder:text-red-500 capitalize"} bg-transparent w-full`}
+        className={`${className} text-sm  ${errors && "placeholder:text-red-500 capitalize"} bg-transparent w-full`}
         id={name}
         autoComplete={name}
         defaultValue={defaultValue}

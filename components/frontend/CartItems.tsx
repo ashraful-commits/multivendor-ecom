@@ -72,7 +72,7 @@ const CartItems = ({ id }: { id: string }) => {
           <div className="mt-8">
             <div className="flow-root">
               <ul role="list" className="-my-6 divide-y  divide-gray-200">
-                {carts?.length > 0 ? (
+                {carts?.length  ? (
                   carts.map((cart, index) => (
                     <li
                       key={index}
@@ -144,7 +144,7 @@ const CartItems = ({ id }: { id: string }) => {
             </div>
           </div>
         </div>
-        {carts?.length > 0 && (
+        {carts?.length  && (
           <div className="border-t max-h-[300px] border-gray-200 px-4 py-6 sm:px-6">
             <div className="flex justify-between text-base font-medium text-gray-900">
               <p>Subtotal</p>
