@@ -230,7 +230,7 @@ const AllProducts = () => {
             <Filter className="block m-auto" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-screen flex mx-5 mt-auto items-center -right-10 fixed bottom-12 z-[99999999]">
+        <DropdownMenuContent className="w-screen flex mx-5 mt-auto items-center -right-10 fixed bottom-12 z-[999999]">
           <div
             className={`m-2 max-sm:group-hover:block flex gap-5 max-sm:flex-col bg-slate-200  dark:bg-slate-900 p-2 w-full max-sm:bottom-10 right-0 z-[99999]`}
           >
@@ -250,7 +250,7 @@ const AllProducts = () => {
               <SelectTrigger className="max-sm:w-full w-[180px]">
                 <SelectValue placeholder="Select a Category" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="z-[9999999]">
                 <SelectGroup>
                   <SelectLabel>Category</SelectLabel>
                   {categories?.length &&
@@ -273,7 +273,7 @@ const AllProducts = () => {
               <SelectTrigger className="max-sm:w-full w-[180px]">
                 <SelectValue placeholder="Select a brand" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="z-[9999999]">
                 <SelectGroup>
                   <SelectLabel>Brands</SelectLabel>
                   {brands?.length &&
@@ -309,7 +309,7 @@ const AllProducts = () => {
             <h5 className="flex gap-x-4 my-2 items-center">
               <Tag />Product tags
             </h5>
-            <div className=" border rounded-lg border-slate-500  max-h-[300px] overflow-y-scroll flex flex-wrap gap-4 p-3">
+            <div className=" border rounded-lg border-slate-500  max-h-[200px] overflow-y-scroll flex flex-wrap gap-4 p-3">
               {tags?.length  &&
                 tags?.map((item: any, index: number) => {
                   const isSelected = filter.tag.includes(item.id);
