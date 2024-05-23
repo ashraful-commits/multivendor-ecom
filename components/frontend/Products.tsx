@@ -50,25 +50,28 @@ const Products = ({ products }: { products: ProductData[] }) => {
     { isSuccess: isFaSuccess, isLoading: isFaLoading, isError: isFaError },
   ] = useAddNewFavoriteMutation();
   const {
-    data: favorites,
+    data: favorites,refetch ,
     isLoading: isGetFavLoading,
     isError: isGetFavError
   } = useGetFavoriteQuery(session?.user?.id as string);
   const {
     data: carts,
     isLoading: isGetLoading,
-    isError: isGetError,
+    isError: isGetError,refetch:cartRefetch
   } = useGetCartQuery(session?.user?.id as string);
   const router = useRouter();
   useEffect(() => {
     if (isSuccess) {
       toast.success(`Added to cart`);
+      cartRefetch()
     }
     if (isError) {
       toast.error(`Failed to add to cart`);
     }
     if (isFaSuccess) {
       toast.success(`Added to Favorite`);
+      
+refetch()
     }
     if (isFaError) {
       toast.error(`Failed to add to Favorite`);
@@ -86,6 +89,8 @@ const Products = ({ products }: { products: ProductData[] }) => {
         total: quantity * price,
       };
       addNewCart(data);
+     
+
     }
   };
   const handleAddToFavorite = (id: string) => {
@@ -96,6 +101,7 @@ const Products = ({ products }: { products: ProductData[] }) => {
         productId: id,
         userId: session?.user?.id,
       };
+      
       addNewFavorite(data);
     }
   };
@@ -115,14 +121,14 @@ const Products = ({ products }: { products: ProductData[] }) => {
                   alt={`Image+${index}`}
                 />
               </Link>
-              <div className="w-[60px] transition-all duration-500 delay-100 ease-in-out translate-x-16 group-hover:translate-x-0 gap-y-2 bg-slate-100 dark:bg-slate-900 absolute right-0 bottom-14  p-1 flex flex-col justify-center max-sm:translate-x-0">
+              <div className="w-[60px] transition-all duration-500 delay-100 ease-in-out translate-x-16 group-hover:translate-x-0  bg-slate-100 dark:bg-slate-900 absolute right-0 bottom-14  p-1 flex flex-col justify-center max-sm:translate-x-0">
               <Button
                   onClick={() =>
                     handleAddToCart(product?.id, product?.salesPrice)
                   }
                   variant="default"
                   size="sm"
-                  className="flex rounded-none  text-sm gap-x-1"
+                  className="flex rounded-none  text-sm "
                 >
                   <ShoppingCart className="size-5" />
                   {isAddLoading ? (
@@ -135,11 +141,7 @@ const Products = ({ products }: { products: ProductData[] }) => {
                 </Button>
               
               
-              <CartQuantity
-                  quantity={quantity}
-                  setQuantity={setQuantity}
-                  className="flex  p-1rounded-none  flex-col gap-x-3 items-center"
-                />
+             
                <Button
                   onClick={() => handleAddToFavorite(product?.id)}
                   variant="default"
@@ -160,11 +162,11 @@ const Products = ({ products }: { products: ProductData[] }) => {
                 
               </div>
               <div className="absolute backdrop-blur-sm bg-white dark:bg-slate-900 opacity-0 max-sm:opacity-100 max-sm:translate-y-0 translate-y-5 group-hover:translate-y-0 group-hover:opacity-100 duration-500 transition-all ease-in-out bottom-0 left-0 w-full py-2 px-3">
-                <div className="flex justify-between gap-x-2 px-1 items-center">
+                <div className="flex justify-between  px-1 items-center">
                   <h5 className="p-2 max-sm:text-sm text-md font-bold">
                     {product?.name}
                   </h5>
-                  <h5 className="px-2 text-sm font-bold border-2 border-slate-500 rounded-lg backdrop-blur-sm ">
+                  <h5 className="px-2 text-sm font-bold  rounded-lg backdrop-blur-sm ">
                     <del className="px-2 max-sm:justify-center text-sm font-bold text-slate-500">
                       ${product?.price}
                     </del>{" "}

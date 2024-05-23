@@ -54,7 +54,7 @@ const CategoriesSlider = () => {
                         src={item?.imgUrl ? item.imgUrl : "/demo.png"}
                         alt={item?.name}
                       />
-                      <h2>{item.name}</h2>
+                      <h2 className="max-sm:truncate">{item.name}</h2>
                     </CardContent>
                   </Card>
                 </div>

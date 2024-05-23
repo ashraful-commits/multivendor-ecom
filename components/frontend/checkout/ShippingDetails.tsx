@@ -52,7 +52,7 @@ const ShippingDetails = () => {
             type="text"
           />
         </div>
-        <div className="grid grid-cols-2 gap-x-4">
+        <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-x-4">
           <TextInput
             register={register}
             errors={errors?.city?.message}

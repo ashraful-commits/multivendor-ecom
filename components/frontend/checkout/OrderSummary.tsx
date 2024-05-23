@@ -46,7 +46,6 @@ const OrderSummary = () => {
       }
     }
     useEffect(()=>{
-      console.log(paymentReturnData)
       if(paymentReturnData){
         window.location.href=paymentReturnData?.url
       }
@@ -63,7 +62,7 @@ const OrderSummary = () => {
         <h2 className="my-5">Order summary</h2>
     <div className="w-full h-full bg-slate-200 dark:bg-slate-700 ">
       <div className="lg:flex px-5 md:flex sm:flex-col w-full shadow-xl">
-        <div className="flex-1 w-full px-4 py-6 sm:px-6">
+        <div className="flex-1 w-full px-4 py-6 gap-5 sm:px-6">
           
           <div className="mt-8">
             <div className="flow-root">
@@ -74,7 +73,7 @@ const OrderSummary = () => {
                       key={index}
                       className="flex items-center justify-between w-full py-3"
                     >
-                      <div className="h-10 w-10 flex items-center gap-x-5 rounded-md border border-gray-200">
+                      <div className="h-10 w-10 flex max-sm:grid max-sm:grid-cols-1 items-center gap-x-5 rounded-md border border-gray-200">
                         <Image
                           width={1000}
                           height={1000}
@@ -105,7 +104,9 @@ const OrderSummary = () => {
               </ul>
             </div>
           </div>
-          <div className="flex bg-slate-100 dark:bg-slate-900  dark:text-white text-slate-900 p-4 rounded-md mt-10 justify-between text-base font-medium ">
+       
+        </div>
+        <div className="flex bg-slate-100 dark:bg-slate-900  dark:text-white text-slate-900 p-4 rounded-md mt-10 justify-between text-base font-medium ">
               <p >Subtotal</p>
               <p>
                 $
@@ -114,8 +115,7 @@ const OrderSummary = () => {
                 }, 0)}
               </p>
             </div>
-        </div>
-        <div className="my-5 flex justify-between">
+        <div className="my-5 flex justify-between max-sm:flex-col gap-4 pb-5">
 
         <Button onClick={()=>dispatch(setCurrentStep(steps-1))} className="flex gap-x-5 items-center" variant="default"><ChevronLeft />Back to checkout</Button>
         <Button type="submit" onClick={handleSubmit} className="flex gap-x-5 items-center" variant="default"> {isAddOrderLoading && <Loading/>}Process to Payment <MoveRight/></Button>

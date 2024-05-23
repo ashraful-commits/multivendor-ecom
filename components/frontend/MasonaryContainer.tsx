@@ -6,7 +6,7 @@ const MasonryContainer = ({ children }: { children: React.ReactNode }) => {
  
 
   return (
-    <ContainerBox className="mx-auto">
+    <ContainerBox className="mx-auto !px-0">
         <Masonry
       breakpointCols={{ default: 3, 1100: 2, 700: 1 }}
       className="my-masonry-grid my-5"

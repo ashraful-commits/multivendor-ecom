@@ -145,8 +145,8 @@ const CartItems = ({ id }: { id: string }) => {
           </div>
         </div>
         {carts?.length  && (
-          <div className="border-t max-h-[300px] border-gray-200 px-4 py-6 sm:px-6">
-            <div className="flex justify-between text-base font-medium text-gray-900">
+          <div className="border-t text-slate-900 dark:text-slate-100 max-h-[300px] border-gray-200 px-4 py-6 sm:px-6">
+            <div className="flex justify-between text-base font-medium">
               <p>Subtotal</p>
               <p>
                 $
@@ -155,7 +155,7 @@ const CartItems = ({ id }: { id: string }) => {
                 }, 0)}
               </p>
             </div>
-            <p className="mt-0.5 text-sm text-gray-500">
+            <p className="mt-0.5 text-sm">
               Shipping and taxes calculated at checkout.
             </p>
             <div className="mt-6">

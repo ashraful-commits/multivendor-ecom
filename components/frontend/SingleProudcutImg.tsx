@@ -36,12 +36,12 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
   const {
     data: favorites,
     isLoading: isGetFavLoading,
-    isError: isGetFavError,
+    isError: isGetFavError,refetch:refetchFav
   } = useGetFavoriteQuery(session?.user?.id as string);
   const {
     data: carts,
     isLoading: isGetLoading,
-    isError: isGetError,
+    isError: isGetError,refetch:cartRefetch
   } = useGetCartQuery(session?.user?.id as string);
   const [addNewCart, { isSuccess, isLoading: isAddLoading, isError }] =
     useAddNewCartMutation();
@@ -57,13 +57,18 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
 
   console.log(carts);
   useEffect(() => {
+    if (isAddFaveSuccess) {
+      toast.success(`Added to cart`);
+      refetchFav()
+    }
     if (isSuccess) {
       toast.success(`Added to cart`);
+      cartRefetch()
     }
     if (isError) {
       toast.error(`Failed to add to cart`);
     }
-  }, [isSuccess, isError]);
+  }, [isSuccess, isError,isAddFaveSuccess]);
 
   const handleAddToCart = (id: string, price: number) => {
     if (!session) {
@@ -243,7 +248,7 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
             <div className="max-sm:mt-5">
 
             <CartQuantity
-              className="flex items-center justify-evenly mx-auto bg-slate-600 dark:bg-slate-700 p-1 !rounded-xl gap-x-5"
+              className="flex items-center justify-evenly max-sm:justify-between mx-auto bg-slate-600 dark:bg-slate-700 p-1 !rounded-xl gap-x-5"
               quantity={quantity}
               setQuantity={setQuantity}
             />

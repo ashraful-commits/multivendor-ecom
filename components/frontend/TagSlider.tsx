@@ -43,7 +43,7 @@ const TagSlider = () => {
               <div className="p-1">
                 <Card className="border-none bg-slate-200 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 cursor-pointer transition-all duration-500 ease-in-out">
                   <CardContent className="flex items-center justify-center p-4 gap-x-4">
-                    <span className="flex justify-center items-center text-center">
+                    <span  className="flex  max-sm:truncate justify-center items-center text-center">
                       {item.name}
                     </span>
                   </CardContent>
