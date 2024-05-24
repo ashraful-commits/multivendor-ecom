@@ -5,7 +5,6 @@ import { UrlObject } from 'url';
 interface TitleComponentProps {
     title?: string;
     link?: string | UrlObject;
-
     className?: string;
 }
 

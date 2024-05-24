@@ -478,3 +478,12 @@ export interface CheckoutFormData {
   country:string;
   
 } 
+export interface ReviewData {
+  productId:string;
+  rating:number;
+  review:string;
+  id:string;
+  city:string;
+  country:string;
+  
+} 
