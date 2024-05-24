@@ -19,7 +19,7 @@ import { useGetFilterProductQuery } from "../../lib/features/productapi";
 import { useGetTagQuery } from "../../lib/features/tagapi";
 import { SingleSelect } from "./../backend/Form/SingleSelect";
 import { Input } from "@/components/ui/input";
-import { Filter } from "lucide-react";
+import { Filter ,ChevronLeft} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Loading from "./../Loading";
 import { ProductData } from "../../typescript";
@@ -42,6 +42,7 @@ import { X, Tag } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../lib/store";
 import { SelectInput } from "./../backend/Form/SelectInput";
+import  Link  from 'next/link';
 
 const AllProducts = () => {
   const filter = useSelector((state: RootState) => state.filter.filter);
@@ -93,16 +94,17 @@ const AllProducts = () => {
   };
 
   return (
-    <ContainerBox className="mx-auto relative w-full  ">
+    <ContainerBox className="mx-auto  w-full  ">
       <div
-        className={`m-2  max-h-[65px] max-sm:hidden fixed top-[72px] lg:left-[17%] md:left-[0%] flex gap-5 bg-slate-200 dark:bg-slate-900 p-2 z-[99999] mx-auto`}
+        className={`m-2  max-h-[65px] max-sm:hidden sticky top-0 lg:left-[15%] md:left-[0%] flex w-full gap-5 bg-slate-200 dark:bg-slate-900 p-2 z-[99999] mx-auto`}
       >
+        <Link role="button" className="bg-blue-500 flex items-center gap-x-2  px-2 py-2" href="/"><ChevronLeft /> Back</Link>
         <Input
           placeholder="Search product"
           name="search"
           type="text"
           value={filter.search}
-          className="max-sm:w-full w-72"
+          className="max-sm:w-full w-52"
           onChange={handleChange}
         />
         <Select
@@ -191,14 +193,14 @@ const AllProducts = () => {
           <DropdownMenuTrigger asChild>
             <Button
               size="sm"
-              className="  rounded-full h-10 w-10 justify-center items-center bottom-2 !p-0  right-2 z-[9999]"
+              className="  rounded-full min-h-10 min-w-10 justify-center items-center bottom-2 !p-0  right-2 z-[9999]"
               variant="default"
             >
               <Tag />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-full relative top-4 right-[17%] p-4">
-            <ContainerBox className="grid  lg:grid-cols-9 md:grid-cols-5 w-full gap-2 p-5">
+          <DropdownMenuContent className="w-full relative top-4 right-[20%] p-4">
+            <div className="flex flex-wrap md:w-[80vw] lg:w-[70vw] max-h-[70vh] overflow-y-scroll w-full gap-2 p-5">
               {tags?.length  &&
                 tags?.map((item: any, index: number) => {
                   const isSelected = filter.tag.includes(item.id);
@@ -215,7 +217,7 @@ const AllProducts = () => {
                     </span>
                   );
                 })}
-            </ContainerBox>
+            </div>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -230,7 +232,7 @@ const AllProducts = () => {
             <Filter className="block m-auto" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-screen flex mx-5 mt-auto items-center -right-10 fixed bottom-12 z-[999999]">
+        <DropdownMenuContent className="w-screen flex mx-5 mt-auto items-center -right-12 fixed bottom-12 z-[999999]">
           <div
             className={`m-2 max-sm:group-hover:block flex gap-5 max-sm:flex-col bg-slate-200  dark:bg-slate-900 p-2 w-full max-sm:bottom-10 right-0 z-[99999]`}
           >
@@ -327,6 +329,7 @@ const AllProducts = () => {
                   );
                 })}
             </div>
+            <Link role="button" className="bg-blue-500 text-sm flex items-center gap-x-2  px-2 py-2" href="/"><ChevronLeft /> Back</Link>
             <Button
               onClick={() =>
                 dispatch(

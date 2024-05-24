@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import useSessionData from "./../../hooks/useSessionData";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
+import ContainerBox from "./ContainerBox"
 import { Heart, Check, Plus } from "lucide-react";
 interface SessionData {
   user: {
@@ -114,8 +115,8 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
     );
 
   return (
-    <div>
-      <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
+    <ContainerBox className="w-[100%]">
+      <div className="lg:grid lg:grid-cols-2 max-sm:w-[85vw] lg:gap-8 xl:gap-16">
         <div className="mt-6 sm:mt-8 lg:mt-0">
           <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
             {product?.name}
@@ -282,7 +283,7 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
           {product && <CategoryProduct id={product?.categoryId} />}
         </div>
       </div>
-    </div>
+    </ContainerBox>
   );
 };
 

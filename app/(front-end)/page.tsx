@@ -7,6 +7,7 @@ import CategoriesSlider from '@/components/frontend/CategoriesSlider';
 import BrandSlider from '@/components/frontend/BrandSlider';
 import MasonryGallery from '@/components/frontend/MasonryGallery';
 import Footer from './../../components/frontend/Footer';
+import ScrollToTop from './../../components/frontend/ScrollToTop';
 
 export default async function Home() {
   const session =await getServerSession()
@@ -18,6 +19,7 @@ export default async function Home() {
      <BrandSlider/>
      <MasonryGallery/>
      <Footer/>
+     <ScrollToTop/>
     </main>
   );
 }

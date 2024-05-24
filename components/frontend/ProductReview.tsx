@@ -1,11 +1,22 @@
 "use client"
+
+import
+{ Rate }
+from
+"antd"
+;
 import Image from "next/image"
 import {useGetSingleProductQuery} from "../../lib/features/productapi"
 import Loading from './../Loading';
+import { Button } from '@/components/ui/button';
+import ContainerBox from "./ContainerBox"
 const ProductReview = ({id}:{id:string}) => {
     const {data:product,isLoading} =useGetSingleProductQuery(id)
-  return <div>
-    <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+    const handleRate =(e:any)=>{
+      console.log(e)
+    }
+  return <ContainerBox>
+    <section className="bg-white py-8  max-sm:w-[85vw] antialiased dark:bg-gray-900 md:py-16">
     <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
       <div className="flex items-center gap-2">
         <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
@@ -13,61 +24,7 @@ const ProductReview = ({id}:{id:string}) => {
         </h2>
         <div className="mt-2 flex items-center gap-2 sm:mt-0">
           <div className="flex items-center gap-0.5">
-            <svg
-              className="h-4 w-4 text-yellow-300"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              width={24}
-              height={24}
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-            </svg>
-            <svg
-              className="h-4 w-4 text-yellow-300"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              width={24}
-              height={24}
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-            </svg>
-            <svg
-              className="h-4 w-4 text-yellow-300"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              width={24}
-              height={24}
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-            </svg>
-            <svg
-              className="h-4 w-4 text-yellow-300"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              width={24}
-              height={24}
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-            </svg>
-            <svg
-              className="h-4 w-4 text-yellow-300"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              width={24}
-              height={24}
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-            </svg>
+            <Rate onChange={handleRate} count={5}/>
           </div>
           <p className="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">
             (4.6)
@@ -86,14 +43,12 @@ const ProductReview = ({id}:{id:string}) => {
           <p className="text-2xl font-semibold leading-none text-gray-900 dark:text-white">
             4.65 out of 5
           </p>
-          <button
-            type="button"
-            data-modal-target="review-modal"
-            data-modal-toggle="review-modal"
+          <Button
+          variant="default"
             className="mb-2 me-2 rounded-lg bg-slate-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-300 dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800"
           >
             Write a review
-          </button>
+          </Button>
         </div>
         <div className="mt-6 min-w-0 flex-1 space-y-3 sm:mt-0">
           <div className="flex items-center gap-2">
@@ -529,7 +484,7 @@ const ProductReview = ({id}:{id:string}) => {
   </section>
 
  
-  </div>;
+  </ContainerBox>;
 };
 
 export default ProductReview;
