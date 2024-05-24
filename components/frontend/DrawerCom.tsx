@@ -25,7 +25,7 @@ export default function DrawerDemo() {
   const session:Session|null = useSessionData()
   
   return (
-    <div className=" rounded-lg rounded-tr-none rounded-br-none relative top-14 bg-slate-200 dark:bg-slate-800 z-[9999999999] shadow-xl border-2 w-[80px]  max-sm:w-[35px] max-sm:h-[80px] h-[60px] overflow-hidden  border-blue-500 border-r-0 flex justify-center items-center">
+    <div className=" rounded-lg rounded-tr-none rounded-br-none relative top-14 bg-slate-200 dark:bg-slate-800 z-[9999999999] shadow-xl border-2 w-[80px]  max-sm:w-[60px] max-sm:h-[80px] h-[60px] overflow-hidden  border-blue-500 border-r-0 flex justify-center items-center">
       <Drawer>
         <DrawerTrigger asChild>
           <Button
