@@ -9,12 +9,12 @@ const layout = ({children}:{children:ReactNode}) => {
     <div className="w-full relative">
       <Navbar/>
      
-      <DraggableComponent>
+      {/* <DraggableComponent> */}
       <DrawerDemo />
-      </DraggableComponent>
-      <DraggableComponent>
+      {/* </DraggableComponent> */}
+      {/* <DraggableComponent> */}
       <DrawerDemoFav />
-      </DraggableComponent>
+      {/* </DraggableComponent> */}
       {children}
     </div>
   )
