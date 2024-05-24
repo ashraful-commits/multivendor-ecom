@@ -144,7 +144,7 @@ const ProductReview = ({ id }: { id: string }) => {
     addNewReview(data);
   };
   const [startIndex, setStartIndex] = useState(0);
-  const batchSize = 2;
+  const batchSize = 10;
 
   // Other code...
 

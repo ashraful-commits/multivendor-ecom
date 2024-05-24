@@ -24,7 +24,7 @@ import  ContainerBox  from '@/components/frontend/ContainerBox';
 export default function DrawerDemoFav() {
   const session:Session|null = useSessionData()
   return (
-    <div className=" relative top-32 max-sm:top-64 rounded-lg rounded-tr-none rounded-br-none right-0 bg-slate-200 dark:bg-slate-800 z-[9999999999] shadow-xl border-2 w-[80px]  max-sm:w-[60px] overflow-hidden max-sm:h-[80px] h-[60px]  border-red-500 border-r-0 flex justify-center items-center">
+    <div className=" relative top-32 max-sm:top-64 rounded-lg rounded-tr-none rounded-br-none right-0 bg-slate-200 dark:bg-slate-800 z-[9999999999] shadow-xl border-2 w-[80px]  max-sm:w-[35px] overflow-hidden max-sm:h-[80px] h-[60px]  border-red-500 border-r-0 flex justify-center items-center">
       <Drawer>
         <DrawerTrigger asChild>
           <Button
@@ -34,7 +34,7 @@ export default function DrawerDemoFav() {
            {session?.user?.id ? <FavTotal id={session?.user?.id} />:<FavTotal id="" />}
           </Button>
         </DrawerTrigger>
-        <DrawerContent className="border-none">
+        <DrawerContent className="border-none z-[999999999999]">
           <div className="max-h-[500px] overflow-y-scroll">
             {session?.user?.id &&
             <FavoriteItems id={session?.user?.id} />
