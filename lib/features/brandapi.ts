@@ -14,6 +14,11 @@ export const BrandApi = api.injectEndpoints({
           ? result.map(({ id }) => ({ type: 'Brand', id } as const))
           : [{ type: 'Brand' }],
     }),
+    getSingleBrand: builder.query<brandData, string>({
+      query: (id) => `brands/${id}`,
+      providesTags: (result, error, id) =>
+        result ? [{ type: 'Brand', id }] : [{ type: 'Brand' }],
+    }),
     addNewBrand: builder.mutation<brandData, Partial<brandData>>({
       query: (newBrand) => ({
         url: 'brands',
@@ -23,15 +28,27 @@ export const BrandApi = api.injectEndpoints({
       invalidatesTags: [{ type: 'Brand' }],
     }),
     editBrand: builder.mutation<brandData, Partial<brandData>>({
-      query: (Brand) => ({
-        url: `brands/${Brand.id}`,
-        method: 'PATCH',
-        body: Brand,
+      query: (brand) => ({
+        url: `brands/${brand.id}`,
+        method: 'PUT',
+        body: brand,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Brand', id }],
     }),
+    deleteBrand: builder.mutation<{ success: boolean; id: string }, string>({
+      query: (id) => ({
+        url: `brands/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result, error, id) => [{ type: 'Brand', id }],
+    }),
   }),
-  
 });
 
-export const { useGetBrandQuery, useAddNewBrandMutation, useEditBrandMutation } = BrandApi;
+export const {
+  useGetBrandQuery,
+  useGetSingleBrandQuery,
+  useAddNewBrandMutation,
+  useEditBrandMutation,
+  useDeleteBrandMutation,
+} = BrandApi;

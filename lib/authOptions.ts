@@ -45,7 +45,7 @@ export const authOptions: any = {
           name: existingUser.name,
           email: existingUser.email,
           role: existingUser.role,
-          image: existingUser.imgUrl,
+          imgUrl: existingUser.imgUrl,
           emailVerified: existingUser.emailVerified,
         };
 
@@ -60,7 +60,7 @@ export const authOptions: any = {
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.role = token.role;
-        session.user.image = token.image;
+        session.user.imgUrl = token.imgUrl;
         session.user.emailVerified = token.emailVerified;
       }
       
@@ -73,7 +73,7 @@ export const authOptions: any = {
         token.name = user.name;
         token.email = user.email;
         token.role = user.role;
-        token.image = user.image;
+        token.imgUrl = user.imgUrl;
         token.emailVerified = user.emailVerified;
       }
       return token;

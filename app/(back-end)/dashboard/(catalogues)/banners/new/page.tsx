@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Heading from '@/components/backend/Heading';
 import { useForm,FieldValues} from 'react-hook-form';
 import { Label } from '@/components/ui/label';
@@ -23,7 +23,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import FormContainer from '@/components/backend/FormContainer';
 import { bannerType } from './../../../../../../typescript';
-
+import {useAddNewBannerMutation} from "../../../../../../lib/features/bannerapi"
 const schema = yup.object().shape({
   title: yup.string().required('Title is required'),
   link: yup.string().required('Link is required'),
@@ -31,12 +31,10 @@ const schema = yup.object().shape({
   imgUrl: yup.string()
 });
 
-
 const NewBanners = () => {
+  const [addNewBanner,{isSuccess,isLoading}]= useAddNewBannerMutation()
   const router = useRouter();
-  function redirect() {
-    router.push('/dashboard/banners');
-  }
+  
   const [image, setImage] = useState<string | null>(null);
   const {
     register,
@@ -53,25 +51,21 @@ const NewBanners = () => {
   });
 
   const isActive = watch('isActive');
-  const [loading, setLoading] = useState(false);
   async function onSubmit(data: any) {
     data.imgUrl = image ?? '';
     data.isActive = isActive;
     if (image) {
-      setLoading(true);
-      makePostRequest(
-        setLoading,
-        '/api/banners',
-        data,
-        'Banners',
-        reset,
-        redirect,
-      );
+      addNewBanner(data)
     } else {
       toast.error(`Please Select an image`);
     }
   }
-
+  useEffect(()=>{
+    if(isSuccess){
+      toast.success("banner added!")
+      router.push("/dashboard/banners")
+    }
+  },[isSuccess,router])
   return (
     <div className="w-full">
       <FromHeader title="Add New Banner" href={'/dashboard/banners'} />
@@ -112,7 +106,7 @@ const NewBanners = () => {
               label="publish banner"
               name="isActive"
             />
-            <SubmitButton loading={loading} title="Add Banners" />
+            <SubmitButton loading={isLoading} title="Add Banners" />
           </form>
         </div>
       </FormContainer>

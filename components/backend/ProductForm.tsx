@@ -28,7 +28,8 @@ import { getData } from '@/lib/apiRequest';
 import { useRouter } from 'next/navigation';
 import ImageUpload from './Form/ImageInput';
 import {FormData,OptionType} from "../../typescript"
-
+import {useAddNewProductMutation} from "@/lib/features/productapi"
+import toast from 'react-hot-toast';
 
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
@@ -61,6 +62,7 @@ type FieldValues ={
 }
 
 const ProductForm = () => {
+  const [addNewProduct,{isSuccess,isLoading}]= useAddNewProductMutation()
   const [images, setImages] = useState<string[]>([]);
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -72,9 +74,9 @@ const ProductForm = () => {
   const [brand, setBrand] = useState<string|undefined>("");
   const [farmer, setFarmer] = useState<string|undefined>("");
   const router = useRouter()
-  function redirect(){
-    router.push("/dashboard/products")
-  }
+
+   
+  
 
   useEffect(()=>{
     const getAllCat=async()=>{
@@ -110,26 +112,22 @@ const ProductForm = () => {
     any) {
     const slug = generateSlug(data.name);
     const productCode = generateCoupon(data.name);
-    setLoading(true)
-    makePostRequest(
-      setLoading, 
-      '/api/products', 
-      {
-        ...data,
-        categoryId: category,
-        brandId: brand,
-        imgUrl:images,
-        userId: farmer,
-        tagIds: tag.map((item: any) => item.value),
-        productCode,
-        slug: slug
-      }, 
-      'Product', 
-      reset,
-      redirect
-    );
+       data.categoryId = category;
+       data.brandId = brand
+       data.imgUrl = images
+       data.userId = farmer
+       data.tagIds = tag.map((item: any) => item.value)
+       data.productCode=productCode
+       data.slug = slug
+       addNewProduct(data)
   }
   
+  useEffect(()=>{
+   if(isSuccess){
+    toast.success("Product add")
+    router.push("/dashboard/products")
+   }
+  },[isSuccess,router])
   return (
     <div className="">
       
@@ -287,7 +285,7 @@ const ProductForm = () => {
                 label="Publish Product"
                 name="isActive"
               />
-              <SubmitButton loading={loading} title="Add Product" />
+              <SubmitButton loading={isLoading} title="Add Product" />
             </div>
           </form>
         </div>

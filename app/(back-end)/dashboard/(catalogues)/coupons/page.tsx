@@ -5,7 +5,8 @@ import { Input } from '@/components/ui/input';
 import {Download,Trash2}from "lucide-react"
 
 import Image from "next/image"
-import { CouponTable } from './../../../../../components/backend/Coupon/CouponTable';
+import CouponTable from './../../../../../components/backend/TableComponent/CouponTable';
+
 
 const Coupons = () => {
  

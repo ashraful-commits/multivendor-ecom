@@ -14,6 +14,11 @@ export const CategoryApi = api.injectEndpoints({
           ? result.map(({ id }) => ({ type: 'Category', id } as const))
           : [{ type: 'Category' }],
     }),
+    getSingleCategory: builder.query<CategoryData, string>({
+      query: (id) => `categories/${id}`,
+      providesTags: (result, error, id) =>
+        result ? [{ type: 'Category', id }] : [{ type: 'Category' }],
+    }),
     addNewCategory: builder.mutation<CategoryData, Partial<CategoryData>>({
       query: (newCategory) => ({
         url: 'categories',
@@ -23,15 +28,27 @@ export const CategoryApi = api.injectEndpoints({
       invalidatesTags: [{ type: 'Category' }],
     }),
     editCategory: builder.mutation<CategoryData, Partial<CategoryData>>({
-      query: (Category) => ({
-        url: `categories/${Category.id}`,
-        method: 'PATCH',
-        body: Category,
+      query: (category) => ({
+        url: `categories/${category.id}`,
+        method: 'PUT',
+        body: category,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Category', id }],
     }),
+    deleteCategory: builder.mutation<{ success: boolean; id: string }, string>({
+      query: (id) => ({
+        url: `categories/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result, error, id) => [{ type: 'Category', id }],
+    }),
   }),
-
 });
 
-export const { useGetCategoryQuery, useAddNewCategoryMutation, useEditCategoryMutation } = CategoryApi;
+export const {
+  useGetCategoryQuery,
+  useGetSingleCategoryQuery,
+  useAddNewCategoryMutation,
+  useEditCategoryMutation,
+  useDeleteCategoryMutation,
+} = CategoryApi;

@@ -14,6 +14,11 @@ export const MarketApi = api.injectEndpoints({
           ? result.map(({ id }) => ({ type: 'Market', id } as const))
           : [{ type: 'Market' }],
     }),
+    getSingleMarket: builder.query<marketData, string>({
+      query: (id) => `markets/${id}`,
+      providesTags: (result, error, id) =>
+        result ? [{ type: 'Market', id }] : [{ type: 'Market' }],
+    }),
     addNewMarket: builder.mutation<marketData, Partial<marketData>>({
       query: (newMarket) => ({
         url: 'markets',
@@ -23,15 +28,27 @@ export const MarketApi = api.injectEndpoints({
       invalidatesTags: [{ type: 'Market' }],
     }),
     editMarket: builder.mutation<marketData, Partial<marketData>>({
-      query: (Market) => ({
-        url: `markets/${Market.id}`,
-        method: 'PATCH',
-        body: Market,
+      query: (market) => ({
+        url: `markets/${market.id}`,
+        method: 'PUT',
+        body: market,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Market', id }],
     }),
+    deleteMarket: builder.mutation<{ success: boolean; id: string }, string>({
+      query: (id) => ({
+        url: `markets/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result, error, id) => [{ type: 'Market', id }],
+    }),
   }),
-  
 });
 
-export const { useGetMarketQuery, useAddNewMarketMutation, useEditMarketMutation } = MarketApi;
+export const {
+  useGetMarketQuery,
+  useGetSingleMarketQuery,
+  useAddNewMarketMutation,
+  useEditMarketMutation,
+  useDeleteMarketMutation,
+} = MarketApi;

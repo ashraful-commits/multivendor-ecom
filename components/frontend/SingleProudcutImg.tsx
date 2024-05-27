@@ -65,13 +65,13 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
     if (isAddFaveSuccess) {
       toast.success(`Added to cart`);
       refetchFav()
-    }
-    if (isSuccess) {
+    }else if (isSuccess) {
       toast.success(`Added to cart`);
       cartRefetch()
-    }
-    if (isError) {
+    }else if (isError) {
       toast.error(`Failed to add to cart`);
+    }else{
+      toast.dismiss()
     }
   }, [isSuccess, isError,isAddFaveSuccess,cartRefetch,refetchFav]);
 
@@ -238,7 +238,7 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
           <div className="my-2 flex flex-wrap gap-x-2 justify-end">
             {product &&
               product?.imgUrl?.length > 0 &&
-              product?.imgUrl?.map((img, index) => (
+              product?.imgUrl?.map((img:any, index:number) => (
                 <Image
                   key={index}
                   onClick={() => setImg(img)}

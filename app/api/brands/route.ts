@@ -20,7 +20,7 @@ try {
   }
   const newBran = await db.brand.create({
     data:{name,slug,imgUrl,isActive}
-  }) 
+  })
   return NextResponse.json(newBran)
 } catch (error) {
   //console.log(error)

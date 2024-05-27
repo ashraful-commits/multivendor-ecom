@@ -10,7 +10,7 @@ import { ourFileRouter } from "@/app/api/uploadthing/core";
 import AuthProvider from './../components/backend/Provider';
 import Navbar from './../components/frontend/Navbar';
 import ProviderCom from '../components/ProviderCom';
-
+import "@uploadthing/react/styles.css";
 export const metadata: Metadata = {
   title: 'Multi vendor',
   description: 'Start your journey of shopping!',

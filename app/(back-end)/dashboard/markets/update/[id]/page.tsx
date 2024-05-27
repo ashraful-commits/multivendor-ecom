@@ -1,12 +1,157 @@
-import React from 'react'
-import Heading from './../../../../../../components/backend/Heading';
+'use client';
+import React, { useState,useEffect } from 'react';
+import Heading from '@/components/backend/Heading';
+import { useForm,Resolver } from 'react-hook-form';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { X } from 'lucide-react';
+import FromHeader from '@/components/backend/FromHeader';
+import TextInput from '@/components/backend/Form/TextInput';
+import { SubmitButton } from '@/components/backend/Form/SubmitButton';
+import TextArea from '@/components/backend/Form/TextArea';
+import { generateUniqueCode } from '@/lib/generateUniqueCode';
+import { generateSlug } from '@/lib/generateSlug';
+import { makePostRequest } from '@/lib/apiRequest';
+import ImageUpload from '@/components/backend/Form/ImageInput';
+import { DatePickerDemo } from '@/components/backend/Form/DatePicker';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { SingleSelect } from '@/components/backend/Form/SingleSelect';
+import FormContainer from '@/components/backend/FormContainer';
+import { getData } from '@/lib/apiRequest';
+import { ToggleInput } from '@/components/backend/Form/ToggleInput';
+import { useRouter, useParams } from 'next/navigation';
+import {marketType,Option} from "../../../../../../typescript"
 
-const UpdateCategory = () => {
-  return (
-    <div>
-     <Heading title="Update Category"/>
-    </div>
-  )
+import {useEditMarketMutation,useGetSingleMarketQuery} from "@/lib/features/marketapi"
+import toast from 'react-hot-toast';
+const schema = yup.object().shape({
+  name: yup.string().required('Name is required'),
+  description: yup.string().required('Description is required'),
+  isActive: yup.boolean().default(true)
+});
+
+type FieldValues ={
+  name:string;
+  description:string;
+  isActive:boolean;
 }
 
-export default UpdateCategory
+const UpdateMarket = () => {
+ const {id} = useParams<{id:string}>()
+  const [image, setImage] = useState<string|null>(null);
+  const [category, setCategory] = useState<Option[]>([]);
+  const [selectCat, setSelectCat] = useState<string|undefined>("");
+  const [editMarket,{isLoading,isSuccess}] = useEditMarketMutation()
+  const {data} = useGetSingleMarketQuery(id)
+
+  useEffect(()=>{
+ const getAllCat=async()=>{
+  const allCategory = await getData("categories")
+  setCategory(allCategory)
+ }
+ getAllCat()
+  },[])
+  const {
+    register,
+    handleSubmit,
+    reset,watch,
+    formState: { errors },
+  } = useForm<any>({
+    resolver: yupResolver(schema),
+    defaultValues:{
+      isActive:true
+    }
+  })
+  const isActive =watch('isActive')
+  const router = useRouter()
+
+    
+  async function onSubmit(data: any) {
+    const slug = generateSlug(data.name);
+    data.slug= slug;
+    data.categoryIds=selectCat;
+    if(image){
+      data.imgUrl =image;
+    }
+    editMarket(data)
+  }
+  useEffect(()=>{
+    if(data){
+      reset(data)
+      console.log(data)
+      setImage(data.imgUrl)
+    } if(data?.categoryIds){
+      setSelectCat(data?.categoryIds)
+    } 
+    if(isSuccess){
+      toast.success("Market updated!")
+      router.push("/dashboard/markets")
+    }else{
+      toast.dismiss()
+    }
+  },[isSuccess,router,data,reset])
+
+  return (
+    <div className="">
+      <FromHeader title="Update Market" href={'/dashboard/markets'} />
+    <FormContainer>
+      <div className="bg-slate-800 dark:bg-white border border-slate-800 dark:border-slate-200 rounded-md p-5">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="text-white dark:text-slate-900"
+        >
+          <TextInput
+            register={register}
+            errors={errors?.name?.message}
+            name="name"
+            label="name"
+            placeholder="Market name"
+          />
+        
+         
+          <TextArea
+            register={register}
+            errors={errors?.description?.message}
+            name="description"
+            label="Description"
+            placeholder="Market description"
+          />
+           <Label
+              className="text-md text-white dark:text-slate-900 text-start capitalize my-4 inline-block"
+              htmlFor={'image'}
+            >
+              Category
+            </Label>
+
+            <SingleSelect
+             setValue={setSelectCat}
+              value={selectCat}
+              data={category?.map(item => ({ name: item.name, id: item.id }))}
+            />
+          
+          <div className="flex gap-x-4  flex-col ">
+            <Label
+              className="text-md text-white dark:text-slate-900 text-start capitalize my-1"
+              htmlFor={'image'}
+            >
+              Image Upload
+            </Label>
+            <ImageUpload
+              endpoint="marketImageUpload"
+              setImage={setImage}
+              image={image}
+            />
+          </div>
+          <ToggleInput label="Publish market" name="isActive" register={register}/>
+          <SubmitButton loading={isLoading} title="Update Market" />
+        </form>
+      </div>
+      </FormContainer>
+    </div>
+  );
+};
+
+export default UpdateMarket;

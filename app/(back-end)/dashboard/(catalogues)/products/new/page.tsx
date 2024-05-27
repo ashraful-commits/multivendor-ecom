@@ -2,7 +2,7 @@
 import FromHeader from './../../../../../../components/backend/FromHeader';
 import FormContainer from './../../../../../../components/backend/FormContainer';
 import ProductForm from './../../../../../../components/backend/ProductForm';
-const NewFarmer = async() => {
+const NewProduct = async() => {
   
   return (
     <div className="">
@@ -14,4 +14,4 @@ const NewFarmer = async() => {
   );
 };
 
-export default NewFarmer;
+export default NewProduct;

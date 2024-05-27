@@ -164,7 +164,7 @@ const Navbar = () => {
                   <span>Settings</span>
                 </Link>
               </DropdownMenuItem>
-
+            
               <DropdownMenuItem className="h-32 w-32 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
                 <LifeBuoy className="mr-2 h-4 w-4" />
                 <Link href="/dashboard">
@@ -384,11 +384,11 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </button>
-          {session ? (
+          {session?.user? (
             <DropdownMenu>
               <DropdownMenuTrigger className="w-10 h-10 flex juc items-center ">
                 <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarImage src={session?.user?.imgUrl} />
                   <AvatarFallback>AB</AvatarFallback>
                 </Avatar>
                 {/* <User /> */}
@@ -396,11 +396,16 @@ const Navbar = () => {
               <DropdownMenuContent className=" bg-slate-200 z-[99999999999] shadow-lg mt-5 mr-5 dark:bg-slate-800 border-none dark:border-slate-500 text-slate-900 dark:text-white">
                 <DropdownMenuItem className="h-10 w-full max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
                   <User className="mr-2 h-4 w-4" />
-                  <Link href="/dashboard">
-                    <span>Edit Profile</span>
+                  <Link href="/setting">
+                    <span>Profile setting</span>
                   </Link>
                 </DropdownMenuItem>
-
+                <DropdownMenuItem className="h-10 w-full max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
+                <LayoutGrid className="mr-2 h-4 w-4" />
+                <Link href="/dashboard">
+                  <span>Dashboard</span>
+                </Link>
+              </DropdownMenuItem>
                 <DropdownMenuItem className="h-10 w-full max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
                   <Settings className="mr-2 h-4 w-4" />
                   <Link href="/dashboard">

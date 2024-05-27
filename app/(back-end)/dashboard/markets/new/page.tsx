@@ -1,31 +1,32 @@
 'use client';
 import React, { useState,useEffect } from 'react';
-import Heading from '../../../../../components/backend/Heading';
+import Heading from '@/components/backend/Heading';
 import { useForm,Resolver } from 'react-hook-form';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { X } from 'lucide-react';
-import FromHeader from '../../../../../components/backend/FromHeader';
-import TextInput from '../../../../../components/backend/Form/TextInput';
-import { SubmitButton } from '../../../../../components/backend/Form/SubmitButton';
-import TextArea from '../../../../../components/backend/Form/TextArea';
-import { generateUniqueCode } from '../../../../../lib/generateUniqueCode';
-import { generateSlug } from '../../../../../lib/generateSlug';
-import { makePostRequest } from '../../../../../lib/apiRequest';
-import ImageUpload from '../../../../../components/backend/Form/ImageInput';
-import { DatePickerDemo } from '../../../../../components/backend/Form/DatePicker';
+import FromHeader from '@/components/backend/FromHeader';
+import TextInput from '@/components/backend/Form/TextInput';
+import { SubmitButton } from '@/components/backend/Form/SubmitButton';
+import TextArea from '@/components/backend/Form/TextArea';
+import { generateUniqueCode } from '@/lib/generateUniqueCode';
+import { generateSlug } from '@/lib/generateSlug';
+import { makePostRequest } from '@/lib/apiRequest';
+import ImageUpload from '@/components/backend/Form/ImageInput';
+import { DatePickerDemo } from '@/components/backend/Form/DatePicker';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { SingleSelect } from './../../../../../components/backend/Form/SingleSelect';
-import FormContainer from './../../../../../components/backend/FormContainer';
+import { SingleSelect } from '@/components/backend/Form/SingleSelect';
+import FormContainer from '@/components/backend/FormContainer';
 import { getData } from '@/lib/apiRequest';
-import { ToggleInput } from './../../../../../components/backend/Form/ToggleInput';
+import { ToggleInput } from '@/components/backend/Form/ToggleInput';
 import { useRouter } from 'next/navigation';
 import {marketType} from "../../../../../typescript"
 import { Option } from './../../../../../typescript';
-
+import {useAddNewMarketMutation} from "@/lib/features/marketapi"
+import toast from 'react-hot-toast';
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
   description: yup.string().required('Description is required'),
@@ -44,7 +45,7 @@ const Market = () => {
   const [image, setImage] = useState<string|null>(null);
   const [category, setCategory] = useState<Option[]>([]);
   const [selectCat, setSelectCat] = useState<string|undefined>("");
-  const [loading, setLoading] = useState(false);
+  const [addNewMarket,{isLoading,isSuccess}] = useAddNewMarketMutation()
 
   useEffect(()=>{
  const getAllCat=async()=>{
@@ -66,15 +67,23 @@ const Market = () => {
   })
   const isActive =watch('isActive')
   const router = useRouter()
-  function redirect(){
-    router.push("/dashboard/markets")
-  }
+
+    
   async function onSubmit(data: any) {
     const slug = generateSlug(data.name);
-    setLoading(true);
-    makePostRequest(setLoading, '/api/markets', {...data, slug, categoryIds: selectCat, imgUrl: image}, 'Market', reset, redirect);
+    data.slug= slug;
+    data.categoryIds=selectCat;
+    if(image){
+      data.imgUrl =image;
+    }
+    addNewMarket(data)
   }
-  
+  useEffect(()=>{
+    if(isSuccess){
+      toast.success("Market Added!")
+      router.push("/dashboard/markets")
+    }
+  },[isSuccess,router])
 
   return (
     <div className="">
@@ -127,8 +136,8 @@ const Market = () => {
               image={image}
             />
           </div>
-          <ToggleInput label="Publish Category" name="isActive" register={register}/>
-          <SubmitButton loading={loading} title="Add Market" />
+          <ToggleInput label="Publish market" name="isActive" register={register}/>
+          <SubmitButton loading={isLoading} title="Add Market" />
         </form>
       </div>
       </FormContainer>

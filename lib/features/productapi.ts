@@ -1,3 +1,4 @@
+// lib/redux/features/ProductApi.ts
 import { api } from "./AllApi";
 import { ProductData } from "../../typescript";
 
@@ -6,15 +7,14 @@ type ProductTag = { type: "Product"; id?: string };
 
 export const ProductApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getFilterProduct: builder.query<ProductData[], { search: string; category: string; brand: string; minPrice: number; maxPrice: number;tag:string[];}>({
+    getFilterProduct: builder.query<ProductData[], { search: string; category: string; brand: string; minPrice: number; maxPrice: number; tag:string[] }>({
       query: (filter) =>
         `products?search=${filter.search}&maxPrice=${filter.maxPrice}&minPrice=${filter.minPrice}&category=${filter.category}&brand=${filter.brand}&tag=${filter.tag}`,
       providesTags: (result) =>
         result
           ? result.map(({ id }) => ({ type: 'Product', id } as const))
           : [{ type: 'Product' }],
-    })
-    ,
+    }),
     getProduct: builder.query<ProductData[], void>({
       query: () => `products`,
       providesTags: (result) =>
@@ -44,10 +44,17 @@ export const ProductApi = api.injectEndpoints({
     editProduct: builder.mutation<ProductData, Partial<ProductData>>({
       query: (Product) => ({
         url: `products/${Product.id}`,
-        method: "PATCH",
+        method: "PUT",
         body: Product,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Product", id }],
+    }),
+    deleteProduct: builder.mutation<{ success: boolean; id: string }, string>({
+      query: (id) => ({
+        url: `products/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, id) => [{ type: "Product", id }],
     }),
   }),
 });
@@ -58,5 +65,6 @@ export const {
   useGetSingleProductQuery,
   useAddNewProductMutation,
   useEditProductMutation,
-  useGetCatProductQuery
+  useGetCatProductQuery,
+  useDeleteProductMutation // Added delete mutation hook
 } = ProductApi;

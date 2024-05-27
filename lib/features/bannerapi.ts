@@ -7,7 +7,6 @@ import { api } from './AllApi';
 type BannerTag = { type: 'Banner'; id?: string };
 
 export const BannerApi = api.injectEndpoints({
-
   endpoints: (builder) => ({
     getBanner: builder.query<bannerData[], void>({
       query: () => 'banners',
@@ -15,6 +14,11 @@ export const BannerApi = api.injectEndpoints({
         result
           ? result.map(({ id }) => ({ type: 'Banner', id } as const))
           : [{ type: 'Banner' }],
+    }),
+    getSingleBanner: builder.query<bannerData, string>({
+      query: (id) => `banners/${id}`,
+      providesTags: (result, error, id) =>
+        result ? [{ type: 'Banner', id }] : [{ type: 'Banner' }],
     }),
     addNewBanner: builder.mutation<bannerData, Partial<bannerData>>({
       query: (newBanner) => ({
@@ -27,12 +31,25 @@ export const BannerApi = api.injectEndpoints({
     editBanner: builder.mutation<bannerData, Partial<bannerData>>({
       query: (banner) => ({
         url: `banners/${banner.id}`,
-        method: 'PATCH',
+        method: 'PUT',
         body: banner,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Banner', id }],
     }),
+    deleteBanner: builder.mutation<{ success: boolean; id: string }, string>({
+      query: (id) => ({
+        url: `banners/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result, error, id) => [{ type: 'Banner', id }],
+    }),
   }),
 });
 
-export const { useGetBannerQuery, useAddNewBannerMutation, useEditBannerMutation } = BannerApi;
+export const {
+  useGetBannerQuery,
+  useGetSingleBannerQuery,
+  useAddNewBannerMutation,
+  useEditBannerMutation,
+  useDeleteBannerMutation,
+} = BannerApi;

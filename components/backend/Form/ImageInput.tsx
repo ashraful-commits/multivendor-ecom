@@ -1,6 +1,6 @@
 "use client";
  
-import { UploadButton } from "../../../lib/uploadthing";
+import { UploadDropzone } from "../../../lib/uploadthing";
 import { useState } from 'react';
 import  Image  from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -16,12 +16,9 @@ export default function ImageUpload({image,setImage,endpoint}:ImageUploadProps) 
         <Image width={300} height={300} src={image} alt="upload"/>
       </div>:<div className="flex flex-col items-center justify-center gap-3">
         <CloudUpload/>
-      <UploadButton
-
+      <UploadDropzone
         endpoint={endpoint}
         onClientUploadComplete={(res) => {
-          // Do something with the response
-          //console.log("Files: ", res[0].url);
           setImage(res[0].url)
         }}
         onUploadError={(error: Error) => {

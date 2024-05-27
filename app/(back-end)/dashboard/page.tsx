@@ -4,6 +4,7 @@ import LargeCards from './../../../components/backend/LargeCards';
 import SmallCards from './../../../components/backend/SmallCards';
 import DashboardCharts from './../../../components/backend/DashboardCharts';
 import { CustomDataTable } from './../../../components/backend/CustomDataTable';
+import OrderTable from './../../../components/backend/TableComponent/OrderTable';
 
 const Dashboard = () => {
   return (
@@ -12,7 +13,10 @@ const Dashboard = () => {
        <LargeCards/>
        <SmallCards/>
        <DashboardCharts/>
-       <CustomDataTable/>
+       <div className="my-10">
+      <h2 className=" dark:text-slate-900 text-white my-5 text-2xl">All recent Order</h2>
+       <OrderTable/>
+       </div>
     </div>
   )
 }

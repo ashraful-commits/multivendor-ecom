@@ -96,7 +96,7 @@ const AllProducts = () => {
   return (
     <ContainerBox className="mx-auto  w-full  ">
       <div
-        className={`m-2  max-h-[65px] max-sm:hidden sticky top-0 lg:left-[15%] md:left-[0%] flex w-full gap-5 bg-slate-200 dark:bg-slate-900 p-2 z-[99999] mx-auto`}
+        className={`m-2  max-h-[65px] max-sm:hidden sticky top-0 flex w-full gap-5 bg-slate-200 justify-between max-auto dark:bg-slate-900 p-2 z-[99999] mx-auto`}
       >
         <Link role="button" className="bg-blue-500 flex items-center gap-x-2  px-2 py-2" href="/"><ChevronLeft /> Back</Link>
         <Input

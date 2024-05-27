@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import Heading from '@/components/backend/Heading';
 import { useForm,Resolver } from 'react-hook-form';
 import { Label } from '@/components/ui/label';
@@ -23,7 +23,8 @@ import FormContainer from '@/components/backend/FormContainer';
 import { ToggleInput } from '@/components/backend/Form/ToggleInput';
 import { tagType } from '../../../../../../typescript';
 import { useRouter } from 'next/navigation';
-
+import toast from 'react-hot-toast';
+import {useAddNewTagMutation} from "@/lib/features/tagapi"
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
   isActive: yup.boolean().default(true),
@@ -35,7 +36,8 @@ type FieldValues ={
   isActive:boolean;
 }
 const NewTags = () => {
-  const [loading, setLoading] = useState(false);
+  const [addNewTag,{isSuccess,isLoading}] = useAddNewTagMutation()
+
   const router = useRouter();
   const {
     register,
@@ -49,21 +51,24 @@ const NewTags = () => {
       isActive: true,
     },
   });
-  function redirect() {
-    router.push('/dashboard/tags');
-  };
- 
-  const isActive = watch("isActive");
 
+  
+  
+  const isActive = watch("isActive");
+  
   async function onSubmit(data:  any) {
     const slug = generateSlug(data.name);
-   
-    data.isActive = isActive;
-    setLoading(true);
-    makePostRequest(setLoading, '/api/tags', {...data,slug}, 'Tag', reset, redirect);
+   data.slug= slug;
+   data.isActive = isActive;
+    addNewTag(data)
   };
-
-
+  
+  useEffect(()=>{
+    if(isSuccess){
+      toast.success("Tag add!")
+      router.push('/dashboard/tags');
+  }
+ },[isSuccess,router])
   return (
     <div className="">
       <FromHeader title="Add New Tag" href={'/dashboard/tags'} /> {/* Fixed the import */}
@@ -86,7 +91,7 @@ const NewTags = () => {
               name="isActive"
               label="Publish tag"
             />
-            <SubmitButton loading={loading} title="Add Tag" />
+            <SubmitButton loading={isLoading} title="Add Tag" />
           </form>
         </div>
       </FormContainer>

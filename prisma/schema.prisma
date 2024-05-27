@@ -116,7 +116,7 @@ model Product {
   updatedAt       DateTime   @updatedAt
   carts           Cart[]
   favorites       Favorite[]
-  reviews          Review[]
+  reviews         Review[]
 }
 
 // phone,email,address,contact,uniqueCode,description,terms,notes,imgUrl,isActive
@@ -137,6 +137,7 @@ model Farmerprofile {
   terms       String?
   notes       String?
   isActive    Boolean
+  productIds  String[] @db.ObjectId @default([])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -163,6 +164,12 @@ enum UserRole {
   SELLER
   MODERATOR
 }
+enum OrderStatus {
+  PENDING
+  COMPLATE
+  PROCESS
+  CANCEL
+}
 
 model User {
   id                String         @id @default(auto()) @map("_id") @db.ObjectId
@@ -171,7 +178,7 @@ model User {
   password          String
   emailVerified     DateTime?
   verificationToken String?
-  products          Product[] 
+  products          Product[]
   imgUrl            String?
   farmerProfile     Farmerprofile?
   role              UserRole       @default(USER)
@@ -237,7 +244,8 @@ model Order {
   zipCode       String
   shippingCost  Int
   paymentMethod String
-  userId        String   @db.ObjectId 
+  status        OrderStatus  @default(PENDING)
+  userId        String   @db.ObjectId
   user          User     @relation(fields: [userId], references: [id])
   cartItems     String[]
   createdAt DateTime @default(now())

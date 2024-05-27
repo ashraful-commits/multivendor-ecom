@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Heading from './../../../../../../components/backend/Heading';
 import { useForm,FieldValues } from 'react-hook-form';
 import { Label } from '@/components/ui/label';
@@ -23,7 +23,8 @@ import { ToggleInput } from './../../../../../../components/backend/Form/ToggleI
 import { useRouter } from 'next/navigation';
 import FormContainer from './../../../../../../components/backend/FormContainer';
 import { categoryType } from './../../../../../../typescript';
-
+import {useAddNewCategoryMutation} from "@/lib/features/categoryapi"
+import toast from 'react-hot-toast';
 
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
@@ -35,10 +36,8 @@ const schema = yup.object().shape({
 });
 
 const NewCategory = () => {
+  const [addNewCategory,{isSuccess,isLoading}]=useAddNewCategoryMutation()
   const router = useRouter();
-  function redirect() {
-    router.push('/dashboard/categories');
-  }
 
   const [image, setImage] = useState<string | null>(null);
   const {
@@ -62,17 +61,15 @@ const NewCategory = () => {
       const slug = generateSlug(data.name);
       data.slug = slug;
       data.imgUrl = image;
-      makePostRequest(
-        setLoading,
-        '/api/categories',
-        data,
-        'Category',
-        reset,
-        redirect,
-      );
+     addNewCategory(data)
     }
   }
-  
+  useEffect(()=>{
+    if(isSuccess){
+      router.push('/dashboard/categories');
+      toast.success("Category Add !")
+    }
+  },[router,isSuccess])
   return (
     <div className="">
       <FromHeader title="Add New Category" href={'/dashboard/categories'} />
@@ -114,7 +111,7 @@ const NewCategory = () => {
               name="isActive"
               register={register}
             />
-            <SubmitButton loading={loading} title="Add Category" />
+            <SubmitButton loading={isLoading} title="Add Category" />
           </form>
         </div>
       </FormContainer>

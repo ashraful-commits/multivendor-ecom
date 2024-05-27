@@ -20,15 +20,14 @@ const CartItems = ({ id }: { id: string }) => {
   useEffect(() => {
     if (isDeleteSuccess) {
       toast.success("Product deleted!");
-    }
-    if (isDeleteError) {
+    }else if (isDeleteError) {
       toast.error("Product not deleted!");
-    }
-    if (isEditSuccess) {
+    }else if (isEditSuccess) {
       toast.success("Product edited!");
-    }
-    if (isEditError) {
+    }else if (isEditError) {
       toast.error("Product not edited!");
+    }else{
+      toast.dismiss()
     }
   }, [isDeleteSuccess, isDeleteError, isEditSuccess, isEditError]);
 

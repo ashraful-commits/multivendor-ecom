@@ -26,7 +26,7 @@ export const ReviewApi = api.injectEndpoints({
     editReview: builder.mutation<ReviewData, Partial<ReviewData>>({
       query: ({ id, ...Review }) => ({
         url: `reviews/${id}`,
-        method: 'PATCH',
+        method: 'PUT',
         body: Review,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Review', id }],

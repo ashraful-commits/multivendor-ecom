@@ -4,7 +4,7 @@ import PageHeader from '../../../../components/backend/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Download, Trash2 } from "lucide-react";
-import TagTable from '../../../../components/backend/TableComponent/TagTable';
+import CommunityTable from './../../../../components/backend/TableComponent/CommunityTable';
 
 const Community =() => {
 
@@ -19,7 +19,7 @@ const Community =() => {
         <Input className="bg-transparent border" placeholder="Search item" />
       </div>
    
-      <TagTable/>
+      <CommunityTable/>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import Heading from './../../../../../../components/backend/Heading';
 import { useForm,Resolver } from 'react-hook-form';
 import { Label } from '@/components/ui/label';
@@ -22,7 +22,8 @@ import { ToggleInput } from './../../../../../../components/backend/Form/ToggleI
 import { useRouter } from 'next/navigation';
 import FormContainer from './../../../../../../components/backend/FormContainer';
 import { couponType } from './../../../../../../typescript';
-
+import toast from 'react-hot-toast';
+import {useAddNewCouponMutation} from "@/lib/features/couponsapi"
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
   date: yup.string(),
@@ -33,15 +34,11 @@ type FieldValues ={
   date:string;
   isActive:boolean;
 }
-const NewCategory = () => {
-  const router = useRouter();
-  function redirect() {
-    router.push('/dashboard/coupons');
-  }
+const NewCoupon = () => {
+  const [addNewCoupon,{isSuccess,isLoading}] = useAddNewCouponMutation()
+  const router = useRouter();  
   const [date, setDate] = useState<Date>();
 
-
-  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -57,16 +54,18 @@ const NewCategory = () => {
   const isActive = watch('isActive');
   async function onSubmit(data: any) {
     const coupon = generateCoupon(data.name,date);
-    setLoading(true);
-    makePostRequest(
-      setLoading,
-      '/api/coupons',
-      { ...data, coupon, date},
-      'Coupons',
-      reset,
-      redirect,
-    );
+     data.coupon = coupon;
+     data.isActive=isActive;
+     data.date=date;
+    addNewCoupon(data)
 }
+
+useEffect(()=>{
+if(isSuccess){
+  toast.success("Coupon added!")
+  router.push('/dashboard/coupons');
+}
+},[isSuccess,router])
 
   return (
     <div className="">
@@ -99,7 +98,7 @@ const NewCategory = () => {
               label="Publish coupon"
               name="isActive"
             />
-            <SubmitButton loading={loading} title="Add Coupons" />
+            <SubmitButton loading={isLoading} title="Add Coupons" />
           </form>
         </div>
       </FormContainer>
@@ -107,4 +106,4 @@ const NewCategory = () => {
   );
 };
 
-export default NewCategory;
+export default NewCoupon;

@@ -14,6 +14,11 @@ export const TagApi = api.injectEndpoints({
           ? result.map(({ id }) => ({ type: 'Tag', id } as const))
           : [{ type: 'Tag' }],
     }),
+    getSingleTag: builder.query<TagData, string>({
+      query: (id) => `tags/${id}`,
+      providesTags: (result, error, id) =>
+        result ? [{ type: 'Tag', id }] : [{ type: 'Tag' }],
+    }),
     addNewTag: builder.mutation<TagData, Partial<TagData>>({
       query: (newTag) => ({
         url: 'tags',
@@ -25,13 +30,25 @@ export const TagApi = api.injectEndpoints({
     editTag: builder.mutation<TagData, Partial<TagData>>({
       query: (Tag) => ({
         url: `tags/${Tag.id}`,
-        method: 'PATCH',
+        method: 'PUT',
         body: Tag,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Tag', id }],
     }),
+    deleteTag: builder.mutation<{ success: boolean; id: string }, string>({
+      query: (id) => ({
+        url: `tags/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result, error, id) => [{ type: 'Tag', id }],
+    }),
   }),
-  
 });
 
-export const { useGetTagQuery, useAddNewTagMutation, useEditTagMutation } = TagApi;
+export const {
+  useGetTagQuery,
+  useGetSingleTagQuery,
+  useAddNewTagMutation,
+  useEditTagMutation,
+  useDeleteTagMutation,
+} = TagApi;

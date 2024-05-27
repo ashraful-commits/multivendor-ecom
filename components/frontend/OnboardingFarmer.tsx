@@ -1,27 +1,30 @@
 'use client';
-import React, { useState } from 'react';
-import Heading from '../../components/backend/Heading';
+import React, { useState ,useEffect} from 'react';
+import Heading from '@/components/backend/Heading';
 import { useForm,FieldValues,Resolver } from 'react-hook-form';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { X } from 'lucide-react';
-import FromHeader from '../../components/backend/FromHeader';
-import TextInput from '../../components/backend/Form/TextInput';
-import { SubmitButton } from '../../components/backend/Form/SubmitButton';
-import TextArea from '../../components/backend/Form/TextArea';
-import { generateUniqueCode } from '../../lib/generateUniqueCode';
-import { makePostRequest } from '../../lib/apiRequest';
-import ImageUpload from '../../components/backend/Form/ImageInput';
-import { DatePickerDemo } from '../../components/backend/Form/DatePicker';
+import FromHeader from '@/components/backend/FromHeader';
+import TextInput from '@/components/backend/Form/TextInput';
+import { SubmitButton } from '@/components/backend/Form/SubmitButton';
+import TextArea from '@/components/backend/Form/TextArea';
+import { generateUniqueCode } from '@/lib/generateUniqueCode';
+import { makePostRequest } from '@/lib/apiRequest';
+import ImageUpload from '@/components/backend/Form/ImageInput';
+import { DatePickerDemo } from '@/components/backend/Form/DatePicker';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { ToggleInput } from './../backend/Form/ToggleInput';
 import { SelectInput } from './../backend/Form/SelectInput';
-import {farmerType}from "../../typescript"
+import {farmerType}from "@/typescript"
 import { useRouter } from 'next/navigation';
 import {OptionType} from "../../typescript"
+import {useAddNewFarmerMutation} from "@/lib/features/farmerapi"
+import {useGetProductQuery} from "@/lib/features/productapi"
+import toast from 'react-hot-toast';
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
   description: yup.string().required('Decription is required'),
@@ -33,39 +36,48 @@ const schema = yup.object().shape({
   terms: yup.string().required('terms is required'),
   notes: yup.string().required('notes is required'),
   mainCrop: yup.string().required('Main Crop is required'),
+  isActive: yup.boolean().default(true),
 });
 
 const OnboardingFarmer = ({role,user}:{role:string,user?:any}) => {
  const router = useRouter()
-
+const [addNewFarmer,{isSuccess,isLoading}]=useAddNewFarmerMutation()
   const [image, setImage] = useState<string|null>(null);
   const {
     register,
     handleSubmit,
     reset,watch,
     formState: { errors },
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(schema),
     defaultValues:{
       isActive:true,
-      ...user
     }
   });
-  // redirect function
-   function redirect(){
-    router.push("/")
-   }
-  const isActive = watch("isActive")
-  const [loading, setLoading] = useState(false);
-  const [productIds, setProductIds] = useState<OptionType[]>([]);
-  async function onSubmit(data:farmerType) { 
-    const uniqueCode = generateUniqueCode(data.name);
-    data.isActive = isActive
-    data.imgUrl  = image
-    
-    setLoading(true);
-    makePostRequest(setLoading, '/api/farmers', {...data,uniqueCode,productIds:productIds,userId:user.id}, 'Farmer', reset,redirect);
+
+useEffect(()=>{
+  if(user){
+    reset(user)
   }
+},[reset,user])
+  const isActive = watch("isActive")
+  const {data:products} =useGetProductQuery()
+  const [productIds, setProductIds] = useState<OptionType[]>([]);
+  async function onSubmit(data:any) { 
+    const uniqueCode = generateUniqueCode(data.name);
+    data.isActive = isActive;
+    data.imgUrl  = image;
+    data.uniqueCode =uniqueCode;
+    data.productIds=productIds.map((item)=>item.value);
+    data.userId = user.id
+    addNewFarmer(data)
+  }
+  useEffect(()=>{
+  if(isSuccess){
+    toast.success("Farmer details add!")
+    router.push("/")
+  }
+  },[isSuccess,router])
   return (
     <div className="w-full flex justify-center mx-auto">
       <div className="bg-slate-800 dark:bg-white border border-slate-800 w-full mx-auto dark:border-slate-200 rounded-md p-5">
@@ -135,7 +147,7 @@ const OnboardingFarmer = ({role,user}:{role:string,user?:any}) => {
             >
              Select Product
             </Label>
-         <SelectInput setMarket={setProductIds} data={productIds}/>
+         <SelectInput setMarket={setProductIds} data={products?.map((item)=>({label:item?.name,value:item?.id}))??[]}/>
           <TextArea
             register={register}
             errors={errors?.description?.message}
@@ -173,7 +185,7 @@ const OnboardingFarmer = ({role,user}:{role:string,user?:any}) => {
             />
           </div>
           <ToggleInput register={register} name="isActive" label="Publish farmer"/>
-          <SubmitButton loading={loading} title="Add Farmer" />
+          <SubmitButton loading={isLoading} title="Add Farmer" />
         </form>
       </div>
     </div>

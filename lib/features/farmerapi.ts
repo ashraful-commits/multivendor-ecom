@@ -14,6 +14,11 @@ export const FarmerApi = api.injectEndpoints({
           ? result.map(({ id }) => ({ type: 'Farmer', id } as const))
           : [{ type: 'Farmer' }],
     }),
+    getSingleFarmer: builder.query<farmerData, string>({
+      query: (id) => `farmers/${id}`,
+      providesTags: (result, error, id) =>
+        result ? [{ type: 'Farmer', id }] : [{ type: 'Farmer' }],
+    }),
     addNewFarmer: builder.mutation<farmerData, Partial<farmerData>>({
       query: (newFarmer) => ({
         url: 'farmers',
@@ -23,15 +28,27 @@ export const FarmerApi = api.injectEndpoints({
       invalidatesTags: [{ type: 'Farmer' }],
     }),
     editFarmer: builder.mutation<farmerData, Partial<farmerData>>({
-      query: (Farmer) => ({
-        url: `farmers/${Farmer.id}`,
-        method: 'PATCH',
-        body: Farmer,
+      query: (farmer) => ({
+        url: `farmers/${farmer.id}`,
+        method: 'PUT',
+        body: farmer,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Farmer', id }],
     }),
+    deleteFarmer: builder.mutation<{ success: boolean; id: string }, string>({
+      query: (id) => ({
+        url: `farmers/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result, error, id) => [{ type: 'Farmer', id }],
+    }),
   }),
-  
 });
 
-export const { useGetFarmerQuery, useAddNewFarmerMutation, useEditFarmerMutation } = FarmerApi;
+export const {
+  useGetFarmerQuery,
+  useGetSingleFarmerQuery,
+  useAddNewFarmerMutation,
+  useEditFarmerMutation,
+  useDeleteFarmerMutation,
+} = FarmerApi;

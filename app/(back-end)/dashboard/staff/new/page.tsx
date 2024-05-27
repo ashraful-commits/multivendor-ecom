@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Heading from '@/components/backend/Heading';
 import { useForm,Resolver } from 'react-hook-form';
 import { Label } from '@/components/ui/label';
@@ -20,7 +20,9 @@ import * as yup from 'yup';
 import { ToggleInput } from '@/components/backend/Form/ToggleInput';
 import { useRouter } from 'next/navigation';
 import { staffType } from '../../../../../typescript';
-
+import {useAddNewStaffMutation} from "@/lib/features/staffapi"
+import { imageRemove } from '../../../../../lib/ImageRemove';
+import { toast } from 'react-hot-toast';
 const schema = yup.object().shape({
   name: yup.string().required('Name is required'),
   description: yup.string().required('Decription is required'),
@@ -45,11 +47,12 @@ type FieldValues ={
 }
 
 const Newstaff = () => {
+  const [addNewStaff,{isLoading,isSuccess}]= useAddNewStaffMutation()
   const [image, setImage] = useState<string|null>(null);
   const router = useRouter();
-  function redirect() {
-    router.push('/dashboard/staff');
-  }
+ 
+  
+  
   const {
     register,
     handleSubmit,
@@ -63,15 +66,24 @@ const Newstaff = () => {
     },
   });
   const isActive = watch('isActive');
-  const [loading, setLoading] = useState(false);
   const [date, setDate] = useState<Date|undefined>(undefined);
   async function onSubmit(data: any) {
     const code = generateUniqueCode(data.name);
     data.isActive = isActive;
-    setLoading(true);
-    makePostRequest(setLoading, '/api/staffs', {...data,dob:date,code,imgUrl:image}, 'Staff', reset, redirect);
-}
+    data.dob = date;
+    data.code = code
+    if(image){
+      data.imgUrl = image
+      addNewStaff(data)
+    }
 
+}
+useEffect(()=>{
+  if(isSuccess){
+    toast.success("Staff Added!")
+    router.push('/dashboard/staff');
+  }
+})
   return (
     <div className="">
       <FromHeader title="Add New Staff" href={'/dashboard/staff'} />
@@ -168,7 +180,7 @@ const Newstaff = () => {
             register={register}
             name={'isActive'}
           />
-          <SubmitButton loading={loading} title="Add Staff" />
+          <SubmitButton loading={isLoading} title="Add Staff" />
         </form>
       </div>
     </div>

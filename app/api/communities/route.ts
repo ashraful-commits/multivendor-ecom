@@ -1,7 +1,7 @@
 
 import {NextResponse} from "next/server"
 import db from './../../../lib/db';
-interface YourDataInterface {
+interface communityType {
   title: string;
   slug: string;
   imgUrl: string;
@@ -16,7 +16,7 @@ try {
   if (!req.body) {
     throw new Error('Request body is missing');
   }
-  const { title, slug, imgUrl, description, categoryIds, content, isActive }: YourDataInterface = await req.json();
+  const { title, slug, imgUrl, description, categoryIds, content, isActive }: communityType = await req.json();
   
   const uniqueTraining = await db.training.findUnique({
     where: { slug },
@@ -38,7 +38,7 @@ try {
   }
 
 } catch (error) {
-  //console.log(error)
+  console.log(error)
   return NextResponse.json({
     message:"Failed to create Training",
     error

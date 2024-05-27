@@ -9,12 +9,16 @@ type OrderTag = { type: 'Order'; id?: string };
 export const OrderApi = api.injectEndpoints({
 
   endpoints: (builder) => ({
-    getOrder: builder.query<orderData[], string>({
-      query: (id) => `orders/${id}`,
+    getOrder: builder.query<orderData[], void>({
+      query: () => `orders`,
       providesTags: (result) =>
         result
           ? result.map(({ id }) => ({ type: 'Order', id } as const))
           : [{ type: 'Order' }],
+    }),
+    getSingleOrder: builder.query<orderData, string>({
+      query: (id) => `orders/${id}`,
+      providesTags: (result, error, id) => [{ type: "Order", id }],
     }),
     addNewOrder: builder.mutation<orderData, Partial<orderData>>({
       query: (newOrder) => ({
@@ -28,7 +32,7 @@ export const OrderApi = api.injectEndpoints({
       query: (Order) => ({
         url: `orders/${Order.id}`,
         method: 'PUT',
-        body: {quantity:Order.quantity,total:Order.total},
+        body: {status:Order.status},
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Order', id }],
     }),
@@ -42,4 +46,4 @@ export const OrderApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetOrderQuery, useAddNewOrderMutation,useDeleteOrderMutation, useEditOrderMutation } = OrderApi;
+export const { useGetOrderQuery,useGetSingleOrderQuery, useAddNewOrderMutation,useDeleteOrderMutation, useEditOrderMutation } = OrderApi;

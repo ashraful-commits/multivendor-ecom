@@ -7,23 +7,18 @@ export async function GET(
 ) {
   try {
     const { id } = params;
-    const carts = await db.order.findMany({
-      where: {
-        userId: id,
-      },
-      include: {
-        product: true,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
+    const orders = await db.order.findUnique({
+      where:{
+        id
+      }
+      
     });
 
-    return NextResponse.json(carts);
+    return NextResponse.json(orders);
   } catch (error) {
     //console.log(error);
     return NextResponse.json(
-      { message: "Failed to fetch cart", error },
+      { message: "Failed to fetch order", error },
       { status: 500 }
     );
   }
@@ -44,7 +39,7 @@ export async function DELETE(
   } catch (error) {
     //console.log(error);
     return NextResponse.json(
-      { message: "Failed to delete cart", error },
+      { message: "Failed to delete order", error },
       { status: 500 }
     );
   }
@@ -54,16 +49,16 @@ export async function DELETE(
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
   try {
     const { id } = params;
-    const { quantity,total }:{quantity:number;total:number} = await req.json();
-    //console.log(id,quantity)
-    const cartItem = await db.order.findUnique({
+    const { status }:{status:string;} = await req.json();
+  console.log(id,status)
+    const orderItem = await db.order.findUnique({
       where: {
         id,
       },
     });
 
-    if (!cartItem) {
-      return NextResponse.json({ message: "Cart item not found" }, { status: 404 });
+    if (!orderItem) {
+      return NextResponse.json({ message: "Order item not found" }, { status: 404 });
     }
 
     await db.order.update({
@@ -71,14 +66,13 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         id,
       },
       data: {
-        quantity,
-        total,
+       status
       },
     });
 
-    return NextResponse.json({ message: "Cart item quantity updated successfully" });
+    return NextResponse.json({ message: "Order updated successfully" });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ message: "Failed to update cart item quantity", error }, { status: 500 });
+    return NextResponse.json({ message: "Failed to update Order", error }, { status: 500 });
   }
 }

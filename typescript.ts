@@ -13,7 +13,7 @@ export interface bannerType {
     id: string;
     title: string;
     link?: string;
-    imgUrl: string;
+    imgUrl: string|null;
     isActive: boolean;
     createdAt?: Date|undefined;
     updatedAt?: Date|undefined;
@@ -30,7 +30,7 @@ export interface brandData {
   id: string;
   name: string;
   slug: string;
-  imgUrl: string;
+  imgUrl: string|null;
   description: string;
   isActive: boolean;
   createdAt?: string;
@@ -70,6 +70,14 @@ export interface tagType {
   isActive: boolean;
 }
 export interface TagData {
+  id: string;
+  name: string;
+  date: string;
+  isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+export interface T {
   id:string;
   name: string;
   date: string;
@@ -105,10 +113,10 @@ export interface farmerType {
   terms?: string;
   notes?: string;
   mainCrop?: string;
-  productIds?:OptionType[];
+  productIds?:string[];
   userId?:string;
   imgUrl?:string|null;
-  isActive?:string;
+  isActive?:boolean;
 }
 export interface farmerData {
   id: string;
@@ -123,9 +131,10 @@ export interface farmerData {
   imgUrl: string;
   description: string;
   isActive: boolean;
-  marketIds: string[]; 
+  marketIds: string[];
   createdAt?: string;
   updatedAt?: string;
+  product:ProductData[]
 }
 export interface marketType {
   name: string;
@@ -144,6 +153,7 @@ export interface marketData {
   marketIds: string[]; 
   createdAt?: string;
   updatedAt?: string;
+  categoryIds:string;
 }
 export interface staffType {
   name: string;
@@ -190,11 +200,14 @@ export interface ProductData {
   stock: number;
   userId: string;
   tagIds: string[];
+  tags:TagData[];
+  brand:brandData[]
+  category:CategoryData[]
   brandId: string;
   categoryId: string;
   description: string;
   isActive: boolean;
-  marketIds: string[]; 
+  marketIds: string[];
   createdAt?: string;
   updatedAt?: string;
 }
@@ -419,10 +432,12 @@ export interface userData {
   id: string;
   name: string;
   password: string;
+  email:string;
   verificationToken: string;
   role: string;
   createdAt: string;
   updatedAt: string;
+  imgUrl:string|null;
 }
 export interface orderData {
   id:string;
@@ -442,6 +457,7 @@ export interface orderData {
   cartItems:string[]
   createdAt: string;
   updatedAt: string;
+  status:string;
 }
 export interface PaymentData {
   name: string;
@@ -459,7 +475,7 @@ export interface SessionData {
     id: string;
     name: string | null | undefined;
     email: string | null | undefined;
-    image: string | null | undefined;
+    imgUrl: string | null ;
   };
   expires: string;
 }

@@ -1,48 +1,47 @@
-"use client"
-import React, { useState ,useEffect} from 'react';
-import Heading from '../../../../../components/backend/Heading';
-import { useForm,Resolver } from 'react-hook-form';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { X } from 'lucide-react';
-import FromHeader from '../../../../../components/backend/FromHeader';
-import TextInput from '../../../../../components/backend/Form/TextInput';
-import { SubmitButton } from '../../../../../components/backend/Form/SubmitButton';
-import TextArea from '../../../../../components/backend/Form/TextArea';
-import { generateSlug } from '../../../../../lib/generateSlug';
-import { makePostRequest } from '../../../../../lib/apiRequest';
-import ImageUpload from '../../../../../components/backend/Form/ImageInput';
-import QuillEditor from '../../../../../components/backend/Form/QuillEditor';
-import { DatePickerDemo } from '../../../../../components/backend/Form/DatePicker';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { generateCoupon } from '../../../../../lib/generateCoupon';
-import { ToggleInput } from './../../../../../components/backend/Form/ToggleInput';
-import FormContainer from './../../../../../components/backend/FormContainer';
-import { getData } from '@/lib/apiRequest';
-import { SingleSelect } from './../../../../../components/backend/Form/SingleSelect';
-import { useRouter } from 'next/navigation';
-import { communityType } from "../../../../../typescript";
-import { Option } from './../../../../../typescript';
-
+"use client";
+import React, { useState, useEffect } from "react";
+import Heading from "@/components/backend/Heading";
+import { useForm, Resolver } from "react-hook-form";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { X } from "lucide-react";
+import FromHeader from "@/components/backend/FromHeader";
+import TextInput from "@/components/backend/Form/TextInput";
+import { SubmitButton } from "@/components/backend/Form/SubmitButton";
+import TextArea from "@/components/backend/Form/TextArea";
+import { generateSlug } from "@/lib/generateSlug";
+import { makePostRequest } from "@/lib/apiRequest";
+import ImageUpload from "@/components/backend/Form/ImageInput";
+import QuillEditor from "@/components/backend/Form/QuillEditor";
+import { DatePickerDemo } from "@/components/backend/Form/DatePicker";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { generateCoupon } from "@/lib/generateCoupon";
+import { ToggleInput } from "@/components/backend/Form/ToggleInput";
+import FormContainer from "@/components/backend/FormContainer";
+import { getData } from "@/lib/apiRequest";
+import { SingleSelect } from "@/components/backend/Form/SingleSelect";
+import { useRouter } from "next/navigation";
+import { communityType,Option } from "../../../../../typescript";
+import { useAddNewCommunityMutation } from "@/lib/features/communityapi";
+import toast from "react-hot-toast";
 const schema = yup.object().shape({
-  title: yup.string().required('Title is required'),
-  description: yup.string().required('Description is required'),
-  isActive: yup.boolean().default(true)
+  title: yup.string().required("Title is required"),
+  description: yup.string().required("Description is required"),
+  isActive: yup.boolean().default(true),
 });
-type FieldValues ={
-  title:string;
-  description:string;
-  isActive:boolean;
-}
+type FieldValues = {
+  title: string;
+  description: string;
+  isActive: boolean;
+};
 const NewCommunity = () => {
-  const router = useRouter()
-  function redirect(){
-    router.push("/dashboard/community")
-  }
-  const [image, setImage] = useState<string|null>(null);
+  const router = useRouter();
+  const [addNewCommunity, { isLoading, isSuccess }] =useAddNewCommunityMutation();
+
+  const [image, setImage] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -55,29 +54,38 @@ const NewCommunity = () => {
       isActive: true,
     },
   });
-  const isActive = watch('isActive');
-  const [loading, setLoading] = useState<boolean>(false);
+  const isActive = watch("isActive");
   const [content, setContent] = useState<string>("");
   const [category, setCategory] = useState<string | undefined>(undefined);
   const [categories, setCategories] = useState<Option[]>([]);
 
   async function onSubmit(data: any) {
     const slug = generateSlug(data.title);
-    setLoading(true);
-    makePostRequest(setLoading, '/api/communities', {...data, slug, category, content, image}, 'Training', reset, redirect);
-  };
+    data.slug = slug;
+    data.categoryIds = category;
+    data.content = content;
+    if (image) {
+      data.imgUrl = image;
+      addNewCommunity(data);
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       const allData = await getData("categories");
       setCategories(allData);
-    }
-    fetchData()
+    };
+    fetchData();
   }, []);
-
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Community add!");
+      router.push("/dashboard/community");
+    }
+  }, [isSuccess, router]);
   return (
     <div className="">
-      <FromHeader title="Add New Training" href={'/dashboard/community'} />
+      <FromHeader title="Add New Training" href={"/dashboard/community"} />
       <FormContainer>
         <div className="bg-slate-800 dark:bg-white border border-slate-800 dark:border-slate-200 rounded-md p-5">
           <form
@@ -101,26 +109,29 @@ const NewCommunity = () => {
             <div className="flex gap-x-4  flex-col ">
               <Label
                 className="text-md text-white dark:text-slate-900 text-start capitalize my-1"
-                htmlFor={'markets'}
+                htmlFor={"markets"}
               >
                 Blog content
               </Label>
               {/* <QuillEditor setValue={setContent} value={content} /> */}
               <Label
                 className="text-md text-white dark:text-slate-900 text-start capitalize my-1"
-                htmlFor={'markets'}
+                htmlFor={"markets"}
               >
                 Category
               </Label>
-              
+
               <SingleSelect
                 setValue={setCategory}
                 value={category}
-                data={categories.map((item)=>({name:item.name,id:item.id}))}
+                data={categories.map((item) => ({
+                  name: item.name,
+                  id: item.id,
+                }))}
               />
               <Label
                 className="text-md text-white dark:text-slate-900 text-start capitalize my-1"
-                htmlFor={'image'}
+                htmlFor={"image"}
               >
                 Image Upload
               </Label>
@@ -135,7 +146,7 @@ const NewCommunity = () => {
               name="isActive"
               register={register}
             />
-            <SubmitButton loading={loading} title="Add Training" />
+            <SubmitButton loading={isLoading} title="Add Training" />
           </form>
         </div>
       </FormContainer>

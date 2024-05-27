@@ -28,14 +28,26 @@ export const UserApi = api.injectEndpoints({
     }),
     editUser: builder.mutation<userData, Partial<userData>>({
       query: (User) => ({
-        url: `users/${User.id}`,
-        method: 'PATCH',
+        url: `users/${User?.email}`,
+        method: 'PUT',
         body: User,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'User', id }],
     }),
+    deleteUser: builder.mutation<{ success: boolean; id: string }, string>({
+      query: (id) => ({
+        url: `users/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result, error, id) => [{ type: 'User', id }],
+    }),
   }),
-  
 });
 
-export const { useGetUserQuery, useAddNewUserMutation,useGetSingleUserQuery,useEditUserMutation } = UserApi;
+export const { 
+  useGetUserQuery, 
+  useAddNewUserMutation,
+  useGetSingleUserQuery,
+  useEditUserMutation,
+  useDeleteUserMutation 
+} = UserApi;

@@ -69,9 +69,7 @@ export async function POST(req: Request) {
           mainCrop,
           name,
           user: { connect: { id: farmerDetails?.id } },
-          products: {
-            connect: productIds.map((productId) => ({ id: productId })),
-          }
+          productIds
         },
       });
   
@@ -79,7 +77,7 @@ export async function POST(req: Request) {
     }
    
   } catch (error) {
-    //console.log(error);
+    console.log(error);
     return NextResponse.json(
       {
         message: 'Failed to create Farmer',

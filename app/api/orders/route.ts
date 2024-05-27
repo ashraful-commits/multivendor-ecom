@@ -94,3 +94,22 @@ export async function POST(req: Request) {
     );
   }
 }
+export async function GET() {
+  try {
+    const orders = await db.order.findMany({
+      orderBy:{
+        createdAt:"desc"
+      },
+      include:{
+        user:true
+      }
+    })
+    return NextResponse.json(orders);
+  } catch (error) {
+    console.error(error); 
+    return NextResponse.json({
+      message: "Failed to fetch orders",
+      error,
+    }, { status: 500 });
+  }
+}

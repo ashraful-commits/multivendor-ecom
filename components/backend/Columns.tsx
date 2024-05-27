@@ -1,14 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import {
   Table,
   TableBody,
@@ -21,6 +15,9 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import TableAction from "./TableComponent/TableAction";
+import OrderManagement from './TableComponent/OrderManagement';
+
 import {
   bannerData,
   brandData,
@@ -32,7 +29,7 @@ import {
   customerData,
   farmerData,
   marketData,
-  staffData,
+  staffData,orderData,userData
 } from "../../typescript";
 
 export const bannerColumns: ColumnDef<bannerData>[] = [
@@ -105,30 +102,13 @@ export const bannerColumns: ColumnDef<bannerData>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const banner = row.original;
+
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0 text-white dark:text-slate-900"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(banner.id)}
-            >
-              Copy banner ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View banner</DropdownMenuItem>
-            <DropdownMenuItem>Edit banner</DropdownMenuItem>
-            <DropdownMenuItem>Delete banner</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <TableAction
+          name="banner"
+          id={banner.id}
+          editUrl={`/dashboard/banners/update/${banner.id}`}
+        />
       );
     },
   },
@@ -205,29 +185,11 @@ export const brandColumns: ColumnDef<brandData>[] = [
     cell: ({ row }) => {
       const brand = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0 text-white dark:text-slate-900"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(brand.id)}
-            >
-              Copy brand ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View brand</DropdownMenuItem>
-            <DropdownMenuItem>Edit brand</DropdownMenuItem>
-            <DropdownMenuItem>Delete brand</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <TableAction
+          name="brand"
+          id={brand.id}
+          editUrl={`/dashboard/brands/update/${brand.id}`}
+        />
       );
     },
   },
@@ -326,29 +288,11 @@ export const CategoryColumns: ColumnDef<CategoryData>[] = [
     cell: ({ row }) => {
       const category = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0 text-white dark:text-slate-900"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(category.id)}
-            >
-              Copy category ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View category</DropdownMenuItem>
-            <DropdownMenuItem>Edit category</DropdownMenuItem>
-            <DropdownMenuItem>Delete category</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <TableAction
+          name="category"
+          id={category.id}
+          editUrl={`/dashboard/categories/update/${category.id}`}
+        />
       );
     },
   },
@@ -455,29 +399,11 @@ export const CouponColumns: ColumnDef<couponData>[] = [
     cell: ({ row }) => {
       const coupon = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0 text-white dark:text-slate-900"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(coupon.id)}
-            >
-              Copy coupon ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View coupon</DropdownMenuItem>
-            <DropdownMenuItem>Edit coupon</DropdownMenuItem>
-            <DropdownMenuItem>Delete coupon</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <TableAction
+          name="coupon"
+          id={coupon.id}
+          editUrl={`/dashboard/coupons/update/${coupon.id}`}
+        />
       );
     },
   },
@@ -513,7 +439,7 @@ export const ProductColumns: ColumnDef<ProductData>[] = [
       <span className="text-white dark:text-slate-900">
         {row.original.name}
       </span>
-    )
+    ),
   },
   {
     accessorKey: "imgUrl",
@@ -540,29 +466,11 @@ export const ProductColumns: ColumnDef<ProductData>[] = [
     cell: ({ row }) => {
       const product = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0 text-white dark:text-slate-900"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(product.id)}
-            >
-              Copy product ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View product</DropdownMenuItem>
-            <DropdownMenuItem>Edit product</DropdownMenuItem>
-            <DropdownMenuItem>Delete product</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <TableAction
+          name="product"
+          id={product.id}
+          editUrl={`/dashboard/products/update/${product.id}`}
+        />
       );
     },
   },
@@ -649,29 +557,11 @@ export const TagColumns: ColumnDef<TagData>[] = [
     cell: ({ row }) => {
       const tag = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0 text-white dark:text-slate-900"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(tag.id)}
-            >
-              Copy tag ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View tag</DropdownMenuItem>
-            <DropdownMenuItem>Edit tag</DropdownMenuItem>
-            <DropdownMenuItem>Delete tag</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <TableAction
+          name="tag"
+          id={tag.id}
+          editUrl={`/dashboard/tags/update/${tag.id}`}
+        />
       );
     },
   },
@@ -722,51 +612,8 @@ export const CommunityColumns: ColumnDef<communityData>[] = [
       </div>
     ),
   },
-  {
-    accessorKey: "content",
-    header: ({ column }) => (
-      <Button
-        className="text-white dark:text-slate-900"
-        variant="ghost"
-        onClick={() => column.toggleSorting()}
-      >
-        Content
-        <ArrowUpDown
-          className={`ml-2 h-4 w-4 ${
-            column.getIsSorted() === "asc" ? "rotate-180" : ""
-          }`}
-        />
-      </Button>
-    ),
-    cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
-        {row.getValue("content")}
-      </div>
-    ),
-  },
+ 
 
-  {
-    accessorKey: "description",
-    header: ({ column }) => (
-      <Button
-        className="text-white dark:text-slate-900"
-        variant="ghost"
-        onClick={() => column.toggleSorting()}
-      >
-        Description
-        <ArrowUpDown
-          className={`ml-2 h-4 w-4 ${
-            column.getIsSorted() === "asc" ? "rotate-180" : ""
-          }`}
-        />
-      </Button>
-    ),
-    cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
-        {row.getValue("description")}
-      </div>
-    ),
-  },
   {
     accessorKey: "imgUrl",
     header: "Image",
@@ -792,29 +639,11 @@ export const CommunityColumns: ColumnDef<communityData>[] = [
     cell: ({ row }) => {
       const training = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0 text-white dark:text-slate-900"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(training.id)}
-            >
-              Copy training ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View training</DropdownMenuItem>
-            <DropdownMenuItem>Edit training</DropdownMenuItem>
-            <DropdownMenuItem>Delete training</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <TableAction
+          name="training"
+          id={training.id}
+          editUrl={`/dashboard/community/update/${training.id}`}
+        />
       );
     },
   },
@@ -845,7 +674,7 @@ export const CustomerColumns: ColumnDef<customerData>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "name",
+    accessorKey: "firstName",
     header: ({ column }) => (
       <Button
         className="text-white dark:text-slate-900"
@@ -861,21 +690,26 @@ export const CustomerColumns: ColumnDef<customerData>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
-        {row.getValue("name")}
+      <div className="lowercase flex items-center gap-x-2 text-white dark:text-slate-900">
+        <span>{row.getValue("firstName")}</span>
+        <span>
+
+        {row.getValue("firstName")}
+        {row.getValue("lastName")}
+        </span>
       </div>
     ),
   },
 
   {
-    accessorKey: "name",
+    accessorKey: "email",
     header: ({ column }) => (
       <Button
         className="text-white dark:text-slate-900"
         variant="ghost"
         onClick={() => column.toggleSorting()}
       >
-        Name
+        Email
         <ArrowUpDown
           className={`ml-2 h-4 w-4 ${
             column.getIsSorted() === "asc" ? "rotate-180" : ""
@@ -885,58 +719,31 @@ export const CustomerColumns: ColumnDef<customerData>[] = [
     ),
     cell: ({ row }) => (
       <div className="lowercase text-white dark:text-slate-900">
-        {row.getValue("name")}
+        {row.getValue("email")}
       </div>
     ),
   },
   {
-    accessorKey: "imgUrl",
-    header: "Image",
+    accessorKey: "streetAddress",
+    header:"Street Address",
     cell: ({ row }) => (
-      <Image
-        src={row.getValue("imgUrl")}
-        alt={row.getValue("name")}
-        width={1000}
-        height={1000}
-        className="h-8 w-8"
-      />
+      <div className="lowercase text-white dark:text-slate-900">
+        {row.getValue("streetAddress")}
+      </div>
     ),
-  },
-  {
-    accessorKey: "isActive",
-    header: "Active",
-    cell: ({ row }) => <Checkbox checked={row.getValue("isActive")} />,
   },
   {
     id: "actions",
     header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const product = row.original;
+      const customer = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0 text-white dark:text-slate-900"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(product.id)}
-            >
-              Copy product ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View product</DropdownMenuItem>
-            <DropdownMenuItem>Edit product</DropdownMenuItem>
-            <DropdownMenuItem>Delete product</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <TableAction
+          name="customer"
+          id={customer.id}
+          editUrl={`/dashboard/customers/update/${customer.id}`}
+        />
       );
     },
   },
@@ -1144,29 +951,11 @@ export const FarmerColumns: ColumnDef<farmerData>[] = [
     cell: ({ row }) => {
       const farmer = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0 text-white dark:text-slate-900"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(farmer.id)}
-            >
-              Copy farmer ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View farmer</DropdownMenuItem>
-            <DropdownMenuItem>Edit farmer</DropdownMenuItem>
-            <DropdownMenuItem>Delete farmer</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <TableAction
+          name="farmer"
+          id={farmer.id}
+          editUrl={`/dashboard/farmers/update/${farmer.id}`}
+        />
       );
     },
   },
@@ -1219,24 +1008,11 @@ export const MarketColumns: ColumnDef<marketData>[] = [
   },
 
   {
-    accessorKey: "name",
-    header: ({ column }) => (
-      <Button
-        className="text-white dark:text-slate-900"
-        variant="ghost"
-        onClick={() => column.toggleSorting()}
-      >
-        Name
-        <ArrowUpDown
-          className={`ml-2 h-4 w-4 ${
-            column.getIsSorted() === "asc" ? "rotate-180" : ""
-          }`}
-        />
-      </Button>
-    ),
+    accessorKey: "slug",
+    header: "Slug",
     cell: ({ row }) => (
       <div className="lowercase text-white dark:text-slate-900">
-        {row.getValue("name")}
+        {row.getValue("slug")}
       </div>
     ),
   },
@@ -1263,31 +1039,13 @@ export const MarketColumns: ColumnDef<marketData>[] = [
     header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const product = row.original;
+      const market = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0 text-white dark:text-slate-900"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(product.id)}
-            >
-              Copy product ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View product</DropdownMenuItem>
-            <DropdownMenuItem>Edit product</DropdownMenuItem>
-            <DropdownMenuItem>Delete product</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <TableAction
+          name="market"
+          id={market.id}
+          editUrl={`/dashboard/markets/update/${market.id}`}
+        />
       );
     },
   },
@@ -1340,24 +1098,11 @@ export const StaffColumns: ColumnDef<staffData>[] = [
   },
 
   {
-    accessorKey: "name",
-    header: ({ column }) => (
-      <Button
-        className="text-white dark:text-slate-900"
-        variant="ghost"
-        onClick={() => column.toggleSorting()}
-      >
-        Name
-        <ArrowUpDown
-          className={`ml-2 h-4 w-4 ${
-            column.getIsSorted() === "asc" ? "rotate-180" : ""
-          }`}
-        />
-      </Button>
-    ),
+    accessorKey: "email",
+    header: "Email",
     cell: ({ row }) => (
       <div className="lowercase text-white dark:text-slate-900">
-        {row.getValue("name")}
+        {row.getValue("email")}
       </div>
     ),
   },
@@ -1386,29 +1131,115 @@ export const StaffColumns: ColumnDef<staffData>[] = [
     cell: ({ row }) => {
       const staff = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="h-8 w-8 p-0 text-white dark:text-slate-900"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(staff.id)}
-            >
-              Copy staff ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View staff</DropdownMenuItem>
-            <DropdownMenuItem>Edit staff</DropdownMenuItem>
-            <DropdownMenuItem>Delete staff</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <TableAction
+          name="staff"
+          id={staff.id}
+          editUrl={`/dashboard/staff/update/${staff.id}`}
+        />
+      );
+    },
+  },
+];
+export const OrderColumns: ColumnDef<orderData>[] = [
+  {
+    accessorKey: "id",
+    header: ({ table }) => (
+      <Checkbox
+        className="border border-white dark:border-black"
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "firstName",
+    header: ({ column }) => (
+      <Button
+        className="text-white dark:text-slate-900"
+        variant="ghost"
+        onClick={() => column.toggleSorting()}
+      >
+        Full name
+        <ArrowUpDown
+          className={`ml-2 h-4 w-4 ${
+            column.getIsSorted() === "asc" ? "rotate-180" : ""
+          }`}
+        />
+      </Button>
+    ),
+    cell: ({ row }) => (
+      <div className="lowercase text-white flex items-center gap-x-2 dark:text-slate-900">
+        <span>
+
+        {row.getValue("firstName")}
+        </span>
+        <span>
+
+        {row.getValue("lastName")}
+        </span>
+      </div>
+    ),
+  },
+
+  {
+    accessorKey: "streetAddress",
+    header: "Street Address",
+    cell: ({ row }) => (
+      <div className="lowercase text-white dark:text-slate-900">
+        {row.getValue("streetAddress")}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "user",
+    header: "Image",
+ 
+    cell: ({ row }) => {
+      const user: userData = row.getValue("user");
+      const imgUrl = user?.imgUrl;
+      const altName = user?.name;
+
+      return (
+        <Image
+          src={imgUrl||""}
+          alt={altName || "User Image"}
+          width={1000}
+          height={1000}
+          className="h-8 w-8"
+        />
+      );
+    },
+  },
+  {
+    accessorKey: "status",
+    header: "Order status",
+    cell: ({ row }) => <OrderManagement id={row.original.id}/>,
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const order = row.original;
+      return (
+        <TableAction
+          name="order"
+          id={order.id}
+          editUrl={`/dashboard/orders/update/${order.id}`}
+        />
       );
     },
   },
