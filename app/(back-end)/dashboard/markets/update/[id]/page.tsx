@@ -81,9 +81,10 @@ const UpdateMarket = () => {
   useEffect(()=>{
     if(data){
       reset(data)
-      console.log(data)
       setImage(data.imgUrl)
-    } if(data?.categoryIds){
+    } 
+    if(data?.categoryIds){
+      console.log(data.categoryIds)
       setSelectCat(data?.categoryIds)
     } 
     if(isSuccess){

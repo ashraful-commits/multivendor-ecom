@@ -30,13 +30,16 @@ import {
   X,
   Moon
 } from 'lucide-react';
-import {NavbarProps} from "../../typescript"
+import { NavbarProps, SessionData } from '../../typescript';
 import { signOut } from 'next-auth/react';
+import useSessionData from './../../hooks/useSessionData';
+import Link from "next/link"
 const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
   const handleLogout=()=>{
     signOut()
   }
   const {theme,setTheme} = useTheme()
+  const session = useSessionData() as SessionData;
   return (
     <div className="flex items-center  right-0 justify-between bg-slate-800 dark:bg-slate-200 text-slate-100 dark:text-slate-900 h-20 px-4">
       <button className="border" onClick={()=>setShowSidebar(!showSidebar)}>
@@ -65,7 +68,7 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
               <DropdownMenuSeparator />
               <DropdownMenuItem className="flex gap-x-2">
               <Avatar className="w-5 h-5">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
               <AvatarFallback>AB</AvatarFallback>
             </Avatar>
             <div className="flex flex-col items-start justify-center">
@@ -79,7 +82,7 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
               </DropdownMenuItem>
               <DropdownMenuItem className="flex gap-x-2">
               <Avatar className="w-5 h-5">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
               <AvatarFallback>AB</AvatarFallback>
             </Avatar>
             <div className="flex flex-col items-start justify-center">
@@ -139,7 +142,7 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
         <DropdownMenu>
           <DropdownMenuTrigger className="w-10 h-10 flex juc items-center ">
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
               <AvatarFallback>AB</AvatarFallback>
             </Avatar>
             {/* <User /> */}
@@ -152,7 +155,7 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" />
-                <span>Edit Profile</span>
+                <Link href="/setting">Edit Profile</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Settings className="mr-2 h-4 w-4" />

@@ -85,7 +85,7 @@ const ProfileSetting = () => {
                           height={1000}
                           id="preview_img"
                           className="h-16 w-16 object-cover rounded-full"
-                          src={image ? image : "./Profile-PNG-Picture.png"}
+                          src={image ? image : "/Profile-PNG-Picture.png"}
                           alt="Current profile photo"
                         />
                       </div>

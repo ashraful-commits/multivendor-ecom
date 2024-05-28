@@ -178,8 +178,8 @@ const ProductReview = ({ id }: { id: string }) => {
               <p className="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">
                 {(
                   reviews?.reduce((accumulator: any, review: any) => {
-                    return accumulator + review?.rating;
-                  }, 0) / (reviews?.length || 1) || 0
+                    return accumulator + review.rating;
+                  }, 0) / (reviews?.length || 1)
                 ).toFixed(2)}
               </p>
               <a

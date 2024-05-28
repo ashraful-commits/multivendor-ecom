@@ -53,9 +53,9 @@ const UpdateTags = () => {
       isActive: true,
     },
   });
-  function redirect() {
-    router.push('/dashboard/tags');
-  };
+
+   
+  
  
   const isActive = watch("isActive");
 
@@ -71,10 +71,11 @@ useEffect(()=>{
     reset(data)
   }else if(isSuccess){
     toast.success("Tag updated!")
+    router.push('/dashboard/tags');
   }else{
     toast.dismiss()
   }
-},[isSuccess,data,reset])
+},[isSuccess,data,reset,router])
 
   return (
     <div className="">

@@ -34,14 +34,17 @@ export default function LoginForm() {
       setLoading(true);
       const loginData = await signIn('credentials', {
         ...data,
+        callbackUrl:"/",
+        redirect:false
       });
-
       if (loginData?.error) {
-        toast.error('Sign-in error: Check your credentials');
+        toast.error(loginData.error);
+        router.push('/login');
       } else {
         toast.success('Login Successful');
         reset();
         router.push('/');
+       
       }
     } catch (error) {
       console.error('Network Error:', error);
