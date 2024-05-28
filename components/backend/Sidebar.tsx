@@ -211,6 +211,8 @@ const Sidebar = ({ setShowSidebar, showSidebar }: SidebarProps) => {
         >
           <Image
             alt="logo"
+            loading='lazy'
+            blurDataURL={"/logo.jpeg"}
             width={1000}
             height={1000}
             className="w-10 h-10"

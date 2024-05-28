@@ -63,6 +63,7 @@ const Navbar = () => {
           href="/"
         >
           <Image
+          blurDataURL={'/logo.jpeg'} loading="lazy"
             alt="logo "
             width={1000}
             height={1000}

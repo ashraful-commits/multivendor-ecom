@@ -23,7 +23,7 @@ const router = useRouter()
    <MasonryContainer>
    {brands?.map((item,index)=>{
     return<Card key={index} className=" rounded-none">
-      <Image onClick={() => handleBrand(item?.id)} className="cursor-pointer p-4" width={1000} height={1000} src={item?.imgUrl?item?.imgUrl:""} alt={item?.name}/>
+      <Image blurDataURL={item?.imgUrl?item?.imgUrl:""} loading="lazy" onClick={() => handleBrand(item?.id)} className="cursor-pointer p-4" width={1000} height={1000} src={item?.imgUrl?item?.imgUrl:""} alt={item?.name}/>
       <div className="border-t-2 w-full px-4 py-2">
       <h5 onClick={() => handleBrand(item?.id)} className="text-slate-900 cursor-pointer  dark:slate-100">{item?.name}</h5>
       </div>

@@ -13,7 +13,7 @@ export default function ImageUpload({image,setImage,endpoint}:ImageUploadProps) 
      
       {image ? <div>
         <Button variant="secondary" onClick={()=>setImage(null)} className="my-5 flex items-center justify-between gap-x-2"><Edit/> Change image</Button>
-        <Image width={300} height={300} src={image} alt="upload"/>
+        <Image loading="lazy" blurDataURL={image} width={300} height={300} src={image} alt="upload"/>
       </div>:<div className="flex flex-col items-center justify-center gap-3">
         <CloudUpload/>
       <UploadDropzone

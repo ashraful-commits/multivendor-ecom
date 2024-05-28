@@ -101,6 +101,7 @@ const Favorite = ({ id }: { id: string }) => {
                     >
                       <div className="h-10 w-10 flex items-center gap-x-5 rounded-md border border-gray-200">
                         <Image
+                        blurDataURL={favorite?.product?.imgUrl[0]} loading="lazy"
                           width={1000}
                           height={1000}
                           src={favorite?.product?.imgUrl[0]}

@@ -152,9 +152,10 @@ const Products = ({ products }: { products: ProductData[] }) => {
               className="image-item relative group overflow-hidden"
             >
              
-                <Image
+                <Image placeholder="blur" blurDataURL={product?.imgUrl[0]}
                   width={1000}
                   height={1000}
+                  loading="lazy"
                   className=""
                   src={product?.imgUrl[0]}
                   alt={`Image+${index}`}

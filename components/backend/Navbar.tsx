@@ -155,6 +155,10 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" />
+                <Link href="/">Home</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <User className="mr-2 h-4 w-4" />
                 <Link href="/setting">Edit Profile</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>

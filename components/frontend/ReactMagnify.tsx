@@ -54,6 +54,7 @@ const ReactMagnify = ({ imageUrl, alt="" }: { imageUrl: string, alt?: string }) 
         width={1000}
         height={1000}
         src={imageUrl}
+        blurDataURL={imageUrl} loading="lazy"
         alt={alt}
         className="w-full h-full"
         style={{ transform: `scale(${zoomScale})`, transformOrigin: `${position.x * 100}% ${position.y * 100}%`, transition: 'transform 0.3s' }}

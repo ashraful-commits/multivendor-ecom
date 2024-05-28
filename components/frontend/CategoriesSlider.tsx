@@ -28,15 +28,21 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import AllCategory from "./AllCategory";
+import { Skeleton } from "@/components/ui/skeleton"
 const CategoriesSlider = () => {
   const { data: categories, isLoading } = useGetCategoryQuery();
   const dispatch = useDispatch();
   const filter = useSelector((state: RootState) => state.filter.filter);
   const router = useRouter();
+<Skeleton className="w-full bg-slate-200 dark:bg-slate-800 lg:min-h-[70vh] max-sm:min-h-[300px]"/>
   if (isLoading) {
     return (
-      <div className="flex justify-center container min-w-screen items-center sm:min-h-[200px] lg:min-h-[200px] md:min-h-[200px]">
-        <Loading className="mx-auto my-auto" />
+      <div className="w-full max-sm:px-4 mt-10 gap-x-5 h-full flex  min-h-[300px]">
+       <Skeleton className="w-full h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
       </div>
     );
   }
@@ -85,6 +91,7 @@ const CategoriesSlider = () => {
                   >
                     <CardContent className="flex items-center justify-start p-4 gap-x-4">
                       <Image
+                      blurDataURL={item?.imgUrl ? item.imgUrl : "/demo.png"} loading="lazy"
                         width={1000}
                         height={1000}
                         className="w-14 h-14 object-cover rounded-md"

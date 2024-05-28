@@ -46,6 +46,7 @@ const CategoryProduct = ({ id }: idType) => {
                       <Link href={`/products/${item.id}`}>
                         {" "}
                         <Image
+                        blurDataURL={item?.imgUrl[0]} loading="lazy"
                           width={1000}
                           height={1000}
                           className="w-full h-[150px] object-cover"

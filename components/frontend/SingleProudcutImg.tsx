@@ -241,6 +241,7 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
               product?.imgUrl?.map((img:any, index:number) => (
                 <Image
                   key={index}
+                  blurDataURL={img} loading="lazy"
                   onClick={() => setImg(img)}
                   width={1000}
                   height={1000}

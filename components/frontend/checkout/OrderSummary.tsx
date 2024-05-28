@@ -75,6 +75,7 @@ const OrderSummary = () => {
                     >
                       <div className="h-10 w-10 flex max-sm:grid max-sm:grid-cols-1 items-center gap-x-5 rounded-md border border-gray-200">
                         <Image
+                        blurDataURL={cart?.product?.imgUrl[0]} loading="lazy"
                           width={1000}
                           height={1000}
                           src={cart?.product?.imgUrl[0]}

@@ -21,13 +21,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Skeleton } from "@/components/ui/skeleton"
+import MasonryContainer from './MasonaryContainer';
+
 const MasonryGallery = ({ title }: { title?: string }) => {
   const { data: products, isLoading } = useGetProductQuery();
   if (isLoading)
     return (
-      <div className="w-full h-full">
-        <Loading className="mx-auto my-auto" />
-      </div>
+      <MasonryContainer>
+       <Skeleton className="w-full h-full bg-slate-200 min-h-[30vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full h-full bg-slate-200 min-h-[30vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full h-full bg-slate-200 min-h-[30vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full h-full bg-slate-200 min-h-[30vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full h-full bg-slate-200 min-h-[30vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full h-full bg-slate-200 min-h-[30vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full h-full bg-slate-200 min-h-[30vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full h-full bg-slate-200 min-h-[30vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full h-full bg-slate-200 min-h-[30vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full h-full bg-slate-200 min-h-[30vh] dark:bg-slate-800"/>
+      </MasonryContainer>
     );
   return (
     <ContainerBox className="w-full">

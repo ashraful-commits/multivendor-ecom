@@ -17,7 +17,7 @@ export default function MultipleImageUpload({ multiple,images, setImages, endpoi
           </Button>
           {images?.map((image, index) => (
             <div key={index}>
-              <Image width={50} height={50} src={image} alt={`Uploaded Image ${index}`} />
+              <Image blurDataURL={image} loading="lazy" width={50} height={50} src={image} alt={`Uploaded Image ${index}`} />
             </div>
           ))}
         </div>

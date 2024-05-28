@@ -83,6 +83,8 @@ export const bannerColumns: ColumnDef<bannerData>[] = [
     header: "Image",
     cell: ({ row }) => (
       <Image
+      loading="lazy"
+      blurDataURL={row.getValue("imgUrl")}
         src={row.getValue("imgUrl")}
         alt={row.getValue("title")}
         width={1000}

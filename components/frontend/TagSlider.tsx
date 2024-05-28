@@ -26,6 +26,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton"
+
 const TagSlider = () => {
   const router = useRouter();
   const { data: tags, isLoading: isTagLoading } = useGetTagQuery();
@@ -33,9 +35,15 @@ const TagSlider = () => {
   const dispatch = useDispatch();
   if (isTagLoading)
     return (
-      <div className="flex justify-center w-full container items-center sm:min-h-[500px] md:min-h-[500px] lg:min-h-[200px]">
-        <Loading className="mx-auto my-auto" />
+
+        <div className="w-full mt-10  gap-x-5 flex">
+       <Skeleton className="w-full h-full bg-slate-200 min-h-[7vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[7vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[7vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[7vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[7vh] dark:bg-slate-800"/>
       </div>
+
     );
   const handleTagClick = (isSelected: boolean, id: string) => {
     if (isSelected) {

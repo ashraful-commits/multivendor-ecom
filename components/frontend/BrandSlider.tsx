@@ -30,6 +30,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+import { Skeleton } from "@/components/ui/skeleton"
 const BrandSlider = () => {
   const dispatch = useDispatch();
   const filter = useSelector((state: RootState) => state.filter.filter);
@@ -41,9 +42,14 @@ const BrandSlider = () => {
   const { data: brands, isLoading } = useGetBrandQuery();
   if (isLoading)
     return (
-      <div className="flex justify-center w-full items-center min-h-[200px] ">
-        <Loading className="mx-auto my-auto" />
+  <div className="w-full  gap-x-5 flex max-sm:px-4">
+       <Skeleton className="w-full h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
+       <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
       </div>
+   
     );
 
   return (
@@ -88,6 +94,7 @@ const BrandSlider = () => {
                   >
                     <CardContent className="flex items-center justify-start p-4 gap-x-4">
                       <Image
+                      blurDataURL={item.imgUrl?item.imgUrl:"/demo.png"} loading="lazy"
                         width={1000}
                         height={1000}
                         className="w-14 h-14 object-cover rounded-md"

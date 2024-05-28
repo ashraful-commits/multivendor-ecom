@@ -48,7 +48,7 @@ export default function Carousel({ data }:{data:bannerData[]}) {
       >
         {data?.map((item:any, index:number) => (
           <SwiperSlide key={index}>
-            <Image width={1000} height={1000} className="h-full w-full" src={item.imgUrl} alt={item.title} />
+            <Image placeholder="blur" blurDataURL={item.imgUrl} width={1000} height={1000} className="h-full w-full" src={item.imgUrl} alt={item.title} />
           </SwiperSlide>
         ))}
       </Swiper>
