@@ -69,10 +69,8 @@ const UpdateCoupon = () => {
     if (isSuccess) {
       toast.success("Coupon added!");
       router.push("/dashboard/coupons");
-    }else if (data) {
+    } if (data) {
       reset(data);
-    }else{
-      toast.dismiss()
     }
   }, [isSuccess, router, data, reset]);
 

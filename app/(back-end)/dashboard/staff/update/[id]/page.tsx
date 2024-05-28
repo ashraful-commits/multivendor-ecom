@@ -83,11 +83,9 @@ useEffect(()=>{
   if(data){
     reset(data)
     setImage(data.imgUrl)
-  }else if(isSuccess){
+  } if(isSuccess){
     toast.success("Staff Updated!")
     router.push('/dashboard/staff');
-  }else{
-    toast.dismiss()
   }
 },[isSuccess,router,data,reset])
   return (

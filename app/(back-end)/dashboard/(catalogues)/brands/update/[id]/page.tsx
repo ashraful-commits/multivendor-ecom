@@ -70,11 +70,10 @@ const NewBrand = () => {
     if (data) {
       reset(data);
       setImage(data.imgUrl);
-    }else if (isSuccess) {
+    } 
+    if (isSuccess) {
       router.push("/dashboard/brands");
       toast.success("Brand updated");
-    }else{
-      toast.dismiss()
     }
   }, [data, reset, router, isSuccess]);
   return (

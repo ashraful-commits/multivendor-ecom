@@ -69,11 +69,9 @@ const UpdateTags = () => {
 useEffect(()=>{
   if(data){
     reset(data)
-  }else if(isSuccess){
+  } if(isSuccess){
     toast.success("Tag updated!")
     router.push('/dashboard/tags');
-  }else{
-    toast.dismiss()
   }
 },[isSuccess,data,reset,router])
 

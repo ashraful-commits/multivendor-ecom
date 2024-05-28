@@ -83,11 +83,9 @@ const UpdateCommunity = () => {
     if(data){
       reset(data)
       setImage(data.imgUrl)
-    }else if (isSuccess) {
+    } if (isSuccess) {
       toast.success("Community updated!");
       router.push("/dashboard/community");
-    }else{
-      toast.dismiss()
     }
   }, [isSuccess, router,data,reset]);
   return (

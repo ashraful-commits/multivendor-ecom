@@ -8,10 +8,6 @@ export default withAuth(
     const path = request?.nextUrl?.pathname;
     const isPublicPath = path === '/login' || path === '/register';
 
-    console.log('Request path:', path);
-    console.log('Token:', token);
-    console.log('Public path:', isPublicPath);
-
     // Define the roles and their corresponding allowed paths
     const rolePermissions = {
       USER: ['/dashboard/orders' ],
@@ -146,13 +142,12 @@ export default withAuth(
 
     // If the user is not authenticated and trying to access a protected route, redirect to login page
     if (!token && !isPublicPath) {
-      console.log('Unauthenticated access to protected route, redirecting to login');
       return NextResponse.redirect(new URL('/', request.nextUrl));
     }
 
     // If authenticated, handle redirection logic
     if (token && isPublicPath) {
-      console.log('Authenticated user trying to access public path, redirecting to home');
+      
       return NextResponse.redirect(new URL('/', request.nextUrl));
     }
 
@@ -160,17 +155,17 @@ export default withAuth(
     const userHasAccess = rolePermissions[token?.role]?.some((allowedPath) => {
       const regex = new RegExp(`^${allowedPath.replace(/:path\*/g, '.*')}$`);
       const matches = regex.test(path);
-      console.log(`Checking path ${path} against ${allowedPath}: ${matches}`);
+     
       return matches;
     });
 
     if (userHasAccess) {
-      console.log('User has access to this path, allowing');
+      
       return NextResponse.next();
     }
 
     // If the user's role doesn't have permission, redirect 
-    console.log('User does not have access to this path, redirecting to home');
+   
     return NextResponse.redirect(new URL('/', request.nextUrl));
   },
   {
