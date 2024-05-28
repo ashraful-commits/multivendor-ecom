@@ -1,9 +1,14 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter ,Kanit} from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from './../components/backend/ThemProvider';
 import toast, { Toaster } from 'react-hot-toast';
 const inter = Inter({ subsets: ['latin'] });
+const kanit = Kanit({
+  subsets: ['latin', 'thai'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  
+})
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "@/app/api/uploadthing/core";
@@ -22,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en"  suppressHydrationWarning>
+    <html className={kanit.className} lang="en"  suppressHydrationWarning>
       <body className="bg-white dark:bg-slate-900">
         <ProviderCom>
         <ThemeProvider

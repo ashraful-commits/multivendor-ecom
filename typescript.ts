@@ -1,5 +1,5 @@
 import { ReactNode,InputHTMLAttributes } from 'react';
-
+import {Session}from "next-auth"
 import {UseFormRegister, FieldValues } from 'react-hook-form'
 
 export interface bannerType {
@@ -326,6 +326,7 @@ export interface FormData {
 
 export interface AuthProviderProps {
   children: ReactNode;
+  session:Session;
 }
  export interface LinkType {
   href: string;
