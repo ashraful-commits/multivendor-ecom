@@ -1,5 +1,3 @@
-// lib/redux/features/OrderApi.ts
-
 import { orderData } from '../../typescript';
 import { api } from './AllApi';
 
@@ -7,7 +5,6 @@ import { api } from './AllApi';
 type OrderTag = { type: 'Order'; id?: string };
 
 export const OrderApi = api.injectEndpoints({
-
   endpoints: (builder) => ({
     getOrder: builder.query<orderData[], void>({
       query: () => `orders`,
@@ -18,7 +15,7 @@ export const OrderApi = api.injectEndpoints({
     }),
     getSingleOrder: builder.query<orderData, string>({
       query: (id) => `orders/${id}`,
-      providesTags: (result, error, id) => [{ type: "Order", id }],
+      providesTags: (result, error, id) => [{ type: 'Order', id }],
     }),
     addNewOrder: builder.mutation<orderData, Partial<orderData>>({
       query: (newOrder) => ({
@@ -32,7 +29,7 @@ export const OrderApi = api.injectEndpoints({
       query: (Order) => ({
         url: `orders/${Order.id}`,
         method: 'PUT',
-        body: {status:Order.status},
+        body: { status: Order.status },
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Order', id }],
     }),
@@ -43,7 +40,53 @@ export const OrderApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, id) => [{ type: 'Order', id }],
     }),
+    getTodayOrders: builder.query<orderData[], void>({
+      query: () => `orders/today`,
+      providesTags: [{ type: 'Order', id: 'TODAY' }],
+    }),
+    getYesterdayOrders: builder.query<orderData[], void>({
+      query: () => `orders/yesterday`,
+      providesTags: [{ type: 'Order', id: 'YESTERDAY' }],
+    }),
+    getThisMonthOrders: builder.query<orderData[], void>({
+      query: () => `orders/month`,
+      providesTags: [{ type: 'Order', id: 'MONTH' }],
+    }),
+    getLastMonthOrders: builder.query<orderData[], void>({
+      query: () => `orders/lastmonth`,
+      providesTags: [{ type: 'Order', id: 'LAST_MONTH' }],
+    }),
+    getAllTimeSales: builder.query<orderData[], void>({
+      query: () => `orders/alltime`,
+      providesTags: [{ type: 'Order', id: 'ALLTIME' }],
+    }),
+    getPendingOrders: builder.query<orderData[], void>({
+      query: () => `orders/pending`,
+      providesTags: [{ type: 'Order', id: 'PENDING' }],
+    }),
+    getProcessingOrders: builder.query<orderData[], void>({
+      query: () => `orders/process`,
+      providesTags: [{ type: 'Order', id: 'PROCESS' }],
+    }),
+    getDeliveredOrders: builder.query<orderData[], void>({
+      query: () => `orders/complate`,
+      providesTags: [{ type: 'Order', id: 'COMPLATE' }],
+    }),
   }),
 });
 
-export const { useGetOrderQuery,useGetSingleOrderQuery, useAddNewOrderMutation,useDeleteOrderMutation, useEditOrderMutation } = OrderApi;
+export const {
+  useGetOrderQuery,
+  useGetSingleOrderQuery,
+  useAddNewOrderMutation,
+  useDeleteOrderMutation,
+  useEditOrderMutation,
+  useGetTodayOrdersQuery,
+  useGetYesterdayOrdersQuery,
+  useGetThisMonthOrdersQuery,
+  useGetLastMonthOrdersQuery,
+  useGetAllTimeSalesQuery,
+  useGetPendingOrdersQuery,
+  useGetProcessingOrdersQuery,
+  useGetDeliveredOrdersQuery,
+} = OrderApi;

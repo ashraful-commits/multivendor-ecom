@@ -10,6 +10,7 @@ export async function GET(
     const carts = await db.cart.findMany({
       where: {
         userId: id,
+        status:true,
       },
       include: {
         product: true,

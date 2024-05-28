@@ -8,6 +8,7 @@ interface FilterState {
     tag:string[];
     minPrice: number;
     maxPrice: number;
+
   };
 }
 
@@ -29,6 +30,7 @@ const FilterSlice = createSlice({
     updateFilterData: (state, action: PayloadAction<Partial<FilterState["filter"]>>) => {
       state.filter = { ...state.filter, ...action.payload };
     },
+    
   },
 });
 

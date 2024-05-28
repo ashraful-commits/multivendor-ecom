@@ -493,6 +493,7 @@ export interface CheckoutFormData {
   streetAddress:string;
   city:string;
   country:string;
+  orderStatus:boolean
   
 } 
 export interface ReviewData {

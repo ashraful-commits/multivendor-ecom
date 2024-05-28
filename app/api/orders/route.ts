@@ -14,6 +14,8 @@ interface orderData {
   streetAddress: string;
   city: string;
   country: string;
+  productIds: string[];
+  total: number;
 }
 
 export async function POST(req: Request) {
@@ -28,7 +30,8 @@ export async function POST(req: Request) {
       phone,
       shippingCost,
       paymentMethod,
-
+      productIds,
+      total,
       userId,
       zipCode,
       cartItems,
@@ -48,17 +51,22 @@ export async function POST(req: Request) {
         userId,
         zipCode,
         cartItems,
+        total,
         streetAddress,
         city,
         country,
+        productIds,
       },
     });
 
     if (newOrder && cartItems.length > 0) {
-      await db.cart.deleteMany({
+      await db.cart.updateMany({
         where: {
           id: { in: cartItems },
         },
+        data: {
+          status: false
+        }
       });
     }
     

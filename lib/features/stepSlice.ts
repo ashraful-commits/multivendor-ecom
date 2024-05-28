@@ -20,6 +20,7 @@ const initialState: CheckoutState = {
   streetAddress:"",
   city:"",
   country:"",
+  orderStatus:false
   },
 };
 
