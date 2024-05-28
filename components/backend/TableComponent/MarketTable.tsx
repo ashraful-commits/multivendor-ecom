@@ -4,11 +4,11 @@ import { useGetMarketQuery } from "../../../lib/features/marketapi"; // Updated 
 import { DataTable } from './../ReusableTable';
 import { MarketColumns } from '../Columns';
 import Loading from './../../Loading';
-
+import TableSkeleton from "./TableSkeleton"
 const MarketTable = () => {
     const { data: markets, error, isLoading } = useGetMarketQuery();
 
-    if (isLoading) return <div className="w-full min-h-[500px] mx-auto my-auto"><Loading className="mx-auto my-auto"/></div>;
+    if (isLoading) return <TableSkeleton/>
    
     
 

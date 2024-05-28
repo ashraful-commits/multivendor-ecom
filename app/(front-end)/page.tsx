@@ -6,6 +6,7 @@ import Hero from '@/components/frontend/Hero';
 import CategoriesSlider from '@/components/frontend/CategoriesSlider';
 import BrandSlider from '@/components/frontend/BrandSlider';
 import MasonryGallery from '@/components/frontend/MasonryGallery';
+import TagSlider from '@/components/frontend/TagSlider';
 import Footer from './../../components/frontend/Footer';
 import ScrollToTop from './../../components/frontend/ScrollToTop';
 
@@ -17,6 +18,9 @@ export default async function Home() {
      <Hero/>
      <CategoriesSlider/>
      <BrandSlider/>
+    
+        <TagSlider />
+ 
      <MasonryGallery/>
      <Footer/>
      <ScrollToTop/>

@@ -43,9 +43,7 @@ const MasonryGallery = ({ title }: { title?: string }) => {
     );
   return (
     <ContainerBox className="w-full">
-      <div className="w-full flex flex-wrap justify-between container-fluid md:container lg:container">
-        <TagSlider />
-      </div>
+
       <TitleComponent
           className="my-5 !px-0  hidden max-sm:flex justify-between items-center"
           title="Products"

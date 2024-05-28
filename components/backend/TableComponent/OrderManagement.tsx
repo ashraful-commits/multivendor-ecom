@@ -15,6 +15,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import TableSkeleton from "./TableSkeleton"
 import {useGetSingleOrderQuery,useEditOrderMutation} from "@/lib/features/orderapi"
 import toast from 'react-hot-toast';
 import Loading from '../../Loading';
@@ -32,9 +33,7 @@ const OrderManagement = ({id}:{id:string}) => {
         }
         
     },[isSuccess,refetch])
-    if(isLoading){
-        <div><Loading/></div>
-    }
+    if(isLoading) return <TableSkeleton/>
   return (
     <div>
      

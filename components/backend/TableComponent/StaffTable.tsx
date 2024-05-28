@@ -4,10 +4,11 @@ import { useGetStaffQuery } from "../../../lib/features/staffapi"; // Updated im
 import { DataTable } from './../ReusableTable';
 import { StaffColumns } from '../Columns';
 import Loading from './../../Loading';
+import TableSkeleton from "./TableSkeleton"
 const StaffTable = () => {
     const { data: staffs, error, isLoading } = useGetStaffQuery();
 
-    if (isLoading) return <div className="w-full min-h-[500px] mx-auto my-auto"><Loading className="mx-auto my-auto"/></div>;
+    if (isLoading) return <TableSkeleton/>
    
     
 

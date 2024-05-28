@@ -4,11 +4,11 @@ import { useGetCommunityQuery } from "../../../lib/features/communityapi"; // Up
 import Loading from './../../Loading';
 import { DataTable } from './../ReusableTable';
 import { CommunityColumns } from './../Columns';
-
+import TableSkeleton from "./TableSkeleton"
 const CommunityTable = () => {
     const { data: communities, error, isLoading } = useGetCommunityQuery();
 
-    if (isLoading) return <div className="w-full min-h-[500px] mx-auto my-auto"><Loading className="mx-auto my-auto"/></div>;
+    if (isLoading) return <TableSkeleton/>
    
     
 

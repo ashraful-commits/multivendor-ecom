@@ -4,11 +4,11 @@ import { useGetProductQuery } from "../../../lib/features/productapi"; // Update
 import { DataTable } from './../ReusableTable';
 import { ProductColumns } from '../Columns';
 import Loading from './../../Loading';
-
+import TableSkeleton from "./TableSkeleton"
 const ProductTable = () => {
     const { data: products, error, isLoading } = useGetProductQuery()
 
-    if (isLoading) return <div className="w-full min-h-[500px] mx-auto my-auto"><Loading className="mx-auto my-auto"/></div>;
+    if (isLoading) return <TableSkeleton/>
    
     
 

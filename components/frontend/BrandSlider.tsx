@@ -40,17 +40,17 @@ const BrandSlider = () => {
     router.push("/products");
   };
   const { data: brands, isLoading } = useGetBrandQuery();
-  if (isLoading)
+  if (isLoading) {
     return (
-  <div className="w-full  gap-x-5 flex max-sm:px-4">
+      <div className="w-full max-sm:px-4 mt-10 gap-x-5 h-full flex  max-sm:min-h-[11vh]">
        <Skeleton className="w-full h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
        <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
        <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
        <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
        <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
       </div>
-   
     );
+  }
 
   return (
     <ContainerBox className="my-2 w-full overflow-hidden ">

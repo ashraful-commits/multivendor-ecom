@@ -4,11 +4,11 @@ import { useGetFarmerQuery } from "../../../lib/features/farmerapi"; // Updated 
 import { DataTable } from './../ReusableTable';
 import { FarmerColumns } from '../Columns';
 import Loading from './../../Loading';
-
+import TableSkeleton from "./TableSkeleton"
 const FarmerTable = () => {
     const { data: farmers, error, isLoading } = useGetFarmerQuery();
 
-    if (isLoading) return <div className="w-full min-h-[500px] mx-auto my-auto"><Loading className="mx-auto my-auto"/></div>;
+    if (isLoading) return <TableSkeleton/>
    
 
   return (

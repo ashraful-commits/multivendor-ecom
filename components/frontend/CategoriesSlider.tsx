@@ -34,10 +34,10 @@ const CategoriesSlider = () => {
   const dispatch = useDispatch();
   const filter = useSelector((state: RootState) => state.filter.filter);
   const router = useRouter();
-<Skeleton className="w-full bg-slate-200 dark:bg-slate-800 lg:min-h-[70vh] max-sm:min-h-[300px]"/>
+
   if (isLoading) {
     return (
-      <div className="w-full max-sm:px-4 mt-10 gap-x-5 h-full flex  min-h-[300px]">
+      <div className="w-full max-sm:px-4 mt-10 gap-x-5 h-full flex  max-sm:min-h-[11vh]">
        <Skeleton className="w-full h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
        <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
        <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800"/>
@@ -55,7 +55,7 @@ const CategoriesSlider = () => {
     <ContainerBox className="my-5">
       <div className=" items-center w-full flex justify-between container-fluid md:container lg:container ">
         <TitleComponent
-          className="flex justify-between !px-0  items-center my-2 w-full"
+          className="flex justify-between   items-center my-2 w-full"
           title="Category"
           link=""
         />

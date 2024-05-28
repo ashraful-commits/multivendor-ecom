@@ -4,11 +4,11 @@ import { useGetTagQuery } from "../../../lib/features/tagapi"; // Updated import
 import { DataTable } from './../ReusableTable';
 import { TagColumns } from '../Columns';
 import Loading from './../../Loading';
-
+import TableSkeleton from "./TableSkeleton"
 const TagTable = () => {
     const { data: tags, error, isLoading } = useGetTagQuery();
 
-    if (isLoading) return <div className="w-full min-h-[500px] mx-auto my-auto"><Loading className="mx-auto my-auto"/></div>;
+    if (isLoading) return <TableSkeleton/>
    
     
 

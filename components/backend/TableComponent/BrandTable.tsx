@@ -5,10 +5,13 @@ import { useGetBrandQuery } from "../../../lib/features/brandapi"; // Updated im
 import { brandColumns } from '../Columns';
 import { DataTable } from './../ReusableTable';
 import Loading from './../../Loading';
+
+import TableSkeleton from './TableSkeleton';
 const BrandTable = () => {
     const { data: brands, error, isLoading } = useGetBrandQuery();
 
-    if (isLoading) return <div className="w-full min-h-[500px] mx-auto my-auto"><Loading className="mx-auto my-auto"/></div>;
+    if (isLoading) return <TableSkeleton/>
+    
    
    
 

@@ -10,7 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Loading from "../Loading";
-import ContainerBox from "../frontend/ContainerBox";
+
 import TitleComponent from "../frontend/TitleComponent";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../lib/store";
@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton"
+import ContainerBox from "./ContainerBox";
 
 const TagSlider = () => {
   const router = useRouter();
@@ -35,7 +36,6 @@ const TagSlider = () => {
   const dispatch = useDispatch();
   if (isTagLoading)
     return (
-
         <div className="w-full mt-10  gap-x-5 flex">
        <Skeleton className="w-full h-full bg-slate-200 min-h-[7vh] dark:bg-slate-800"/>
        <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[7vh] dark:bg-slate-800"/>
@@ -68,10 +68,10 @@ const TagSlider = () => {
   };
 
   return (
-    <div className="my-2 w-full ">
+    <ContainerBox className="my-2 w-full ">
       <div className="flex item-center">
         <TitleComponent
-          className="my-5 flex justify-between w-full !px-0 items-center"
+          className="flex justify-between   items-center my-2 w-full"
           title="Tags"
           link=""
         />
@@ -105,7 +105,7 @@ const TagSlider = () => {
         opts={{
           align: "start",
         }}
-        className="w-full group relative "
+        className="w-full group relative container-fluid md:container lg:container"
       >
         <CarouselContent className="">
           {tags?.map((item: any, index: number) => {
@@ -135,7 +135,7 @@ const TagSlider = () => {
         <CarouselPrevious className="opacity-0 group-hover:opacity-100 absolute -left-3 top-8 max-sm:hidden" />
         <CarouselNext className="opacity-0 group-hover:opacity-100 absolute -right-3 top-8 max-sm:hidden " />
       </Carousel>
-    </div>
+    </ContainerBox>
   );
 };
 
