@@ -13,6 +13,7 @@ export interface bannerType {
     id: string;
     title: string;
     link?: string;
+    slug:string;
     imgUrl: string|null;
     isActive: boolean;
     createdAt?: Date|undefined;
@@ -67,12 +68,14 @@ export interface couponData {
 export interface tagType {
   name: string;
   date: string;
+  slug: string;
   isActive: boolean;
 }
 export interface TagData {
   id: string;
   name: string;
   date: string;
+  slug:string;
   isActive: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -88,7 +91,11 @@ export interface T {
 export interface communityType {
   title: string;
   description: string;
-  isActive: boolean;
+  slug:string;
+  content?:string;
+  imgUrl?:string|null;
+  categoryIds?: string[];
+  isActive:boolean;
 }
 export interface communityData {
   id: string;
@@ -97,10 +104,12 @@ export interface communityData {
   content: string;
   imgUrl: string;
   description: string;
-  isActive: boolean; 
+  isActive: boolean;
   createdAt?: string;
   updatedAt?: string;
+  categoryIds?: string;
 }
+
 export interface farmerType {
   name: string;
   description?: string;
@@ -174,6 +183,7 @@ export interface staffData {
   name: string;
   slug: string;
   imgUrl: string;
+  email:string;
   description: string;
   isActive: boolean;
   marketIds: string[]; 

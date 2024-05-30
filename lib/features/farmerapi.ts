@@ -42,6 +42,24 @@ export const FarmerApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, id) => [{ type: 'Farmer', id }],
     }),
+    deleteMultiFarmer: builder.mutation<farmerData, string[]>({
+      query: (ids) => ({
+        url: `farmers`,
+        method: 'DELETE',
+        body: { ids }, // send the IDs in the body
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as string[]).map((id) => ({ type: 'Farmer', id })),
+    }),
+    addNewMultiFarmer: builder.mutation<farmerData[], Partial<farmerData[]>>({
+      query: (data) => ({
+        url: `farmers/bulk/`,
+        method: 'POST',
+        body: { data }, 
+      }),
+      invalidatesTags: (result, error, ids) =>
+        ids.map((farmer) => ({ type: 'Farmer', id:farmer?.id })),
+    }),
   }),
 });
 
@@ -51,4 +69,5 @@ export const {
   useAddNewFarmerMutation,
   useEditFarmerMutation,
   useDeleteFarmerMutation,
+  useDeleteMultiFarmerMutation,
 } = FarmerApi;

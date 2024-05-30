@@ -31,7 +31,24 @@ export const ReviewApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Review', id }],
     }),
+    deleteReview: builder.mutation<{ success: boolean; id: string }, string>({
+      query: (id) => ({
+        url: `reviews/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, id) => [{ type: "Review", id }],
+    }),
+    deleteMultiReview: builder.mutation<ReviewData, string[]>({
+      query: (ids) => ({
+        url: `reviews`,
+        method: 'DELETE',
+        body: { ids }, // send the IDs in the body
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as string[]).map((id) => ({ type: 'Review',id })),
+    }),
   }),
 });
 
-export const { useGetReviewQuery, useGetSingleReviewQuery, useAddNewReviewMutation, useEditReviewMutation } = ReviewApi;
+export const { useGetReviewQuery, useGetSingleReviewQuery, useAddNewReviewMutation, useEditReviewMutation ,useDeleteReviewMutation,
+  useDeleteMultiReviewMutation} = ReviewApi;

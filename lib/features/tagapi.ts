@@ -42,6 +42,25 @@ export const TagApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, id) => [{ type: 'Tag', id }],
     }),
+    deleteMultiTag: builder.mutation<TagData, string[]>({
+      query: (ids) => ({
+        url: `tags`,
+        method: 'DELETE',
+        body: { ids }, // send the IDs in the body
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as string[]).map((id) => ({ type: 'Tag', id })),
+    }),
+    addNewMultiTag: builder.mutation<TagData[], Partial<TagData[]>>({
+      query: (data) => ({
+        url: `tags/bulk/`,
+        method: 'POST',
+        body: { data }, 
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as TagData[]).map((tag) => ({ type: 'Tag', id:tag?.id })),
+    }),
+    
   }),
 });
 
@@ -49,6 +68,8 @@ export const {
   useGetTagQuery,
   useGetSingleTagQuery,
   useAddNewTagMutation,
+  useAddNewMultiTagMutation,
   useEditTagMutation,
   useDeleteTagMutation,
+  useDeleteMultiTagMutation,
 } = TagApi;

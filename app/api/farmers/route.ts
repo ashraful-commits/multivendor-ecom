@@ -1,24 +1,24 @@
 import { NextResponse } from 'next/server';
-import db from './../../../lib/db';
-interface YourDataInterface {
+import db from '@/lib/db';
+import { imageRemove } from '@/lib/ImageRemove';
+interface farmerData {
   phone: string;
   email: string;
   address: string;
-  contact: string; // or whatever type contact is
+  contact: string; 
   uniqueCode: string;
   description: string;
   terms: string;
   notes: string;
   imgUrl: string;
   isActive: boolean;
-  landSize: number; // or whatever type landSize is
-  mainCrop: string; // or whatever type mainCrop is
+  landSize: number; 
+  mainCrop: string; 
   name: string;
-  productIds: string[]; // or whatever type productIds is
+  productIds: string[]; 
 }
 export async function POST(req: Request) {
   try {
-    
     if (!req.body) {
       throw new Error('Request body is missing');
     }
@@ -37,43 +37,44 @@ export async function POST(req: Request) {
       mainCrop,
       name,
       productIds,
-    }: YourDataInterface = await req.json();
+    }: farmerData = await req.json();
     
-    const farmerProfile = await db.farmerprofile.findUnique({
+    const farmerProfile = await db.farmerProfile.findUnique({
       where: {
-        uniqueCode,
+        email,
       },
     });
 
     if (farmerProfile) {
       return NextResponse.json(
-        { data: null, message: 'Farmer already exist!' },
+        { data: null, message: 'Farmer already exists!' },
         { status: 409 },
       );
-    }
-    const farmerDetails = await db.user.findUnique({where:{email}})
-    if(farmerDetails){
-      const newFarmer = await db.farmerprofile.create({
-        data: {
-          phone,
-          email,
-          address,
-          contact,
-          uniqueCode,
-          description,
-          terms,
-          notes,
-          imgUrl,
-          isActive,
-          landSize,
-          mainCrop,
-          name,
-          user: { connect: { id: farmerDetails?.id } },
-          productIds
-        },
-      });
-  
-      return NextResponse.json(newFarmer);
+    } else {
+      const farmerDetails = await db.user.findUnique({ where: { email } });
+      if (farmerDetails) {
+        const newFarmer = await db.farmerProfile.create({
+          data: {
+            phone,
+            email,
+            address,
+            contact,
+            uniqueCode,
+            description,
+            terms,
+            notes,
+            imgUrl,
+            isActive,
+            landSize,
+            mainCrop,
+            name,
+            user: { connect: { id: farmerDetails.id } },
+            productIds
+          },
+        });
+    
+        return NextResponse.json(newFarmer);
+      }
     }
    
   } catch (error) {
@@ -87,19 +88,41 @@ export async function POST(req: Request) {
     );
   }
 }
+
 export async function GET() {
   try {
-    const farmerprofile = await db.farmerprofile.findMany({
+    const farmerProfile = await db.farmerProfile.findMany({
       orderBy:{
         createdAt:"desc"
       }
     })
-    return NextResponse.json(farmerprofile);
+    return NextResponse.json(farmerProfile);
   } catch (error) {
     console.error(error); 
     return NextResponse.json({
       message: "Failed to fetch farmer",
       error,
     }, { status: 500 });
+  }
+}
+export async function DELETE(req:Request) {
+  try {
+    const { Ids }:{Ids:string[]} = await req.json();
+    const deletedFarmer = await db.farmer.deleteMany({
+      where: {
+        id: {
+          in: Ids
+        }
+      }
+    });
+    if(deletedFarmer){
+      deletedFarmer?.map(async(item:any)=>{
+        await imageRemove(deletedFarmer.imgUrl)
+      })
+    }
+    return NextResponse.json(deletedFarmer);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Failed to delete users", error }, { status: 500 });
   }
 }

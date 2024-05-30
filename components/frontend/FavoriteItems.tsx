@@ -109,8 +109,8 @@ const Favorite = ({ id }: { id: string }) => {
                           className="w-full h-full object-cover object-center"
                         />
                         <div className="flex flex-col  font-medium ">
-                          <h3>
-                            <a href={`/products/${favorite.product.id}`}>
+                          <h3 className="block w-24 truncate">
+                            <a className="block w-24 truncate" href={`/products/${favorite.product.id}`}>
                               {favorite?.product?.name}
                             </a>
                           </h3>

@@ -42,13 +42,34 @@ export const CommunityApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, id) => [{ type: 'Community', id }],
     }),
+    deleteMultiCommunity: builder.mutation<communityData, string[]>({
+      query: (ids) => ({
+        url: `communities`,
+        method: 'DELETE',
+        body: { ids }, // send the IDs in the body
+      }),
+      invalidatesTags: (result, error, ids) =>
+       ( ids as string[]).map((id) => ({ type: 'Community', id })),
+    }),
+    addNewMultiCommunity : builder.mutation<communityData[],  Partial<communityData[]>>({
+      query: (data) => ({
+        url: `communities/bulk/`,
+        method: 'POST',
+        body: { data },
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as communityData[]).map((community) => ({ type: 'Community', id:community?.id })),
+    }),
   }),
+
 });
 
 export const {
   useGetCommunityQuery,
   useGetSingleCommunityQuery,
   useAddNewCommunityMutation,
+  useAddNewMultiCommunityMutation,
   useEditCommunityMutation,
   useDeleteCommunityMutation,
+  useDeleteMultiCommunityMutation,
 } = CommunityApi;

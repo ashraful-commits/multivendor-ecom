@@ -2,6 +2,7 @@
 import {NextResponse} from "next/server"
 import db from './../../../lib/db';
 import bcryptjs from "bcryptjs"
+import { imageRemove } from '@/lib/ImageRemove';
 interface YourDataInterface {
   phone: string;
   email: string;
@@ -80,5 +81,26 @@ export async function GET() {
       message: "Failed to fetch farmer",
       error,
     }, { status: 500 });
+  }
+}
+export async function DELETE(req:Request) {
+  try {
+    const { Ids }:{Ids:string[]} = await req.json();
+    const deletedStaff = await db.staff.deleteMany({
+      where: {
+        id: {
+          in: Ids
+        }
+      }
+    });
+    if(deletedStaff){
+      deletedStaff?.map(async(item:any)=>{
+        await imageRemove(deletedStaff.imgUrl)
+      })
+    }
+    return NextResponse.json(deletedStaff);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Failed to delete users", error }, { status: 500 });
   }
 }

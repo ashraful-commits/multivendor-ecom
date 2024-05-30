@@ -13,8 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//name,coupon,date,isActive
-
+// name,coupon,date,isActive
 model Coupon {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
@@ -25,7 +24,7 @@ model Coupon {
   updatedAt DateTime @updatedAt
 }
 
-// banner model schema
+// Banner model schema
 model Banner {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
@@ -58,8 +57,8 @@ model Market {
   slug        String   @unique
   imgUrl      String?
   description String?
-  categoryIds String   @db.ObjectId
-  categories  Category @relation(fields: [categoryIds], references: [id])
+  categoryId  String   @db.ObjectId
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   isActive    Boolean
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -105,25 +104,25 @@ model Product {
   sales           Int @default(0)
   description     String
   userId          String     @db.ObjectId
-  user            User       @relation(fields: [userId], references: [id])
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   tagIds          String[]   @db.ObjectId
   tags            Tag[]      @relation(fields: [tagIds], references: [id])
   brandId         String     @db.ObjectId
-  brand           Brand      @relation(fields: [brandId], references: [id])
+  brand           Brand      @relation(fields: [brandId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   categoryId      String     @db.ObjectId
-  category        Category   @relation(fields: [categoryId], references: [id])
+  category        Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   isActive        Boolean
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
   carts           Cart[]
   favorites       Favorite[]
   reviews         Review[]
-  orderIds        String[] @db.ObjectId
-  orders           Order[] @relation(fields: [orderIds],references: [id])
+  orderIds        String[]   @db.ObjectId
+  orders          Order[]    @relation(fields: [orderIds], references: [id])
 }
 
 // phone,email,address,contact,uniqueCode,description,terms,notes,imgUrl,isActive
-model Farmerprofile {
+model FarmerProfile {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   address     String
@@ -136,7 +135,7 @@ model Farmerprofile {
   mainCrop    String?
   contact     String
   userId      String   @unique @db.ObjectId
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   terms       String?
   notes       String?
   isActive    Boolean
@@ -152,8 +151,8 @@ model Training {
   imgUrl      String?
   description String?
   content     String?
-  categoryIds String   @db.ObjectId
-  category    Category @relation(fields: [categoryIds], references: [id])
+  categoryId  String   @db.ObjectId
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   isActive    Boolean
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -167,9 +166,10 @@ enum UserRole {
   SELLER
   MODERATOR
 }
+
 enum OrderStatus {
   PENDING
-  COMPLATE
+  COMPLETE
   PROCESS
   CANCEL
 }
@@ -183,11 +183,10 @@ model User {
   verificationToken String?
   products          Product[]
   imgUrl            String?
-  farmerProfile     Farmerprofile?
+  farmerProfile     FarmerProfile?
   role              UserRole       @default(USER)
   carts             Cart[]
   favorites         Favorite[]
-
   orders            Order[]
   reviews           Review[]
   createdAt         DateTime       @default(now())
@@ -215,24 +214,24 @@ model Staff {
 
 model Cart {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  productId String    @db.ObjectId
+  productId String   @db.ObjectId
   userId    String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
-  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   total     Int
   quantity  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  orderId   String? @db.ObjectId
-  status    Boolean @default(true)
+  orderId   String?  @db.ObjectId
+  status    Boolean  @default(true)
 }
 
 model Favorite {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   productId String   @db.ObjectId
   userId    String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
-  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -243,35 +242,37 @@ model Order {
   lastName      String
   email         String
   phone         String
-  total         Int @default(0)
+  total         Int      @default(0)
   streetAddress String
   city          String
   country       String
   zipCode       String
-  productIds     String[] @db.ObjectId
-  products       Product[] @relation(fields: [productIds],references: [id])
+  productIds    String[] @db.ObjectId
+  products      Product[] @relation(fields: [productIds], references: [id])
   shippingCost  Int
   paymentMethod String
   status        OrderStatus  @default(PENDING)
   userId        String   @db.ObjectId
-  user          User     @relation(fields: [userId], references: [id])
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   cartItems     String[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
+
 model Customer {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   firstName     String
   lastName      String
-  email         String @unique
+  email         String   @unique
   phone         String
   streetAddress String
   city          String
   country       String
   zipCode       String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
+
 model Review {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
@@ -280,6 +281,6 @@ model Review {
   review    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id])
-  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }

@@ -17,6 +17,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import TableAction from "./TableComponent/TableAction";
 import OrderManagement from './TableComponent/OrderManagement';
+import TableSelectTab from './TableComponent/TableSelectTab';
+import TableSingleSelectTab from './TableComponent/TableSingleSelectTab';
 
 import {
   bannerData,
@@ -32,26 +34,15 @@ import {
   staffData,orderData,userData
 } from "../../typescript";
 
+
 export const bannerColumns: ColumnDef<bannerData>[] = [
   {
     accessorKey: "id",
     header: ({ table }) => (
-      <Checkbox
-        className="border border-white dark:border-black"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+      <TableSelectTab name="banner" table={table}/>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <TableSingleSelectTab name="banner" row={row}/>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -119,22 +110,10 @@ export const brandColumns: ColumnDef<brandData>[] = [
   {
     accessorKey: "id",
     header: ({ table }) => (
-      <Checkbox
-        className="border border-white dark:border-black"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+      <TableSelectTab name="brand" table={table}/>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <TableSingleSelectTab name="brand" row={row}/>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -200,22 +179,10 @@ export const CategoryColumns: ColumnDef<CategoryData>[] = [
   {
     accessorKey: "id",
     header: ({ table }) => (
-      <Checkbox
-        className="border border-white dark:border-black"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+      <TableSelectTab name="category" table={table}/>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <TableSingleSelectTab name="category" row={row}/>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -303,22 +270,10 @@ export const CouponColumns: ColumnDef<couponData>[] = [
   {
     accessorKey: "id",
     header: ({ table }) => (
-      <Checkbox
-        className="border border-white dark:border-black"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+      <TableSelectTab name="coupon" table={table}/>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <TableSingleSelectTab name="coupon" row={row}/>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -414,22 +369,10 @@ export const ProductColumns: ColumnDef<ProductData>[] = [
   {
     accessorKey: "id",
     header: ({ table }) => (
-      <Checkbox
-        className="border border-white dark:border-black"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+      <TableSelectTab name="product" table={table}/>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <TableSingleSelectTab name="product" row={row}/>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -438,7 +381,7 @@ export const ProductColumns: ColumnDef<ProductData>[] = [
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => (
-      <span className="text-white dark:text-slate-900">
+      <span className="text-white block dark:text-slate-900 min-w-32 truncate max-w-32">
         {row.original.name}
       </span>
     ),
@@ -481,22 +424,10 @@ export const TagColumns: ColumnDef<TagData>[] = [
   {
     accessorKey: "id",
     header: ({ table }) => (
-      <Checkbox
-        className="border border-white dark:border-black"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+      <TableSelectTab name="tag" table={table}/>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <TableSingleSelectTab name="tag" row={row}/>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -572,22 +503,10 @@ export const CommunityColumns: ColumnDef<communityData>[] = [
   {
     accessorKey: "id",
     header: ({ table }) => (
-      <Checkbox
-        className="border border-white dark:border-black"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+      <TableSelectTab name="community" table={table}/>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <TableSingleSelectTab name="community" row={row}/>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -653,24 +572,12 @@ export const CommunityColumns: ColumnDef<communityData>[] = [
 
 export const CustomerColumns: ColumnDef<customerData>[] = [
   {
-    id: "select",
+    accessorKey: "id",
     header: ({ table }) => (
-      <Checkbox
-        className="border border-white dark:border-black"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+      <TableSelectTab name="customer" table={table}/>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <TableSingleSelectTab name="customer" row={row}/>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -754,22 +661,10 @@ export const FarmerColumns: ColumnDef<farmerData>[] = [
   {
     accessorKey: "id",
     header: ({ table }) => (
-      <Checkbox
-        className="border border-white dark:border-black"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+      <TableSelectTab name="farmer" table={table}/>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <TableSingleSelectTab name="farmer" row={row}/>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -966,22 +861,10 @@ export const MarketColumns: ColumnDef<marketData>[] = [
   {
     accessorKey: "id",
     header: ({ table }) => (
-      <Checkbox
-        className="border border-white dark:border-black"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+      <TableSelectTab name="market" table={table}/>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <TableSingleSelectTab name="market" row={row}/>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -1056,22 +939,10 @@ export const StaffColumns: ColumnDef<staffData>[] = [
   {
     accessorKey: "id",
     header: ({ table }) => (
-      <Checkbox
-        className="border border-white dark:border-black"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+      <TableSelectTab name="staff" table={table}/>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <TableSingleSelectTab name="staff" row={row}/>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -1146,22 +1017,10 @@ export const OrderColumns: ColumnDef<orderData>[] = [
   {
     accessorKey: "id",
     header: ({ table }) => (
-      <Checkbox
-        className="border border-white dark:border-black"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
+      <TableSelectTab name="order" table={table}/>
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <TableSingleSelectTab name="order" row={row}/>
     ),
     enableSorting: false,
     enableHiding: false,

@@ -1,6 +1,7 @@
 
 import {NextResponse} from "next/server"
 import db from './../../../lib/db';
+import { imageRemove } from '@/lib/ImageRemove';
 interface YourDataInterface {
   name: string;
   slug: string;
@@ -48,5 +49,22 @@ export async function GET() {
       message: "Failed to fetch tag",
       error,
     }, { status: 500 });
+  }
+}
+
+export async function DELETE(req:Request) {
+  try {
+    const { Ids }:{Ids:string[]} = await req.json();
+    const deletedTag = await db.tag.deleteMany({
+      where: {
+        id: {
+          in: Ids
+        }
+      }
+    });
+    return NextResponse.json(deletedTag);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Failed to delete users", error }, { status: 500 });
   }
 }

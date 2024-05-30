@@ -43,6 +43,24 @@ export const BannerApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, id) => [{ type: 'Banner', id }],
     }),
+    deleteMultiBanner: builder.mutation<bannerData, string[]>({
+      query: (ids) => ({
+        url: `banners`,
+        method: 'DELETE',
+        body: { ids }, // send the IDs in the body
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as string[]).map((id) => ({ type: 'Banner', id })),
+    }),
+    addNewMultiBanner:  builder.mutation<bannerData[], Partial<bannerData[]>>({
+      query: (data) => ({
+        url: `banners/bulk/`,
+        method: 'POST',
+        body: { data },
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as bannerData[]).map((banner) => ({ type: 'Banner', id: banner?.id })),
+    }),
   }),
 });
 
@@ -50,6 +68,8 @@ export const {
   useGetBannerQuery,
   useGetSingleBannerQuery,
   useAddNewBannerMutation,
+  useAddNewMultiBannerMutation,
   useEditBannerMutation,
   useDeleteBannerMutation,
+  useDeleteMultiBannerMutation
 } = BannerApi;

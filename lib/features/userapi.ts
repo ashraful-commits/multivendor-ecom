@@ -41,13 +41,15 @@ export const UserApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, id) => [{ type: 'User', id }],
     }),
+ 
+    
   }),
 });
 
-export const { 
-  useGetUserQuery, 
+export const {
+  useGetUserQuery,
   useAddNewUserMutation,
   useGetSingleUserQuery,
   useEditUserMutation,
-  useDeleteUserMutation 
+  useDeleteUserMutation,
 } = UserApi;

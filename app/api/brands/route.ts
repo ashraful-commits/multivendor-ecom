@@ -1,7 +1,7 @@
 
 import {NextResponse} from "next/server"
 import db from './../../../lib/db';
-//import { NextApiRequest, NextApiResponse } from 'next';
+import { imageRemove } from '@/lib/ImageRemove';
 interface brandData {name:string;slug:string;imgUrl:string;isActive:boolean}
 export async function POST (req: Request){
 try {
@@ -44,5 +44,26 @@ export async function GET() {
       message: "Failed to fetch brands",
       error,
     }, { status: 500 });
+  }
+}
+export async function DELETE(req:Request) {
+  try {
+    const { Ids }:{Ids:string[]} = await req.json();
+    const deleteBrand = await db.brand.deleteMany({
+      where: {
+        id: {
+          in: Ids
+        }
+      }
+    });
+    if(deleteBrand){
+      deleteBrand?.map(async(item:any)=>{
+        await imageRemove(deleteBrand.imgUrl)
+      })
+    }
+    return NextResponse.json(deleteBrand);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Failed to delete users", error }, { status: 500 });
   }
 }

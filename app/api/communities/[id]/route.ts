@@ -7,7 +7,7 @@ interface communityType {
   slug: string;
   imgUrl: string;
   description: string;
-  categoryIds: string[];
+  categoryIds: string;
   content: string;
   isActive: boolean;
 }

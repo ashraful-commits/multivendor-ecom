@@ -121,3 +121,21 @@ export async function GET() {
     }, { status: 500 });
   }
 }
+
+export async function DELETE(req:Request) {
+  try {
+    const { Ids }:{Ids:string[]} = await req.json();
+    const deletedOrder = await db.order.deleteMany({
+      where: {
+        id: {
+          in: Ids
+        }
+      }
+    });
+    
+    return NextResponse.json(deletedOrder);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Failed to delete users", error }, { status: 500 });
+  }
+}

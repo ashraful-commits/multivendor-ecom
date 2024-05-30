@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import db from "./../../../lib/db";
+import { imageRemove } from '@/lib/ImageRemove';
 interface YourDataInterface {
   name: string;
   slug: string;
@@ -160,5 +161,26 @@ export async function GET(req: Request) {
       },
       { status: 500 }
     );
+  }
+}
+export async function DELETE(req:Request) {
+  try {
+    const { Ids }:{Ids:string[]} = await req.json();
+    const deletedProduct = await db.product.deleteMany({
+      where: {
+        id: {
+          in: Ids
+        }
+      }
+    });
+    if(deletedProduct){
+      deletedProduct?.map(async(item:any)=>{
+        await imageRemove(deletedProduct.imgUrl)
+      })
+    }
+    return NextResponse.json(deletedProduct);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Failed to delete users", error }, { status: 500 });
   }
 }

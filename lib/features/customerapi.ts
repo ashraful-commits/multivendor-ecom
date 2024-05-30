@@ -42,6 +42,24 @@ export const CustomerApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, id) => [{ type: 'Customer', id }],
     }),
+    deleteMultiCustomer: builder.mutation<customerData, string[]>({
+      query: (ids) => ({
+        url: `customers`,
+        method: 'DELETE',
+        body: { ids }, // send the IDs in the body
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as string[]).map((id) => ({ type: 'Customer',id })),
+    }),
+    addNewMultiCustomer: builder.mutation<customerData[], Partial<customerData[]>>({
+      query: (data) => ({
+        url: `customers/bulk/`,
+        method: 'POST',
+        body: { data }, 
+      }),
+      invalidatesTags: (result, error, ids) =>
+        ids.map((customer) => ({ type: 'Customer', id:customer?.id })),
+    }),
   }),
 });
 
@@ -49,6 +67,8 @@ export const {
   useGetCustomerQuery,
   useGetSingleCustomerQuery,
   useAddNewCustomerMutation,
+  useAddNewMultiCustomerMutation,
   useEditCustomerMutation,
   useDeleteCustomerMutation,
+  useDeleteMultiCustomerMutation
 } = CustomerApi;

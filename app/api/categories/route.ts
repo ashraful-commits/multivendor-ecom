@@ -1,6 +1,7 @@
 
 import {NextResponse} from "next/server"
 import db from './../../../lib/db';
+import { imageRemove } from '@/lib/ImageRemove';
 interface category{ name: string, slug: string, imgUrl: string, description: string, isActive: boolean }
 export async function POST (req: Request){
 try {
@@ -51,5 +52,26 @@ export async function GET() {
       message: "Failed to fetch categories",
       error,
     }, { status: 500 });
+  }
+}
+export async function DELETE(req:Request) {
+  try {
+    const { Ids }:{Ids:string[]} = await req.json();
+    const deletedCategory = await db.category.deleteMany({
+      where: {
+        id: {
+          in: Ids
+        }
+      }
+    });
+    if(deletedCategory){
+      deletedCategory?.map(async(item:any)=>{
+        await imageRemove(deletedCategory.imgUrl)
+      })
+    }
+    return NextResponse.json(deletedCategory);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Failed to delete users", error }, { status: 500 });
   }
 }

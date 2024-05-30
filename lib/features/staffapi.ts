@@ -41,13 +41,33 @@ export const StaffApi = api.injectEndpoints({
       query: (id) => `staffs/${id}`,
       providesTags: (result, error, id) => [{ type: 'Staff', id }],
     }),
+    deleteMultiStaff: builder.mutation<staffData, string[]>({
+      query: (ids) => ({
+        url: `staffs`,
+        method: 'DELETE',
+        body: { ids }, // send the IDs in the body
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as string[]).map((id) => ({ type: 'Staff', id })),
+    }),
+    addNewMultiStaff: builder.mutation<staffData[], Partial<staffData[]>>({
+      query: (data) => ({
+        url: `staffs/bulk/`,
+        method: 'POST',
+        body: { data }, 
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as staffData[]).map((staff) => ({ type: 'Staff', id:staff?.id })),
+    }),
   }),
 });
 
 export const {
   useGetStaffQuery,
   useAddNewStaffMutation,
+  useAddNewMultiStaffMutation,
   useEditStaffMutation,
   useDeleteStaffMutation,
-  useGetSingleStaffQuery, // Added single query hook
+  useDeleteMultiStaffMutation,
+  useGetSingleStaffQuery, 
 } = StaffApi;

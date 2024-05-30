@@ -42,6 +42,24 @@ export const CouponApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, id) => [{ type: 'Coupon', id }],
     }),
+    deleteMultiCoupon: builder.mutation<couponData, string[]>({
+      query: (ids) => ({
+        url: `coupons`,
+        method: 'DELETE',
+        body: { ids }, // send the IDs in the body
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as string[]).map((id) => ({ type: 'Coupon', id })),
+    }),
+    addNewMultiCoupon: builder.mutation<couponData[], Partial<couponData[]>>({
+      query: (data) => ({
+        url: `coupons/bulk/`,
+        method: 'POST',
+        body: { data }, 
+      }),
+      invalidatesTags: (result, error, ids) =>
+        ids.map((coupon) => ({ type: 'Coupon', id:coupon?.id })),
+    }),
   }),
 
 });
@@ -50,6 +68,8 @@ export const {
   useGetCouponQuery,
   useGetSingleCouponQuery,
   useAddNewCouponMutation,
+  useAddNewMultiCouponMutation,
   useEditCouponMutation,
   useDeleteCouponMutation,
+  useDeleteMultiCouponMutation,
 } = CouponApi;

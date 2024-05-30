@@ -64,10 +64,10 @@ type FieldValues ={
 const ProductForm = () => {
   const [addNewProduct,{isSuccess,isLoading}]= useAddNewProductMutation()
   const [images, setImages] = useState<string[]>([]);
-  const [brands, setBrands] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [farmers, setFarmers] = useState([]);
-  const [markets, setMarkets] = useState([]);
+  const [brands, setBrands] = useState<any>([]);
+  const [categories, setCategories] = useState<any>([]);
+  const [farmers, setFarmers] = useState<any>([]);
+  const [markets, setMarkets] = useState<any>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [category, setCategory] = useState('');
   const [tag, setTag] = useState<OptionType[]>([]);
@@ -264,7 +264,7 @@ const ProductForm = () => {
               <SingleSelect
                 setValue={setFarmer}
                 value={farmer}
-                data={farmers.map((item:any)=>({name:item?.name,id:item?.id}))}
+                data={farmers?.map((item:any)=>({name:item?.name,id:item?.id}))}
               />
               <div className="flex gap-x-4  flex-col ">
                 <Label

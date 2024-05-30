@@ -87,8 +87,8 @@ const CartItems = ({ id }: { id: string }) => {
                           className="w-full h-full object-cover object-center"
                         />
                         <div className="flex flex-col font-medium">
-                          <h3>
-                            <a href="#">{cart?.product?.name}</a>
+                          <h3 className="block w-24 truncate">
+                            <a className="block w-24 truncate" href="#">{cart?.product?.name}</a>
                           </h3>
                           <p className="">Qty {cart.quantity}</p>
                         </div>

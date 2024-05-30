@@ -4,6 +4,7 @@ import bcryptjs from 'bcryptjs';
 import { EmailTemplate } from './../../../components/backend/EmailTemplate';
 import {Resend} from "resend"
 import { v4 as uuidv4 } from 'uuid';
+import { imageRemove } from '@/lib/ImageRemove';
 import base64url from 'base64url';
 
  interface UserData {
@@ -106,3 +107,24 @@ export async function GET() {
   }
 }
 
+export async function DELETE(req:Request) {
+  try {
+    const { Ids }:{Ids:string[]} = await req.json();
+    const deletedUser = await db.user.deleteMany({
+      where: {
+        id: {
+          in: Ids
+        }
+      }
+    });
+    if(deletedUser){
+      deletedUser.map(async(item:any)=>{
+        await imageRemove(item.imgUrl);
+      })
+    }
+    return NextResponse.json(deletedUser);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Failed to delete users", error }, { status: 500 });
+  }
+}

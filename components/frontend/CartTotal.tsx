@@ -13,7 +13,7 @@ const CartTotal = ({ id }: { id: string }) => {
     if (orderStatus?.orderStatus) {
       refetch();
     }
-  }, [orderStatus?.orderStatus, refetch]);
+  }, [orderStatus, refetch]);
 
   if (isLoading) {
     return (
@@ -22,7 +22,6 @@ const CartTotal = ({ id }: { id: string }) => {
       </div>
     );
   }
-  console.log(orderStatus)
 
   return (
     <div className="mx-auto flex justify-center items-center w-full h-full cursor-pointer ">

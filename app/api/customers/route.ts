@@ -1,6 +1,7 @@
 
 import {NextResponse} from "next/server"
 import db from './../../../lib/db';
+import { imageRemove } from '@/lib/ImageRemove';
 interface customerType {
   lastName: string;
   firstName: string;
@@ -67,5 +68,26 @@ export async function GET() {
       message: "Failed to fetch Customer",
       error,
     }, { status: 500 });
+  }
+}
+export async function DELETE(req:Request) {
+  try {
+    const { Ids }:{Ids:string[]} = await req.json();
+    const deletedCustomer = await db.customer.deleteMany({
+      where: {
+        id: {
+          in: Ids
+        }
+      }
+    });
+    if(deletedCustomer){
+      deletedCustomer?.map(async(item:any)=>{
+        await imageRemove(deletedCustomer.imgUrl)
+      })
+    }
+    return NextResponse.json(deletedCustomer);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Failed to delete users", error }, { status: 500 });
   }
 }

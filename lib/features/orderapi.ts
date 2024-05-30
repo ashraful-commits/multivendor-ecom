@@ -72,6 +72,15 @@ export const OrderApi = api.injectEndpoints({
       query: () => `orders/complate`,
       providesTags: [{ type: 'Order', id: 'COMPLATE' }],
     }),
+    deleteMultiOrder: builder.mutation<orderData, string[]>({
+      query: (ids) => ({
+        url: `orders`,
+        method: 'DELETE',
+        body: { ids }, // send the IDs in the body
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as string[]).map((id) => ({ type: 'Order', id })),
+    }),
   }),
 });
 
@@ -80,6 +89,7 @@ export const {
   useGetSingleOrderQuery,
   useAddNewOrderMutation,
   useDeleteOrderMutation,
+  useDeleteMultiOrderMutation,
   useEditOrderMutation,
   useGetTodayOrdersQuery,
   useGetYesterdayOrdersQuery,

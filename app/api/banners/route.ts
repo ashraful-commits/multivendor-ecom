@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import db from './../../../lib/db';
+import { imageRemove } from '@/lib/ImageRemove';
 //import { NextApiRequest, NextApiResponse } from 'next';
 interface bannerData  { title: string; link: string; imgUrl: string | null; isActive: boolean }
 export async function POST(req: Request) {
@@ -23,11 +24,33 @@ export async function POST(req: Request) {
 export async function GET() {
   try {
     const banners = await db.banner.findMany({
-      orderBy: { createdAt: "desc" }
+      orderBy: { createdAt: "desc" },
+      take:5
     });
     return NextResponse.json(banners);
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Failed to fetch banner", error }, { status: 500 });
+  }
+}
+export async function DELETE(req:Request) {
+  try {
+    const { Ids }:{Ids:string[]} = await req.json();
+    const deletedBanner = await db.banner.deleteMany({
+      where: {
+        id: {
+          in: Ids
+        }
+      }
+    });
+    if(deletedBanner){
+      deletedBanner?.map(async(item:any)=>{
+        await imageRemove(deletedBanner.imgUrl)
+      })
+    }
+    return NextResponse.json(deletedBanner);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Failed to delete users", error }, { status: 500 });
   }
 }

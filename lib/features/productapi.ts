@@ -56,6 +56,24 @@ export const ProductApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, id) => [{ type: "Product", id }],
     }),
+    deleteMultiProduct: builder.mutation<ProductData, string[]>({
+      query: (ids) => ({
+        url: `products`,
+        method: 'DELETE',
+        body: { ids }, // send the IDs in the body
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as string[]).map((id) => ({ type: 'Product', id })),
+    }),
+    addNewMultiProduct: builder.mutation<ProductData[], Partial<ProductData[]>>({
+      query: (data) => ({
+        url: `products/bulk/`,
+        method: 'POST',
+        body: { data }, 
+      }),
+      invalidatesTags: (result, error, ids) =>
+        ids.map((product) => ({ type: 'Product', id:product?.id })),
+    }),
   }),
 });
 
@@ -64,7 +82,9 @@ export const {
   useGetFilterProductQuery,
   useGetSingleProductQuery,
   useAddNewProductMutation,
+  useAddNewMultiProductMutation,
   useEditProductMutation,
   useGetCatProductQuery,
-  useDeleteProductMutation // Added delete mutation hook
+  useDeleteProductMutation ,
+  useDeleteMultiProductMutation 
 } = ProductApi;

@@ -19,13 +19,9 @@ export function SingleSelect({defaultValue,value,setValue,data}:SingleSelectProp
         <SelectValue placeholder="Select a value" />
       </SelectTrigger>
       <SelectContent className="bg-slate-900 text-white">
- 
-
-          {data?.map((item, i) => (
+          {data?.length && data?.map((item, i) => (
             <SelectItem className="bg-slate-900 text-white" key={i} value={item.id}><span>{item.name}</span></SelectItem>
           ))}
-
-          
       </SelectContent>
     </Select>
   )

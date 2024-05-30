@@ -42,6 +42,24 @@ export const BrandApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, id) => [{ type: 'Brand', id }],
     }),
+    deleteMultiBrand: builder.mutation<brandData, string[]>({
+      query: (ids) => ({
+        url: `brands`,
+        method: 'DELETE',
+        body: { ids }, // send the IDs in the body
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as string[]).map((id) => ({ type: 'Brand', id })),
+    }),
+    addNewMultiBrand: builder.mutation<brandData[], Partial<brandData[]>>({
+      query: (data) => ({
+        url: `brands/bulk/`,
+        method: 'POST',
+        body: { data }, 
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as brandData[]).map((brand) => ({ type: 'Brand', id:brand?.id })),
+    }),
   }),
 });
 
@@ -49,6 +67,8 @@ export const {
   useGetBrandQuery,
   useGetSingleBrandQuery,
   useAddNewBrandMutation,
+  useAddNewMultiBrandMutation,
   useEditBrandMutation,
   useDeleteBrandMutation,
+  useDeleteMultiBrandMutation,
 } = BrandApi;

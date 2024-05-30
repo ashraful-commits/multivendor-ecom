@@ -30,6 +30,15 @@ export const favoriteApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, id) => [{ type: 'Favorite', id }],
     }),
+    deleteMultiFavorite: builder.mutation<FavoriteData, string[]>({
+      query: (ids) => ({
+        url: `favorites`,
+        method: 'DELETE',
+        body: { ids }, // send the IDs in the body
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as string[]).map((id) => ({ type: 'Favorite', id })),
+    }),
   }),
 });
 

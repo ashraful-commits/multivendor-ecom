@@ -229,7 +229,7 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
             </div>
           </div>
           <hr className="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
-          <p className="mb-6 text-gray-500 dark:text-gray-400">
+          <p className="mb-6 wf-ull  text-gray-500 dark:text-gray-400">
             {product?.description}
           </p>
         </div>

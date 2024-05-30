@@ -39,7 +39,16 @@ export const CartApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, id) => [{ type: 'Cart', id }],
     }),
+    deleteMultiCart: builder.mutation<cartData, string[]>({
+      query: (ids) => ({
+        url: `carts`,
+        method: 'DELETE',
+        body: { ids }, // send the IDs in the body
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as string[]).map((id) => ({ type: 'Cart', id })),
+    }),
   }),
 });
 
-export const { useGetCartQuery, useAddNewCartMutation,useDeleteCartMutation, useEditCartMutation } = CartApi;
+export const { useGetCartQuery, useAddNewCartMutation,useDeleteCartMutation, useEditCartMutation ,useDeleteMultiCartMutation} = CartApi;

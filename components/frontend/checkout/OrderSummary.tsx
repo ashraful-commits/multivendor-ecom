@@ -106,8 +106,8 @@ const OrderSummary = () => {
                             className="w-10 h-10 object-cover object-center"
                           />
                           <div className="flex flex-col font-medium">
-                            <h3>
-                              <a href="#">{cart?.product?.name}</a>
+                            <h3 className="truncate w-24 ">
+                              <a className="truncate w-24 block" href="#">{cart?.product?.name}</a>
                             </h3>
                           </div>
                         </div>

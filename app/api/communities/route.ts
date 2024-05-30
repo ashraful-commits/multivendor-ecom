@@ -1,14 +1,15 @@
 
 import {NextResponse} from "next/server"
 import db from './../../../lib/db';
+import { imageRemove } from '@/lib/ImageRemove';
 interface communityType {
   title: string;
   slug: string;
   imgUrl: string;
   description: string;
-  categoryIds: string[]; // or whatever type categoryIds is
-  content: string; // or whatever type content is
-  isActive: boolean; // or whatever type isActive is
+  categoryIds: string; 
+  content: string; 
+  isActive: boolean;
 }
 export async function POST (req: Request){
 try {
@@ -60,5 +61,26 @@ export async function GET() {
       message: "Failed to fetch Training",
       error,
     }, { status: 500 });
+  }
+}
+export async function DELETE(req:Request) {
+  try {
+    const { Ids }:{Ids:string[]} = await req.json();
+    const deletedCommunity = await db.training.deleteMany({
+      where: {
+        id: {
+          in: Ids
+        }
+      }
+    });
+    if(deletedCommunity){
+      deletedCommunity?.map(async(item:any)=>{
+        await imageRemove(deletedCommunity.imgUrl)
+      })
+    }
+    return NextResponse.json(deletedCommunity);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Failed to delete users", error }, { status: 500 });
   }
 }

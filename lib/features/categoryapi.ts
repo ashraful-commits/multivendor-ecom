@@ -42,6 +42,24 @@ export const CategoryApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, id) => [{ type: 'Category', id }],
     }),
+    deleteMultiCategory: builder.mutation<CategoryData, string[]>({
+      query: (ids) => ({
+        url: `categories`,
+        method: 'DELETE',
+        body: { ids }, // send the IDs in the body
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as string[]).map((id) => ({ type: 'Category',id })),
+    }),
+    addNewMultiCategory: builder.mutation<CategoryData[], Partial<CategoryData[]>>({
+      query: (data) => ({
+        url: `categories/bulk/`,
+        method: 'POST',
+        body: { data }, 
+      }),
+      invalidatesTags: (result, error, ids) =>
+        ids.map((category) => ({ type: 'Category', id:category?.id })),
+    }),
   }),
 });
 
@@ -49,6 +67,8 @@ export const {
   useGetCategoryQuery,
   useGetSingleCategoryQuery,
   useAddNewCategoryMutation,
+  useAddNewMultiCategoryMutation,
   useEditCategoryMutation,
   useDeleteCategoryMutation,
+  useDeleteMultiCategoryMutation,
 } = CategoryApi;

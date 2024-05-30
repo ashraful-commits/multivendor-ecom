@@ -1,5 +1,6 @@
 import {NextResponse} from "next/server"
 import db from './../../../lib/db';
+import { imageRemove } from '@/lib/ImageRemove';
 interface YourDataInterface {
   name: string;
   slug: string;
@@ -38,17 +39,39 @@ try {
 }
 export async function GET() {
   try {
-    const categories = await db.market.findMany({
+    const markets = await db.market.findMany({
       orderBy:{
         createdAt:"desc"
       }
     })
-    return NextResponse.json(categories);
+    return NextResponse.json(markets);
   } catch (error) {
     console.error(error); 
     return NextResponse.json({
-      message: "Failed to fetch categories",
+      message: "Failed to fetch markets",
       error,
     }, { status: 500 });
+  }
+}
+
+export async function DELETE(req:Request) {
+  try {
+    const { Ids }:{Ids:string[]} = await req.json();
+    const deletedMarket = await db.market.deleteMany({
+      where: {
+        id: {
+          in: Ids
+        }
+      }
+    });
+    if(deletedMarket){
+      deletedMarket?.map(async(item:any)=>{
+        await imageRemove(deletedMarket.imgUrl)
+      })
+    }
+    return NextResponse.json(deletedMarket);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Failed to delete users", error }, { status: 500 });
   }
 }

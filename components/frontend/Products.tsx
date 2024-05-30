@@ -201,18 +201,18 @@ const Products = ({ products }: { products: ProductData[] }) => {
               </div>
               <div className="absolute backdrop-blur-sm opacity-0 bg-slate-200 bg-opacity-20 max-sm:opacity-100 max-sm:translate-y-0 translate-y-5 group-hover:translate-y-0 group-hover:opacity-100 duration-500 transition-all ease-in-out bottom-0 left-0 w-full py-2 px-3">
                 <div className="flex justify-between  px-1 items-center">
-                  <h5 className="p-2 dark:text-slate-900 max-sm:text-sm  text-md font-bold">
+                  <h5 className="p-2 w-24 truncate dark:text-slate-900 max-sm:text-sm  text-md font-bold">
                     {product?.name}
                   </h5>
                   <Dialog>
                   <DialogTrigger asChild>
-                    <Button className="dark:hover:bg-blue-500 transition-all duration-500 ease-in-out bg-slate-100 hover:text-slate-100  text-slate-900 dark:text-slate-100 dark:bg-slate-500" >
+                    <Button className="dark:hover:bg-blue-500  transition-all duration-500 ease-in-out bg-slate-100 hover:text-slate-100  text-slate-900 dark:text-slate-100 dark:bg-slate-500" >
                       <PackageOpen />
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="lg:min-w-[70vw] border-none md:min-w-[90vw] max-sm:w-[100%] overflow-y-scroll max-h-[70vh] lg:min-h-[35vh] max-sm:max-h-[75vh]">
                     <DialogHeader>
-                      <DialogTitle>{product.name}</DialogTitle>
+                      <DialogTitle className="truncate w-44 mx-auto text-blue-500 text-center">{product.name}</DialogTitle>
                     </DialogHeader>
                     <SingleProudcutImg id={product?.id} />
                     <ProductReview id={product?.id} />

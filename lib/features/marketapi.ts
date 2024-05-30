@@ -42,6 +42,24 @@ export const MarketApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, id) => [{ type: 'Market', id }],
     }),
+    deleteMultiMarket: builder.mutation<marketData, string[]>({
+      query: (ids) => ({
+        url: `markets`,
+        method: 'DELETE',
+        body: { ids }, // send the IDs in the body
+      }),
+      invalidatesTags: (result, error, ids) =>
+        (ids as string[]).map((id) => ({ type: 'Market', id })),
+    }),
+    addNewMultiMarket: builder.mutation<marketData[], Partial<marketData[]>>({
+      query: (data) => ({
+        url: `markets/bulk/`,
+        method: 'POST',
+        body: { data }, 
+      }),
+      invalidatesTags: (result, error, ids) =>
+        ids.map((tag) => ({ type: 'Market', id:tag?.id })),
+    }),
   }),
 });
 
@@ -49,6 +67,8 @@ export const {
   useGetMarketQuery,
   useGetSingleMarketQuery,
   useAddNewMarketMutation,
+  useAddNewMultiMarketMutation,
   useEditMarketMutation,
   useDeleteMarketMutation,
+  useDeleteMultiMarketMutation,
 } = MarketApi;
