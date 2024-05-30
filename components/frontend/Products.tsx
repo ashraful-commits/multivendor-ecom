@@ -156,7 +156,7 @@ const Products = ({ products }: { products: ProductData[] }) => {
                   width={1000}
                   height={1000}
                   loading="lazy"
-                  className=""
+                  className="p-5 max-sm:p-0"
                   src={product?.imgUrl[0]}
                   alt={`Image+${index}`}
                 />

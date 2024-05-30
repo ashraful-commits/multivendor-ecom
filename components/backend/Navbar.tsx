@@ -35,8 +35,8 @@ import { signOut } from 'next-auth/react';
 import useSessionData from './../../hooks/useSessionData';
 import Link from "next/link"
 const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
-  const handleLogout=()=>{
-    signOut()
+  const handleLogout=async()=>{
+    await signOut({ redirect: false, callbackUrl: '/' });
   }
   const {theme,setTheme} = useTheme()
   const session = useSessionData() as SessionData;
@@ -96,7 +96,7 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
               </DropdownMenuItem>
               <DropdownMenuItem className="flex gap-x-2">
               <Avatar className="w-5 h-5">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
               <AvatarFallback>AB</AvatarFallback>
             </Avatar>
             <div className="flex flex-col items-start justify-center">
@@ -110,7 +110,7 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
               </DropdownMenuItem>
               <DropdownMenuItem className="flex gap-x-2">
               <Avatar className="w-5 h-5">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
               <AvatarFallback>AB</AvatarFallback>
             </Avatar>
             <div className="flex flex-col items-start justify-center">
@@ -124,7 +124,7 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
               </DropdownMenuItem>
               <DropdownMenuItem className="flex gap-x-2">
               <Avatar className="w-5 h-5">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
               <AvatarFallback>AB</AvatarFallback>
             </Avatar>
             <div className="flex flex-col items-start justify-center">

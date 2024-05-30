@@ -50,8 +50,8 @@ const Navbar = () => {
     router.push("/products");
   };
 
-  const handleSignOut = () => {
-    signOut();
+  const handleSignOut = async() => {
+    await signOut({ redirect: false, callbackUrl: '/' });
   };
   const session = useSessionData() as SessionData;
   const { theme, setTheme } = useTheme();
@@ -74,7 +74,7 @@ const Navbar = () => {
             Multi <br /> Vendor
           </span>
         </Link>
-        <form className="flex  max-sm:hidden items-center w-full md:px-20 px-10">
+        <form className="flex max-sm:!hidden items-center w-full md:px-20 px-10">
           <div className="relative w-full">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg
@@ -103,7 +103,7 @@ const Navbar = () => {
           </div>
         </form>
         <DropdownMenu className=" w-full ">
-          <DropdownMenuTrigger className="w-10 h-10 hidden max-sm:flex items-center ">
+          <DropdownMenuTrigger className="w-10 h-10 flex hidden max-sm:block items-center ">
             <Search />
           </DropdownMenuTrigger>
           <DropdownMenuContent className=" bg-slate-200 w-screen z-[999999] shadow-lg  mt-5  dark:bg-slate-800 border-none dark:border-slate-500 text-slate-900 dark:text-white">
@@ -294,7 +294,7 @@ const Navbar = () => {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="flex gap-x-2">
                   <Avatar className="w-5 h-5">
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
                     <AvatarFallback>AB</AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col items-start justify-center">
@@ -312,7 +312,7 @@ const Navbar = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem className="flex gap-x-2">
                   <Avatar className="w-5 h-5">
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
                     <AvatarFallback>AB</AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col items-start justify-center">
@@ -330,7 +330,7 @@ const Navbar = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem className="flex gap-x-2">
                   <Avatar className="w-5 h-5">
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
                     <AvatarFallback>AB</AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col items-start justify-center">
@@ -348,7 +348,7 @@ const Navbar = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem className="flex gap-x-2">
                   <Avatar className="w-5 h-5">
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
                     <AvatarFallback>AB</AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col items-start justify-center">
@@ -366,7 +366,7 @@ const Navbar = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem className="flex gap-x-2">
                   <Avatar className="w-5 h-5">
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
                     <AvatarFallback>AB</AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col items-start justify-center">
@@ -389,7 +389,7 @@ const Navbar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger className="w-10 h-10 flex juc items-center ">
                 <Avatar>
-                  <AvatarImage src={session?.user?.imgUrl} />
+                  <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
                   <AvatarFallback>AB</AvatarFallback>
                 </Avatar>
                 {/* <User /> */}

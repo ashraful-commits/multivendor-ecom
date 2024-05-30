@@ -13,7 +13,7 @@ const CartTotal = ({ id }: { id: string }) => {
     if (orderStatus?.orderStatus) {
       refetch();
     }
-  }, [orderStatus, refetch]);
+  }, [orderStatus.orderStatus, refetch]);
 
   if (isLoading) {
     return (

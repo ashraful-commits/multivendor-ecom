@@ -28,7 +28,7 @@ const ProfileSetting = () => {
   const [image, setImage] = useState<string | null>(null);
   const [editUser, { isLoading, isSuccess }] = useEditUserMutation();
   async function signout() {
-   await signOut();
+    await signOut({ redirect: false, callbackUrl: '/' });
   }
   const {
     register,
@@ -54,7 +54,7 @@ const ProfileSetting = () => {
       setImage(session?.user?.imgUrl);
       reset(session?.user);
     } else if (isSuccess) {
-      signout();
+       signOut({ redirect: false, callbackUrl: '/' });
       router.push("/login");
       toast.success("profile Updated");
     } else {
