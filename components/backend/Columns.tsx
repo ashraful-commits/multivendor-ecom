@@ -20,6 +20,7 @@ import OrderManagement from './TableComponent/OrderManagement';
 import TableSelectTab from './TableComponent/TableSelectTab';
 import TableSingleSelectTab from './TableComponent/TableSingleSelectTab';
 
+
 import {
   bannerData,
   brandData,
@@ -1008,6 +1009,80 @@ export const StaffColumns: ColumnDef<staffData>[] = [
           name="staff"
           id={staff.id}
           editUrl={`/dashboard/staff/update/${staff.id}`}
+        />
+      );
+    },
+  },
+];
+export const UserColumns: ColumnDef<userData>[] = [
+  {
+    accessorKey: "id",
+    header: ({ table }) => (
+      <TableSelectTab name="user" table={table}/>
+    ),
+    cell: ({ row }) => (
+      <TableSingleSelectTab name="user" row={row}/>
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "name",
+    header: ({ column }) => (
+      <Button
+        className="text-white dark:text-slate-900"
+        variant="ghost"
+        onClick={() => column.toggleSorting()}
+      >
+        Name
+        <ArrowUpDown
+          className={`ml-2 h-4 w-4 ${
+            column.getIsSorted() === "asc" ? "rotate-180" : ""
+          }`}
+        />
+      </Button>
+    ),
+    cell: ({ row }) => (
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
+        {row.getValue("name")}
+      </div>
+    ),
+  },
+
+  {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => (
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
+        {row.getValue("email")}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "imgUrl",
+    header: "Image",
+    cell: ({ row }) => (
+      <Image
+        src={row.getValue("imgUrl") ? row.getValue("imgUrl") : ""}
+        alt={row.getValue("name")}
+        width={1000}
+        height={1000}
+        className="h-8 w-8"
+      />
+    ),
+  },
+
+  {
+    id: "actions",
+    header: "Actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const user = row.original;
+      return (
+        <TableAction
+          name="user"
+          id={user.id}
+          editUrl={`/dashboard/users/update/${user.id}`}
         />
       );
     },

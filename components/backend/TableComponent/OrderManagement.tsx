@@ -19,6 +19,7 @@ import TableSkeleton from "./TableSkeleton"
 import {useGetSingleOrderQuery,useEditOrderMutation} from "@/lib/features/orderapi"
 import toast from 'react-hot-toast';
 import Loading from '../../Loading';
+import { Skeleton } from '@/components/ui/skeleton';
 const OrderManagement = ({id}:{id:string}) => {
     const {data,refetch} =useGetSingleOrderQuery(id)
     const [editOrder,{isSuccess,isLoading}] =useEditOrderMutation()
@@ -33,7 +34,7 @@ const OrderManagement = ({id}:{id:string}) => {
         }
         
     },[isSuccess,refetch])
-    if(isLoading) return <TableSkeleton/>
+    if(isLoading) return <Skeleton className="w-20 h-10 bg-gray-800 dark:bg-slate-200"/>
   return (
     <div>
      

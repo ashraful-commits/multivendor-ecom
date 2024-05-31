@@ -55,7 +55,7 @@ export async function POST(req: Request) {
         password:hashedPassword,
         role,
         verificationToken: token,
-        image,
+        imgUrl:image,
       },
     });
 

@@ -13,7 +13,6 @@ export default withAuth(
       USER: ['/dashboard/orders' ],
       SELLER: [
         '/dashboard',
-       
         '/dashboard/customers',
         '/dashboard/customers/new',
         '/dashboard/customers/update/:path*',
@@ -42,7 +41,9 @@ export default withAuth(
       ],
       ADMIN: [
         '/dashboard',
-       
+        '/dashboard/users',
+        '/dashboard/users/new',
+        '/dashboard/users/update/:path*',
         '/dashboard/customers',
         '/dashboard/customers/new',
         '/dashboard/customers/update/:path*',
@@ -178,8 +179,10 @@ export default withAuth(
 export const config = {
   matcher: [
     '/dashboard',
-   
     '/dashboard/customers',
+    '/dashboard/users',
+    '/dashboard/users/new',
+    '/dashboard/users/update/:path*',
     '/dashboard/customers/new',
     '/dashboard/customers/update/:path*',
     '/dashboard/products',

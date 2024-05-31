@@ -46,29 +46,81 @@ export async function DELETE(
 }
 
 
+
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
   try {
     const { id } = params;
-    const { status }:{status:string;} = await req.json();
-  console.log(id,status)
+    const { status }: { status: string } = await req.json();
+
     const orderItem = await db.order.findUnique({
-      where: {
-        id,
-      },
+      where: { id }
     });
 
     if (!orderItem) {
       return NextResponse.json({ message: "Order item not found" }, { status: 404 });
     }
 
-    await db.order.update({
-      where: {
-        id,
-      },
-      data: {
-       status
-      },
+    const updatedOrder = await db.order.update({
+      where: { id },
+      data: { status },
     });
+
+    if (orderItem.status === "COMPLATE" && status !== "COMPLATE") {
+      const cartItemsUpdatePromises = orderItem.cartItems.map(async (cartItem:any) => {
+        const cartDetails = await db.cart.findFirst({
+          where: { id: cartItem.id },
+        });
+        if (cartDetails) {
+          const product = await db.product.findFirst({
+            where: { id: cartDetails.productId },
+          });
+          if (product) {
+            if(product.sales>0){
+              const newStock = product.stock + cartDetails.quantity;
+              const newSales = product.sales - cartDetails.quantity;
+  
+              if (typeof newStock === 'number' && typeof newSales === 'number') {
+                await db.product.update({
+                  where: { id: product.id },
+                  data: {
+                    stock: newStock,
+                    sales: newSales,
+                  },
+                });
+              }
+            }
+           
+          }
+        }
+      });
+      await Promise.all(cartItemsUpdatePromises);
+    } else if (orderItem.status !== "COMPLATE" && status === "COMPLATE") {
+      const cartItemsUpdatePromises = orderItem.cartItems.map(async (cartItem:any) => {
+        const cartDetails = await db.cart.findFirst({
+          where: { id: cartItem.id },
+        });
+        if (cartDetails) {
+          const product = await db.product.findFirst({
+            where: { id: cartDetails.productId },
+          });
+          if (product) {
+            const newStock = product.stock - cartDetails.quantity;
+            const newSales = product.sales + cartDetails.quantity;
+          
+            if (typeof newStock === 'number' && typeof newSales === 'number') {
+              await db.product.update({
+                where: { id: product.id },
+                data: {
+                  stock: newStock,
+                  sales: newSales,
+                },
+              });
+            }
+          }
+        }
+      });
+      await Promise.all(cartItemsUpdatePromises);
+    }
 
     return NextResponse.json({ message: "Order updated successfully" });
   } catch (error) {
@@ -76,3 +128,4 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     return NextResponse.json({ message: "Failed to update Order", error }, { status: 500 });
   }
 }
+

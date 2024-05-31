@@ -34,25 +34,38 @@ const TableAction = ({
   id: string;
 }) => {
   const [deleteBanner, { isSuccess }] = useDeleteBannerMutation();
-  const [deleteBrand, { isSuccess: brandSuccess }] = useDeleteBrandMutation();
-  const [deleteCategory, { isSuccess: categorySuccess }] =
-    useDeleteCategoryMutation();
-  const [deleteCommunity, { isSuccess: communitySuccess }] =
-    useDeleteCommunityMutation();
+  const [deleteBrand, { isSuccess: brandSuccess }] =
+    useDeleteBrandMutation();
+  const [
+    deleteCategory,
+    { isSuccess: categorySuccess },
+  ] = useDeleteCategoryMutation();
+  const [
+    deleteCommunity,
+    { isSuccess: communitySuccess,  },
+  ] = useDeleteCommunityMutation();
   const [deleteCoupon, { isSuccess: couponSuccess }] =
     useDeleteCouponMutation();
-  const [deleteCustomer, { isSuccess: customerSuccess }] =
-    useDeleteCustomerMutation();
+  const [
+    deleteCustomer,
+    { isSuccess: customerSuccess },
+  ] = useDeleteCustomerMutation()
   const [deleteFarmer, { isSuccess: farmerSuccess }] =
     useDeleteFarmerMutation();
   const [deleteMarket, { isSuccess: marketSuccess }] =
     useDeleteMarketMutation();
-  const [deleteProduct, { isSuccess: productSuccess }] =
-    useDeleteProductMutation();
-  const [deleteStaff, { isSuccess: staffSuccess }] = useDeleteStaffMutation();
-  const [deleteTag, { isSuccess: tagSuccess }] = useDeleteTagMutation();
-  const [deleteUser, { isSuccess: userSuccess }] = useDeleteUserMutation();
-  const [deleteOrder, { isSuccess: orderSuccess }] = useDeleteOrderMutation();
+  const [
+    deleteProduct,
+    { isSuccess: productSuccess },
+  ] = useDeleteProductMutation();
+  const [deleteStaff, { isSuccess: staffSuccess }] =
+    useDeleteStaffMutation();
+  const [deleteTag, { isSuccess: tagSuccess }] =
+    useDeleteTagMutation();
+  const [deleteUser, { isSuccess: userSuccess }] =
+    useDeleteUserMutation();
+  const [deleteOrder, { isSuccess: orderSuccess }] =
+    useDeleteOrderMutation();
   const handleDelete = (id: string) => {
     switch (name) {
       case "banner":
@@ -92,7 +105,7 @@ const TableAction = ({
         deleteTag(id);
         break;
       case "user":
-        deleteUser(id);
+        deleteUser(`/user/${id}`);
         break;
 
       default:
@@ -102,34 +115,46 @@ const TableAction = ({
   useEffect(() => {
     if (isSuccess) {
       toast.success("Banner deleted!");
+ 
     } else if (brandSuccess) {
       toast.success("Brand deleted!");
+      
     } else if (categorySuccess) {
       toast.success("Category deleted!");
+      
     } else if (communitySuccess) {
       toast.success("Community deleted!");
+    
     } else if (couponSuccess) {
       toast.success("Coupon deleted!");
+     
     } else if (customerSuccess) {
       toast.success("Customer deleted!");
+     
     } else if (farmerSuccess) {
       toast.success("Farmer deleted!");
+    
     } else if (marketSuccess) {
       toast.success("Market deleted!");
+      
     } else if (productSuccess) {
       toast.success("Product deleted!");
+      
     } else if (staffSuccess) {
       toast.success("Staff deleted!");
+      
     } else if (tagSuccess) {
       toast.success("Tag deleted!");
+     
     } else if (userSuccess) {
       toast.success("User deleted!");
+      
     } else if (orderSuccess) {
       toast.success("Order deleted!");
-    }else{
-      toast.dismiss()
+      
     }
-  }, [orderSuccess,
+  }, [
+    orderSuccess,
     isSuccess,
     brandSuccess,
     categorySuccess,
@@ -142,6 +167,7 @@ const TableAction = ({
     staffSuccess,
     tagSuccess,
     userSuccess,
+
   ]);
   return (
     <div>

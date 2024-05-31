@@ -25,7 +25,7 @@ export async function PUT(req: Request) {
     if (!req.body) {
       throw new Error('Request body is missing');
     }
-    const {name, email,imgUrl } = await req.json();
+    const {name, email,imgUrl,password,role } = await req.json();
     const user = await db.user.findUnique({
       where: {
         email,
@@ -45,7 +45,7 @@ export async function PUT(req: Request) {
         email,
       },
       data: {
-        name,email,imgUrl
+        name, email,imgUrl,password,role
       },
     });
     return NextResponse.json(updatedUser);

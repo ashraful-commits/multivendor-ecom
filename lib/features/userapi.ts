@@ -26,6 +26,10 @@ export const UserApi = api.injectEndpoints({
       query: (email) => `users/${email}`,
       providesTags: (result, error, id) => [{ type: 'User', id }],
     }),
+    getSingleUserById: builder.query<userData, string>({
+      query: (id) => `users/user/${id}`,
+      providesTags: (result, error, id) => [{ type: 'User', id }],
+    }),
     editUser: builder.mutation<userData, Partial<userData>>({
       query: (User) => ({
         url: `users/${User?.email}`,
@@ -52,4 +56,5 @@ export const {
   useGetSingleUserQuery,
   useEditUserMutation,
   useDeleteUserMutation,
+  useGetSingleUserByIdQuery
 } = UserApi;

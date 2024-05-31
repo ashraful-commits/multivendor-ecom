@@ -28,12 +28,12 @@ const CartTotal = ({ id }: { id: string }) => {
   return (
     <div className="mx-auto flex justify-center items-center w-full h-full cursor-pointer ">
       <div className="relative h-full flex gap-x-4 justify-center items-center w-full  max-sm:flex-col">
-        <div className=" px-2 max-sm:px-3 max-sm:h-auto h-full grid grid-cols-2 max-sm:grid-rows-2 justify-center items-center bg-blue-500">
+        <div className=" px-2 max-sm:px-3 max-sm:h-auto h-full grid grid-cols-2 max-sm:grid-rows-2 justify-center items-center bg-green-500">
           <span className=" block w-full text-slate-900 dark:text-slate-100 font-bold text-[14px]">
             {carts?.length >  0&& session ? carts?.length : 0}
           </span>
         </div>
-        <ShoppingBag className="block text-blue-500 my-auto" />
+        <ShoppingBag className="block text-green-500 my-auto" />
       </div>
     </div>
   );

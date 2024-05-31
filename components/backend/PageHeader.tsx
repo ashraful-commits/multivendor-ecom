@@ -1,10 +1,21 @@
-"use client"
-import React,{useEffect,useState} from 'react'
+"use client";
+import React, { useEffect, useState } from "react";
 import { Download, Trash2 } from "lucide-react";
-import Link  from 'next/link';
-import {Plus} from "lucide-react"
-import Heading from './Heading';
-import { PageHeaderProps, TagData, bannerData, brandData, CategoryData, ProductData, marketData, staffData, communityData, couponData } from '../../typescript';
+import Link from "next/link";
+import { Plus } from "lucide-react";
+import Heading from "./Heading";
+import {
+  PageHeaderProps,
+  TagData,
+  bannerData,
+  brandData,
+  CategoryData,
+  ProductData,
+  marketData,
+  staffData,
+  communityData,
+  couponData,
+} from "../../typescript";
 import { toast } from "react-hot-toast";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@/components/ui/button";
@@ -60,35 +71,55 @@ import {
 } from "@/components/ui/alert-dialog";
 import { updateBulkData } from "@/lib/features/bulkSlice";
 import * as XLSX from "xlsx";
-import { RootState } from '@/lib/store';
-import { filterDuplicates } from '@/lib/DataFilterFunction';
-const PageHeader = ({title,href,linkTitle}:PageHeaderProps) => {
+import { RootState } from "@/lib/store";
+import { filterDuplicates } from "@/lib/DataFilterFunction";
+const PageHeader = ({ title, href, linkTitle }: PageHeaderProps) => {
   const bulkIds = useSelector((state: RootState) => state.bulk.bulk);
-  console.log(bulkIds.client)
+  console.log(bulkIds.client);
   const dispatch = useDispatch();
   const [file, setFile] = useState<File | null>(null);
   const [jsonData, setJsonData] = useState<string | null>(null);
-  const [addNewMultiBanner, { isSuccess: isAddBannerSuccess }] =
-  useAddNewMultiBannerMutation();
-const [addNewMultiBrand, { isSuccess: isAddBrandSuccess }] =
-  useAddNewMultiBrandMutation();
-const [addNewMultiCategory, { isSuccess: isAddCategorySuccess }] =
-  useAddNewMultiCategoryMutation();
-const [addNewMultiCommunity, { isSuccess: isAdCommunitySuccess }] =
-  useAddNewCommunityMutation();
-const [addNewMultiCoupon, { isSuccess: isAddCouponSuccess }] =
-  useAddNewMultiCouponMutation();
-const [addNewMultiMarket, { isSuccess: isAddMarketSuccess }] =
-  useAddNewMultiMarketMutation();
-const [addNewMultiProduct, { isSuccess: isAddProductSuccess }] =
-  useAddNewMultiProductMutation();
-const [addNewMultiStaff, { isSuccess: isAddNewMultiStaffSuccess }] =
-  useAddNewMultiStaffMutation();
+  const [
+    addNewMultiBanner,
+    { isSuccess: isAddBannerSuccess },
+  ] = useAddNewMultiBannerMutation();
+  const [
+    addNewMultiBrand,
+    { isSuccess: isAddBrandSuccess},
+  ] = useAddNewMultiBrandMutation();
+  const [
+    addNewMultiCategory,
+    { isSuccess: isAddCategorySuccess },
+  ] = useAddNewMultiCategoryMutation();
+  const [
+    addNewMultiCommunity,
+    { isSuccess: isAdCommunitySuccess },
+  ] = useAddNewCommunityMutation();
+  const [
+    addNewMultiCoupon,
+    { isSuccess: isAddCouponSuccess },
+  ] = useAddNewMultiCouponMutation();
+  const [
+    addNewMultiMarket,
+    { isSuccess: isAddMarketSuccess },
+  ] = useAddNewMultiMarketMutation();
+  const [
+    addNewMultiProduct,
+    { isSuccess: isAddProductSuccess },
+  ] = useAddNewMultiProductMutation();
+  const [
+    addNewMultiStaff,
+    { isSuccess: isAddNewMultiStaffSuccess },
+  ] = useAddNewMultiStaffMutation();
 
-const [
-  addNewMultiTag,
-  { isSuccess: isMultiTagSuccess, isLoading: isMultiTagLoading },
-] = useAddNewMultiTagMutation();
+  const [
+    addNewMultiTag,
+    {
+      isSuccess: isMultiTagSuccess,
+      isLoading: isMultiTagLoading
+
+    },
+  ] = useAddNewMultiTagMutation();
   function previewData() {
     if (file) {
       const reader = new FileReader();
@@ -172,71 +203,101 @@ const [
     }
   };
   useEffect(() => {
-     if (isMultiTagSuccess) {
+    if (isMultiTagSuccess) {
       toast.success("Add Bulk tag!");
-    } else {
-      toast.dismiss(); 
+
+    } else if (isAddBannerSuccess) {
+      toast.success("Add Bulk banner!");
+
+    } else if (isAddBrandSuccess) {
+      toast.success("Add Bulk brand!");
+
+    } else if (isAddCategorySuccess) {
+      toast.success("Add Bulk category!");
+
+    } else if (isAdCommunitySuccess) {
+      toast.success("Add Bulk community!");
+
+    } else if (isAddCouponSuccess) {
+      toast.success("Add Bulk coupon!");
+ 
+    } else if (isAddMarketSuccess) {
+      toast.success("Add Bulk market!");
+    
+    } else if (isAddProductSuccess) {
+      toast.success("Add Bulk product!");
+      
+    } else if (isAddNewMultiStaffSuccess) {
+      toast.success("Add Bulk staff!");
+     
     }
   }, [
-    
+ 
     isMultiTagSuccess,
-    isMultiTagLoading,
+    isAddBannerSuccess,
+    isAddBrandSuccess,
+    isAddCategorySuccess,
+    isAdCommunitySuccess,
+    isAddCouponSuccess,
+    isAddMarketSuccess,
+    isAddProductSuccess,
+    isAddNewMultiStaffSuccess,
   ]);
 
   return (
-
     <div className="flex justify-between items-center bg-slate-900 dark:bg-white text-white dark:text-slate-900">
-   <Heading title={title}/>
-   <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button
-                onClick={() =>
-                  dispatch(updateBulkData({ ...bulkIds, client: `${title}` }))
-                }
-                className="bg-orange-500 flex gap-x-4 items-center"
-                variant="default"
-              >
-                <Download />
-                Bulk Export
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <div className="max-h-[300px] min-h-[300px] overflow-y-scroll">
-                <pre>{jsonData}</pre>
-              </div>
-              <div>
-                <Input
-                  onChange={(e: any) => setFile(e.target.files[0])}
-                  accept=".xls,.xlsx"
-                  type="file"
-                />
-              </div>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you want to export?</AlertDialogTitle>
-              </AlertDialogHeader>
-              <AlertDialogFooter className="flex gap-4 max-sm:flex-col">
-                <Button onClick={() => previewData()}>Preview</Button>
-                <Button
-                  onClick={() => {
-                    setJsonData(null), setFile(null);
-                  }}
-                >
-                  clear
-                </Button>
-                <AlertDialogCancel className="bg-red-500">
-                  Cancel
-                </AlertDialogCancel>
-                <AlertDialogAction onClick={createData}>
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-   <Link className="flex  max-sm:w-12 gap-x-2 bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-700 dark:text-white text-slate-900" href={href}> <Plus/><span className="max-sm:!hidden block">{linkTitle}</span></Link>
-  </div>
- 
-  
-  )
-}
+      <Heading title={title} />
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button
+            onClick={() =>
+              dispatch(updateBulkData({ ...bulkIds, client: `${title}` }))
+            }
+            className="bg-orange-500 flex gap-x-4 items-center"
+            variant="default"
+          >
+            <Download />
+            Bulk Export
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <div className="max-h-[300px] min-h-[300px] overflow-y-scroll">
+            <pre>{jsonData}</pre>
+          </div>
+          <div>
+            <Input
+              onChange={(e: any) => setFile(e.target.files[0])}
+              accept=".xls,.xlsx"
+              type="file"
+            />
+          </div>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you want to export?</AlertDialogTitle>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex gap-4 max-sm:flex-col">
+            <Button onClick={() => previewData()}>Preview</Button>
+            <Button
+              onClick={() => {
+                setJsonData(null), setFile(null);
+              }}
+            >
+              clear
+            </Button>
+            <AlertDialogCancel className="bg-red-500">Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={createData}>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <Link
+        className="flex  max-sm:w-12 gap-x-2 bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-700 dark:text-white text-slate-900"
+        href={href}
+      >
+        {" "}
+        <Plus />
+        <span className="max-sm:!hidden block">{linkTitle}</span>
+      </Link>
+    </div>
+  );
+};
 
-export default PageHeader
+export default PageHeader;

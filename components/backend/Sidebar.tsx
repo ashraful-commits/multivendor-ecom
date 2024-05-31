@@ -92,7 +92,9 @@ const Sidebar = ({ setShowSidebar, showSidebar }: SidebarProps) => {
       )
     } else if (session?.user?.role === "ADMIN") {
       setLinks(
-        [{ href: "/dashboard", icon: <LayoutGrid />, text: "Dashboard" },
+        [
+        { href: "/dashboard", icon: <LayoutGrid />, text: "Dashboard" },
+        { href: "/dashboard/users", icon: <User />, text: "Users" },
         {
           href: "/dashboard/catalogue",
           icon: <Slack />,
@@ -224,7 +226,7 @@ const Sidebar = ({ setShowSidebar, showSidebar }: SidebarProps) => {
         </Link>
         <X
           onClick={() => setShowSidebar(!showSidebar)}
-          className="hidden max-sm:!block max-sm:fixed max-sm:bottom-5 max-sm:right-5 text-white dark:text-slate-900 cursor-pointer "
+          className="hidden max-sm:!block bg-white rounded-full p-1 w-10 h-10 max-sm:fixed max-sm:bottom-5 max-sm:right-5 text-white dark:text-slate-900 cursor-pointer "
         />
       </div>
       <div className="space-y-2 flex flex-col dark:text-slate-800 text-slate-50 overflow-y-scroll max-h-[80vh] z-[9999999999] min-h-[80vh]">
