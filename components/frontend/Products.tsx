@@ -173,7 +173,7 @@ const Products = ({ products }: { products: ProductData[] }) => {
                   <ShoppingCart className="size-5" />
                   {isAddLoading ? (
                     <Loading className="!px-0 !mx-0" />
-                  ) : carts?.some((item) => item.productId === product?.id) ? (
+                  ) : session && carts?.some((item) => item.productId === product?.id) ? (
                     <Check className="size-5" />
                   ) : (
                     <Plus className="size-5" />
@@ -188,7 +188,7 @@ const Products = ({ products }: { products: ProductData[] }) => {
                 >
                   {isFaLoading ? (
                     <Loading />
-                  ) : favorites?.some(
+                  ) :session&& favorites?.some(
                       (item) => item.productId === product?.id
                     ) ? (
                     <Heart className="size-5 text-transparent fill-red-500" />

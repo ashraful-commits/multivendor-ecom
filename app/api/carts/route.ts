@@ -24,14 +24,10 @@ export async function POST(req: Request) {
     });
 
     if (existInCart) {
-      const updatedCart = await db.cart.update({
-        where: { id: existInCart.id },
-        data: {
-          quantity: existInCart.quantity + quantity,
-          total: existInCart.total + total,
-        },
+      const deleteCart = await db.cart.delete({
+        where: { id: existInCart.id }
       });
-      return NextResponse.json(updatedCart);
+      return NextResponse.json({msg:"Removed to cart"});
     } else {
       const newCart = await db.cart.create({
         data: { productId, userId, quantity, total },
