@@ -32,6 +32,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import SingleProudcutImg from "./SingleProudcutImg";
 import ProductReview from "./ProductReview";
+import ReactMagnify from './ReactMagnify';
 import {
   Dialog,
   DialogContent,
@@ -151,15 +152,15 @@ const Products = ({ products }: { products: ProductData[] }) => {
               key={index}
               className="image-item relative group overflow-hidden"
             >
-             
-                <Image placeholder="blur" blurDataURL={product?.imgUrl[0]}
+              <ReactMagnify imageUrl={product?.imgUrl[0] ? product?.imgUrl[0] : ""} />
+                {/* <Image placeholder="blur" blurDataURL={product?.imgUrl[0]}
                   width={1000}
                   height={1000}
                   loading="lazy"
-                  className="p-5 max-sm:p-0"
+                  className="p-5 max-sm:p-0 group-hover:border-2 group-hover:border-blue-500 transition-all duration-500 ese-in-out "
                   src={product?.imgUrl[0]}
                   alt={`Image+${index}`}
-                />
+                /> */}
            
               <div className="w-[60px] transition-all duration-500 delay-100 ease-in-out translate-x-16 group-hover:translate-x-0  absolute -right-2 bottom-12  p-1 flex flex-col justify-center max-sm:translate-x-0">
                 <Button
@@ -184,7 +185,7 @@ const Products = ({ products }: { products: ProductData[] }) => {
                   onClick={() => handleAddToFavorite(product?.id)}
                   variant="default"
                   size="sm"
-                  className="flex backdorp-blur-sm bg-slate-100 text-slate-900  bg-opacity-20 hover:text-white dark:hover:text-slate-900 rounded-none  text-sm gap-x-1"
+                  className="flex backdrop-blur-sm bg-slate-100 text-slate-900  bg-opacity-20 hover:text-white dark:hover:text-slate-900 rounded-none  text-sm gap-x-1"
                 >
                   {isFaLoading ? (
                     <Loading />
@@ -197,9 +198,8 @@ const Products = ({ products }: { products: ProductData[] }) => {
                   )}
                 </Button>
 
-               
               </div>
-              <div className="absolute backdrop-blur-sm opacity-0 bg-slate-200 bg-opacity-20 max-sm:opacity-100 max-sm:translate-y-0 translate-y-5 group-hover:translate-y-0 group-hover:opacity-100 duration-500 transition-all ease-in-out bottom-0 left-0 w-full py-2 px-3">
+              <div className="absolute backdrop-blur-sm opacity-0 bg-slate-200 bg-opacity-20 max-sm:opacity-100 max-sm:translate-y-0  translate-y-5 group-hover:translate-y-0 group-hover:opacity-100 duration-500 transition-all ease-in-out bottom-0 left-0 w-full py-2 px-3">
                 <div className="flex justify-between  px-1 items-center">
                   <h5 className="p-2 w-24 truncate dark:text-slate-900 max-sm:text-sm  text-md font-bold">
                     {product?.name}
