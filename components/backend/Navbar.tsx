@@ -16,7 +16,7 @@ import {
   DropdownMenuPortal,
   DropdownMenuSubContent,
 } from '@/components/ui/dropdown-menu';
-
+import {useRouter} from "next/navigation"
 import { Button } from '@/components/ui/button';
 import {
   Sun,
@@ -35,8 +35,10 @@ import { signOut } from 'next-auth/react';
 import useSessionData from './../../hooks/useSessionData';
 import Link from "next/link"
 const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
+  const router = useRouter()
   const handleLogout=async()=>{
     await signOut({ redirect: false, callbackUrl: '/' });
+    router.push("/")
   }
   const {theme,setTheme} = useTheme()
   const session = useSessionData() as SessionData;
@@ -172,9 +174,11 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
               <span>Support</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout}>
+            <DropdownMenuItem >
+              <Button varient="deafult" onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>
+              </Button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

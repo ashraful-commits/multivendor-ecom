@@ -46,7 +46,7 @@ export default function Carousel({ data }:{data:bannerData[]}) {
         modules={[Autoplay,Zoom, EffectFade, Mousewheel,Pagination]}
         className="mySwiper"
       >
-        {data?.map((item:any, index:number) => (
+        {data?.slice(0,5)?.map((item:any, index:number) => (
           <SwiperSlide key={index}>
             <Image placeholder="blur" blurDataURL={item.imgUrl} width={1000} height={1000} className="h-full w-full" src={item.imgUrl} alt={item.title} />
           </SwiperSlide>

@@ -232,7 +232,7 @@ const [
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-   <Link className="flex gap-x-2 bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-700 dark:text-white text-slate-900" href={href}> <Plus/><span>{linkTitle}</span></Link>
+   <Link className="flex  max-sm:w-12 gap-x-2 bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-700 dark:text-white text-slate-900" href={href}> <Plus/><span className="max-sm:!hidden block">{linkTitle}</span></Link>
   </div>
  
   

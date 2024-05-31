@@ -167,13 +167,13 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
               </a>
             </div>
           </div>
-          <div className="mt-6 sm:gap-4 w-full sm:items-center sm:flex sm:mt-8">
+          <div className="mt-6 max-sm:gap-4 w-full gap-x-4 items-center flex max-sm:items-center max-sm:flex-col max-sm:justify-center max-sm:mt-8">
             {product && (
               <button
                 onClick={() =>
                   !isAddFavLoading && handleAddToFavorite(product?.id)
                 }
-                className={`text-white max-sm:w-full mt-4 sm:mt-0 bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-slate-600 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800 flex items-center justify-center ${
+                className={`text-white min-w-24 max-sm:w-full mt-4 sm:mt-0 bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-slate-600 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800 flex items-center justify-center ${
                   isAddFavLoading ? "cursor-not-allowed opacity-50" : ""
                 }`}
                 disabled={isAddFavLoading}
@@ -183,12 +183,12 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
                 ) : favorites?.some((item) => item.productId === product.id) ? (
                   <>
                     <Heart className="fill-red-500 text-transparent" />
-                    <span className="ml-2">Added to cart</span>
+                    <span className="ml-2 block truncate">Added to cart</span>
                   </>
                 ) : (
                   <>
                   <Heart />
-                    <span className="ml-2">Add to Favorites</span>
+                    <span className="ml-2 block truncate">Add to Favorites</span>
                   </>
                 )}
               </button>
@@ -199,7 +199,7 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
                   !isAddLoading &&
                   handleAddToCart(product?.id, product?.salesPrice)
                 }
-                className={`text-white mt-4  max-sm:w-full sm:mt-0 bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-slate-600 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800 flex items-center justify-center ${
+                className={`text-white mt-4 truncate max-sm:w-full sm:mt-0 bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-slate-600 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800 flex items-center justify-center ${
                   isAddLoading ? "cursor-not-allowed opacity-50" : ""
                 }`}
                 disabled={isAddLoading}
@@ -209,17 +209,17 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
                 ) : carts?.some((item) => item.productId === product.id) ? (
                   <>
                     <Check />
-                    <span className="ml-2">Added to cart</span>
+                    <span className="ml-2 truncate block">Added to cart</span>
                   </>
                 ) : (
                   <>
                     <Plus />
-                    <span className="ml-2">Add to cart</span>
+                    <span className="ml-2 truncate block">Add to cart</span>
                   </>
                 )}
               </button>
             )}
-            <div className="max-sm:mt-5">
+            <div className="max-sm:mt-5 mt-5">
 
             <CartQuantity
               className="flex items-center justify-evenly max-sm:justify-between mx-auto bg-slate-600 dark:bg-slate-700 p-1 !rounded-xl gap-x-5"

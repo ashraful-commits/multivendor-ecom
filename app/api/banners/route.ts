@@ -25,7 +25,6 @@ export async function GET() {
   try {
     const banners = await db.banner.findMany({
       orderBy: { createdAt: "desc" },
-      take:5
     });
     return NextResponse.json(banners);
   } catch (error) {

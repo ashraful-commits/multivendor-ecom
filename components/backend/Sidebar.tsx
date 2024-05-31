@@ -224,10 +224,10 @@ const Sidebar = ({ setShowSidebar, showSidebar }: SidebarProps) => {
         </Link>
         <X
           onClick={() => setShowSidebar(!showSidebar)}
-          className="hidden max-sm:block text-white dark:text-slate-900 cursor-pointer "
+          className="hidden max-sm:!block max-sm:fixed max-sm:bottom-5 max-sm:right-5 text-white dark:text-slate-900 cursor-pointer "
         />
       </div>
-      <div className="space-y-2 flex flex-col dark:text-slate-800 text-slate-50 overflow-y-scroll max-h-[80vh] min-h-[80vh]">
+      <div className="space-y-2 flex flex-col dark:text-slate-800 text-slate-50 overflow-y-scroll max-h-[80vh] z-[9999999999] min-h-[80vh]">
         {links?.map((item, i) => (
           <Accordion key={i} type="single" collapsible className="w-full">
             <AccordionItem className="border-none" value={`item-${i}`}>

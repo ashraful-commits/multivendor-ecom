@@ -51,7 +51,7 @@ export const bannerColumns: ColumnDef<bannerData>[] = [
     accessorKey: "title",
     header: ({ column }) => (
       <Button
-        className="text-white dark:text-slate-900"
+        className="text-white dark:text-slate-900 "
         variant="ghost"
         onClick={() => column.toggleSorting()}
       >
@@ -64,7 +64,7 @@ export const bannerColumns: ColumnDef<bannerData>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
+      <div className="lowercase min-w-32 truncate max-w-32 text-white dark:text-slate-900">
         {row.getValue("title")}
       </div>
     ),
@@ -449,7 +449,7 @@ export const TagColumns: ColumnDef<TagData>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
         {row.getValue("name")}
       </div>
     ),
@@ -472,7 +472,7 @@ export const TagColumns: ColumnDef<TagData>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
         {row.getValue("slug")}
       </div>
     ),
@@ -686,7 +686,7 @@ export const FarmerColumns: ColumnDef<farmerData>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
         {row.getValue("name")}
       </div>
     ),
@@ -708,7 +708,7 @@ export const FarmerColumns: ColumnDef<farmerData>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
         {row.getValue("contact")}
       </div>
     ),
@@ -730,7 +730,7 @@ export const FarmerColumns: ColumnDef<farmerData>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
         {row.getValue("phone")}
       </div>
     ),
@@ -752,7 +752,7 @@ export const FarmerColumns: ColumnDef<farmerData>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
         {row.getValue("uniqueCode")}
       </div>
     ),
@@ -774,7 +774,7 @@ export const FarmerColumns: ColumnDef<farmerData>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
         {row.getValue("landSize")}
       </div>
     ),
@@ -796,7 +796,7 @@ export const FarmerColumns: ColumnDef<farmerData>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
         {row.getValue("mainCrop")}
       </div>
     ),
@@ -818,7 +818,7 @@ export const FarmerColumns: ColumnDef<farmerData>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
         {row.getValue("email")}
       </div>
     ),
@@ -886,7 +886,7 @@ export const MarketColumns: ColumnDef<marketData>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
         {row.getValue("name")}
       </div>
     ),
@@ -896,7 +896,7 @@ export const MarketColumns: ColumnDef<marketData>[] = [
     accessorKey: "slug",
     header: "Slug",
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
         {row.getValue("slug")}
       </div>
     ),
@@ -964,7 +964,7 @@ export const StaffColumns: ColumnDef<staffData>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
         {row.getValue("name")}
       </div>
     ),
@@ -974,7 +974,7 @@ export const StaffColumns: ColumnDef<staffData>[] = [
     accessorKey: "email",
     header: "Email",
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
         {row.getValue("email")}
       </div>
     ),
@@ -1059,7 +1059,7 @@ export const OrderColumns: ColumnDef<orderData>[] = [
     accessorKey: "streetAddress",
     header: "Street Address",
     cell: ({ row }) => (
-      <div className="lowercase text-white dark:text-slate-900">
+      <div className="lowercase text-white dark:text-slate-900 min-w-32 truncate max-w-32">
         {row.getValue("streetAddress")}
       </div>
     ),
@@ -1067,7 +1067,7 @@ export const OrderColumns: ColumnDef<orderData>[] = [
   {
     accessorKey: "user",
     header: "Image",
- 
+
     cell: ({ row }) => {
       const user: userData = row.getValue("user");
       const imgUrl = user?.imgUrl;
