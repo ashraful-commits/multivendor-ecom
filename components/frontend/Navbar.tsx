@@ -39,19 +39,24 @@ import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../lib/store";
 import { updateFilterData } from "../../lib/features/filterSlice";
+import { updateCheckoutFormData } from "../../lib/features/stepSlice";
 const Navbar = () => {
   const dispatch = useDispatch();
   const filter = useSelector((state: RootState) => state.filter.filter);
+  const orderStatus = useSelector((state: RootState) => state.checkout.checkoutFormData);
   const router = useRouter();
+  console.log(orderStatus)
   const handleSearch = (e: any) => {
     dispatch(updateFilterData({ ...filter, search: e.target.value }));
   };
   const handleGoToProduct = (e: any) => {
     router.push("/products");
+  
   };
 
   const handleSignOut = async() => {
     await signOut({ redirect: false, callbackUrl: '/' });
+    dispatch(updateCheckoutFormData({...orderStatus, orderStatus: true}));
   };
   const session = useSessionData() as SessionData;
   const { theme, setTheme } = useTheme();

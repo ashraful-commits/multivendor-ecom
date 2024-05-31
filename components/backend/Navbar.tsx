@@ -36,9 +36,11 @@ import useSessionData from './../../hooks/useSessionData';
 import Link from "next/link"
 const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
   const router = useRouter()
+
   const handleLogout=async()=>{
     await signOut({ redirect: false, callbackUrl: '/' });
     router.push("/")
+    
   }
   const {theme,setTheme} = useTheme()
   const session = useSessionData() as SessionData;
