@@ -66,7 +66,7 @@ const ProfileSetting = () => {
     <ContainerBox>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="min-h-screen p-6  flex items-center justify-center"
+        className="min-h-screen max-sm:min-h-auto p-6 max-sm:p-0 flex items-center justify-center"
       >
         <div className="container max-w-screen-lg mx-auto">
           <div>
@@ -78,7 +78,7 @@ const ProfileSetting = () => {
               <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-2">
                 <div className="text-gray-600">
                   <div>
-                    <div className="flex items-center flex-col space-x-6">
+                    <div className="flex items-center flex-col max-sm:mx-auto space-x-6">
                       <div className="shrink-0">
                         <Image
                           width={1000}
@@ -89,7 +89,7 @@ const ProfileSetting = () => {
                           alt="Current profile photo"
                         />
                       </div>
-                      <label className="block">
+                      <label className="block max-sm:mx-auto ">
                         <ImageUpload
                           endpoint="profileImageUpload"
                           setImage={setImage}

@@ -54,25 +54,26 @@ const OrderSummary = () => {
       cartItems: cartIds,
       userId: session?.user?.id,
       productIds: carts?.map((item) => item?.productId),
-      total: carts?.reduce((total, item) => total + item.total, 0),
+      total: carts?.reduce((total, item) => total + item.total, paymentDetails.shippingCost),
     };
     addNewOrder(orderDetails);
-    dispatch(updateCheckoutFormData({ ...orderState, orderStatus: true }))
     if (checkoutFormData?.paymentMethod == "credit card") {
       addNewPayment(paymentDetails);
-    } else {
-      router.push("/success");
     }
   };
   useEffect(() => {
     if (paymentReturnData) {
+      toast.success("order confirm");
+      dispatch(updateCheckoutFormData({ ...orderState, orderStatus: true }))
       window.location.href = paymentReturnData?.url;
     }
     if (isSuccess) {
       toast.success("order confirm");
+      router.push("/success");
+      dispatch(updateCheckoutFormData({ ...orderState, orderStatus: true }))
       
     }
-  }, [isSuccess, paymentReturnData]);
+  }, [isSuccess, paymentReturnData,router]);
   if (isLoading) {
     return (
       <div>
@@ -93,7 +94,7 @@ const OrderSummary = () => {
                     carts?.map((cart, index) => (
                       <li
                         key={index}
-                        className="flex items-center justify-between w-full py-3"
+                        className="flex items-center  justify-between w-full py-3"
                       >
                         <div className="h-10 w-10 flex max-sm:grid max-sm:grid-cols-1 items-center gap-x-5 rounded-md border border-gray-200">
                           <Image
@@ -106,12 +107,12 @@ const OrderSummary = () => {
                             className="w-10 h-10 object-cover object-center"
                           />
                           <div className="flex flex-col font-medium">
-                            <h3 className="truncate w-24 ">
+                            <h3 className="truncate w-24 max-sm:w-12 ">
                               <a className="truncate w-24 block" href="#">{cart?.product?.name}</a>
                             </h3>
                           </div>
                         </div>
-                        <p className=" border p-5 rounded-md border-slate-300 dark:border-slate-500 w-10 flex items-center justify-center h-10">
+                        <p className=" border p-5 max-sm:ml-20 rounded-md border-slate-300 dark:border-slate-500 w-10 flex items-center justify-center h-10">
                           {" "}
                           {cart.quantity}
                         </p>

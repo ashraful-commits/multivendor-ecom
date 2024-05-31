@@ -44,11 +44,11 @@ const MasonryGallery = ({ title }: { title?: string }) => {
   return (
     <ContainerBox className="w-full">
 
-      <TitleComponent
+      {/* <TitleComponent
           className="my-5 !px-0  hidden max-sm:flex justify-between items-center"
           title="Products"
           link="/products"
-        />
+        /> */}
       <div className=" items-center w-full max-sm:hidden flex justify-between container-fluid md:container lg:container">
         <TitleComponent
           className="my-5 !px-0 flex justify-between items-center"

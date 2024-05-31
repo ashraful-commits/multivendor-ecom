@@ -210,7 +210,7 @@ const Products = ({ products }: { products: ProductData[] }) => {
                       <PackageOpen />
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="lg:min-w-[70vw] border-none md:min-w-[90vw] max-sm:w-[100%] overflow-y-scroll max-h-[70vh] lg:min-h-[35vh] max-sm:max-h-[75vh]">
+                  <DialogContent className="lg:min-w-[70vw] border-none md:min-w-[90vw] max-sm:w-[100%] overflow-y-scroll  max-h-[70vh] lg:min-h-[35vh] max-sm:max-h-[80vh]">
                     <DialogHeader>
                       <DialogTitle className="truncate w-44 mx-auto text-blue-500 text-center">{product.name}</DialogTitle>
                     </DialogHeader>

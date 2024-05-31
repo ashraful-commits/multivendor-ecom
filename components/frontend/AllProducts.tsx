@@ -37,6 +37,16 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 import { updateFilterData } from "../../lib/features/filterSlice";
 import { X, Tag } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
@@ -96,7 +106,7 @@ const AllProducts = () => {
   return (
     <ContainerBox className="mx-auto  w-full  ">
       <div
-        className={`m-2  max-h-[65px] max-sm:hidden sticky top-0 flex w-full gap-5 bg-slate-200 justify-between max-auto dark:bg-slate-900 p-2 z-[99999] mx-auto`}
+        className={`m-2 max-sm:!hidden  max-h-[65px]  sticky top-0 flex w-full gap-5 bg-slate-200 justify-between max-auto dark:bg-slate-900 p-2 z-[99999] mx-auto`}
       >
         <Link role="button" className="bg-blue-500 flex items-center gap-x-2  px-2 py-2" href="/"><ChevronLeft /> Back</Link>
         <Input
@@ -222,8 +232,8 @@ const AllProducts = () => {
         </DropdownMenu>
       </div>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+      <Dialog>
+        <DialogTrigger asChild>
           <Button
             size="sm"
             className="hidden fixed max-sm:flex rounded-full h-10 w-10 justify-center items-center bottom-2 !p-0  right-2 z-[9999]"
@@ -231,8 +241,8 @@ const AllProducts = () => {
           >
             <Filter className="block m-auto" />
           </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-screen flex mx-5 mt-auto items-center -right-12 fixed bottom-12 z-[999999]">
+        </DialogTrigger>
+        <DialogContent className="lg:min-w-[70vw] border-none md:min-w-[90vw] max-sm:w-[100%] overflow-y-scroll  max-h-[70vh] lg:min-h-[35vh] max-sm:max-h-[80vh] ">
           <div
             className={`m-2 max-sm:group-hover:block flex gap-5 max-sm:flex-col bg-slate-200  dark:bg-slate-900 p-2 w-full max-sm:bottom-10 right-0 z-[99999]`}
           >
@@ -349,8 +359,8 @@ const AllProducts = () => {
               <X />
             </Button>
           </div>
-        </DropdownMenuContent>
-      </DropdownMenu>
+        </DialogContent>
+      </Dialog>
 
       <div className="mt-20 max-sm:mt-0">
         <Products products={products as ProductData[]} />

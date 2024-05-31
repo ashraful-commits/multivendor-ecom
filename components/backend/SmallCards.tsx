@@ -22,19 +22,19 @@ const SmallCards = () => {
     },
     {
       title: "Order Pending",
-      sales: pendingData ? pendingData.length: 0,
+      sales: pendingData ? pendingData?.length: 0,
       color: "bg-orange-500",
       icon: <RefreshCw className="size-4" />
     },
     {
       title: "Order Processing",
-      sales: processData ? processData.length : 0,
+      sales: processData ? processData?.length : 0,
       color: "bg-yellow-500",
       icon: <RotateCcw className="size-4" />
     },
     {
       title: "Order Delivered",
-      sales:  completeData ? completeData.length : 0,
+      sales:  completeData ? completeData?.length : 0,
       color: "bg-purple-500",
       icon: <Check className="size-4" />
     },

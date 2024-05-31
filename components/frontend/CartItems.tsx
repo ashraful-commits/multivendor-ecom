@@ -86,7 +86,7 @@ const CartItems = ({ id }: { id: string }) => {
                           alt={cart?.product?.name}
                           className="w-full h-full object-cover object-center"
                         />
-                        <div className="flex flex-col font-medium">
+                        <div className="flex flex-col font-medium lg:ml-5">
                           <h3 className="block w-24 truncate">
                             <a className="block w-24 truncate" href="#">{cart?.product?.name}</a>
                           </h3>
