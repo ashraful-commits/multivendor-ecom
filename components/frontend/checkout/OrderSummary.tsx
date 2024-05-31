@@ -73,7 +73,7 @@ const OrderSummary = () => {
       dispatch(updateCheckoutFormData({ ...orderState, orderStatus: true }))
       
     }
-  }, [isSuccess, paymentReturnData,router,dispatch]);
+  }, [isSuccess, paymentReturnData,router,dispatch,orderState]);
   if (isLoading) {
     return (
       <div>
