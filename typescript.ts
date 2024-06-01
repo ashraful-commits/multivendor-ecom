@@ -515,3 +515,11 @@ export interface ReviewData {
   country:string;
   
 } 
+export interface notificationData {
+  id:string;
+  userId:userData;
+  read:boolean;
+  message:string;
+  createdAt: string;
+  updatedAt: string;
+} 

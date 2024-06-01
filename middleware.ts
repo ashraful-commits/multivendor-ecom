@@ -10,7 +10,7 @@ export default withAuth(
 
     // Define the roles and their corresponding allowed paths
     const rolePermissions = {
-      USER: ['/dashboard','/dashboard/orders' ],
+      USER: ['/dashboard/orders' ],
       SELLER: [
         '/dashboard',
         '/dashboard/customers',
@@ -108,7 +108,6 @@ export default withAuth(
         '/dashboard/store',
       ],
       CUSTOMER: [
-        '/dashboard',
         '/dashboard/orders',
         '/dashboard/wallet',
         '/dashboard/settings',

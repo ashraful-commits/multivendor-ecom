@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useTheme } from "next-themes"
 import {
@@ -34,16 +34,40 @@ import { NavbarProps, SessionData } from '../../typescript';
 import { signOut } from 'next-auth/react';
 import useSessionData from './../../hooks/useSessionData';
 import Link from "next/link"
+import { PusherClient } from '@/lib/pusher';
+import {useGetNotificationQuery,useEditNotificationMutation} from "@/lib/features/notificationapi"
 const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
   const router = useRouter()
-
+  const session = useSessionData() as SessionData;
+   const {data:notifications,refetch} = useGetNotificationQuery(session?.user?.id)
+   const [editNotification,{isSuccess}] = useEditNotificationMutation()
   const handleLogout=async()=>{
     await signOut({ redirect: false, callbackUrl: '/' });
     router.push("/")
     
   }
   const {theme,setTheme} = useTheme()
-  const session = useSessionData() as SessionData;
+  useEffect(() => {
+    if ( session?.user?.id) {
+     PusherClient.subscribe(session.user.id);
+      PusherClient.bind("new-order",(newMessage) => {
+        setMsg(newMessage);
+        console.log(newMessage);
+      });
+      return () => {
+       
+        PusherClient.unsubscribe(session.user.id);
+      };
+    }
+  }, [session?.user?.id]);
+  const handleEditNotification=(id:string,read:boolean)=>{
+    editNotification({id,read:!read})
+  }
+  useEffect(()=>{
+    if(isSuccess){
+      refetch()
+    }
+  },[isSuccess,refetch])
   return (
     <div className="flex items-center  right-0 justify-between bg-slate-800 dark:bg-slate-200 text-slate-100 dark:text-slate-900 h-20 px-4">
       <button className="border" onClick={()=>setShowSidebar(!showSidebar)}>
@@ -64,82 +88,28 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
               <Bell className="fill-blue-500" />
               <span className="sr-only">Notifications</span>
               <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white dark:text-slate-900 bg-red-500 border-2 border-white rounded-full -top-1 -start-2 dark:border-gray-500 ">
-                20
+              {notifications?.filter((item)=>item.read===false)?.length?notifications?.filter((item)=>item.read===false)?.length:0}
               </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-slate-700 dark:bg-white dark:border-slate-500 dark:text-slate-900 text-white dark" >
+            <DropdownMenuContent className="bg-slate-700 dark:bg-white dark:border-slate-500 dark:text-slate-900  text-white dark" >
               <DropdownMenuLabel>Notifications</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="flex gap-x-2">
-              <Avatar className="w-5 h-5">
-              <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
-              <AvatarFallback>AB</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col items-start justify-center">
-              <p className="truncate text-[10px]">Yellow Sweet Corn Stock out...</p>
-              <div className="flex gap-x-2 items-center">
-              <span className="bg-red-500 px-2 py-1 rounded-full text-white text-[10px] inline-block" >Stock out</span>
-              <span className="text-[10px]">Dec 12 2021-12:40PM</span>
+              {notifications?.length? notifications?.map((item,index)=>{
+                return<DropdownMenuItem key={index} className="flex gap-x-2">
+                <Avatar className="w-5 h-5">
+                <AvatarImage src={item?.user?.imgUrl?item?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
+                <AvatarFallback>AB</AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col items-start justify-center">
+                <p onClick={()=>handleEditNotification(item?.id,item?.read)} className="truncate max-w-24 min-w-24 text-[10px]">{item?.message}</p>
+             
               </div>
-            </div>
-            <X className="size-[14px]"/>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex gap-x-2">
-              <Avatar className="w-5 h-5">
-              <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
-              <AvatarFallback>AB</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col items-start justify-center">
-              <p className="truncate text-[10px]">Yellow Sweet Corn Stock out...</p>
-              <div className="flex gap-x-2 items-center">
-              <span className="bg-red-500 px-2 py-1 rounded-full text-white text-[10px] inline-block" >Stock out</span>
-              <span className="text-[10px]">Dec 12 2021-12:40PM</span>
-              </div>
-            </div>
-            <X className="size-[14px]"/>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex gap-x-2">
-              <Avatar className="w-5 h-5">
-              <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
-              <AvatarFallback>AB</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col items-start justify-center">
-              <p className="truncate text-[10px]">Yellow Sweet Corn Stock out...</p>
-              <div className="flex gap-x-2 items-center">
-              <span className="bg-red-500 px-2 py-1 rounded-full text-white text-[10px] inline-block" >Stock out</span>
-              <span className="text-[10px]">Dec 12 2021-12:40PM</span>
-              </div>
-            </div>
-            <X className="size-[14px]"/>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex gap-x-2">
-              <Avatar className="w-5 h-5">
-              <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
-              <AvatarFallback>AB</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col items-start justify-center">
-              <p className="truncate text-[10px]">Yellow Sweet Corn Stock out...</p>
-              <div className="flex gap-x-2 items-center">
-              <span className="bg-green-500 px-2 py-1 rounded-full text-white text-[10px] inline-block" >New order</span>
-              <span className="text-[10px]">Dec 12 2021-12:40PM</span>
-              </div>
-            </div>
-            <X className="size-[14px]"/>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex gap-x-2">
-              <Avatar className="w-5 h-5">
-              <AvatarImage src={session?.user?.imgUrl?session?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
-              <AvatarFallback>AB</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col items-start justify-center">
-              <p className="truncate text-[10px]">Yellow Sweet Corn Stock out...</p>
-              <div className="flex gap-x-2 items-center">
-              <span className="bg-red-500 px-2 py-1 rounded-full text-white text-[10px] inline-block" >Stock out</span>
-              <span className="text-[10px]">Dec 12 2021-12:40PM</span>
-              </div>
-            </div>
-            <X className="size-[14px]"/>
-              </DropdownMenuItem>
+              <X className="size-[14px]"/>
+                </DropdownMenuItem>
+              })
+             :<p>No notification</p>}
+           
+          
             </DropdownMenuContent>
           </DropdownMenu>
         </button>

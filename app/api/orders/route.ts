@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import db from "./../../../lib/db";
+import { PusherServer } from './../../../lib/pusher';
 interface orderData {
   firstName: string;
   lastName: string;
@@ -39,6 +40,11 @@ export async function POST(req: Request) {
       city,
       country,
     }: orderData = await req.json();
+  const findAdmin = await db.user.findFirst({
+    where:{
+      role:"ADMIN"
+    }
+  })
 
     const newOrder = await db.order.create({
       data: {
@@ -58,7 +64,24 @@ export async function POST(req: Request) {
         productIds,
       },
     });
+    if(newOrder){
+    await db.notification.create({
+        data:{
+          userId:findAdmin.id,
+          message:`New order from ${firstName} ${lastName} total ${total}`
+        }
+        
+      })
+    await db.notification.create({
+      data:{
+        userId:newOrder?.userId,
+        message:`Your order is pending total ${total}`
+      }
+      })
 
+      await PusherServer.trigger(findAdmin.id, 'new-order', {message:`New order from ${firstName} ${lastName} total ${total}`});
+      await PusherServer.trigger(userId, 'new-message', {message:`Your order in pending now total ${total}`});
+    }
     if (newOrder && cartItems.length > 0) {
       await db.cart.updateMany({
         where: {

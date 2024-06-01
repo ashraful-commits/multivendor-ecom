@@ -100,7 +100,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         const cartDetails = await db.cart.findFirst({
           where: { id: cartItem.id },
         });
-        await PusherServer.trigger(cartItem.useId,"order-complate","your order is completed")
+        
         if (cartDetails) {
           const product = await db.product.findFirst({
             where: { id: cartDetails.productId },
@@ -123,7 +123,37 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
       });
       await Promise.all(cartItemsUpdatePromises);
     }
-
+    if (orderItem?.userId && status==="COMPLATE") {
+      try {
+        await PusherServer.trigger(orderItem.userId, 'new-message', 'Your order is completed');
+        console.log("Pusher event triggered successfully");
+      } catch (error) {
+        console.error("Error triggering Pusher event:", error);
+      }
+    }if (orderItem?.userId && status==="CENCEL") {
+      try {
+        await PusherServer.trigger(orderItem.userId, 'new-message', 'Your order is cencel');
+        console.log("Pusher event triggered successfully");
+      } catch (error) {
+        console.error("Error triggering Pusher event:", error);
+      }
+    }if (orderItem?.userId && status==="PROCESS") {
+      try {
+        await PusherServer.trigger(orderItem.userId, 'new-message', 'Your order is processing');
+        console.log("Pusher event triggered successfully");
+      } catch (error) {
+        console.error("Error triggering Pusher event:", error);
+      }
+    }if (orderItem?.userId && status==="PENDING") {
+      try {
+        await PusherServer.trigger(orderItem.userId, 'new-message', 'Your order is pending');
+        console.log("Pusher event triggered successfully");
+      } catch (error) {
+        console.error("Error triggering Pusher event:", error);
+      }
+    } else {
+      console.error("Error: orderItem.userId is undefined");
+    }
     return NextResponse.json({ message: "Order updated successfully" });
   } catch (error) {
     console.error(error);
