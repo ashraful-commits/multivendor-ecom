@@ -32,7 +32,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import SingleProudcutImg from "./SingleProudcutImg";
 import ProductReview from "./ProductReview";
-import ReactMagnify from './ReactMagnify';
+import ReactMagnify from "./ReactMagnify";
 import {
   Dialog,
   DialogContent,
@@ -152,16 +152,11 @@ const Products = ({ products }: { products: ProductData[] }) => {
               key={index}
               className="image-item relative group overflow-hidden"
             >
-              <ReactMagnify imageUrl={product?.imgUrl[0] ? product?.imgUrl[0] : ""} />
-                {/* <Image placeholder="blur" blurDataURL={product?.imgUrl[0]}
-                  width={1000}
-                  height={1000}
-                  loading="lazy"
-                  className="p-5 max-sm:p-0 group-hover:border-2 group-hover:border-blue-500 transition-all duration-500 ese-in-out "
-                  src={product?.imgUrl[0]}
-                  alt={`Image+${index}`}
-                /> */}
-           
+              <div className="w-full group-hover:shadow-xl h-full group-hover:border-red-500 group-hover:border-2">
+                <ReactMagnify
+                  imageUrl={product?.imgUrl[0] ? product?.imgUrl[0] : ""}
+                />
+              </div>
               <div className="w-[60px] transition-all duration-500 delay-100 ease-in-out translate-x-16 group-hover:translate-x-0  absolute -right-2 bottom-12  p-1 flex flex-col justify-center max-sm:translate-x-0">
                 <Button
                   onClick={() =>
@@ -174,7 +169,8 @@ const Products = ({ products }: { products: ProductData[] }) => {
                   <ShoppingCart className="size-5" />
                   {isAddLoading ? (
                     <Loading className="!px-0 !mx-0" />
-                  ) : session && carts?.some((item) => item.productId === product?.id) ? (
+                  ) : session &&
+                    carts?.some((item) => item.productId === product?.id) ? (
                     <Check className="size-5" />
                   ) : (
                     <Plus className="size-5" />
@@ -189,7 +185,8 @@ const Products = ({ products }: { products: ProductData[] }) => {
                 >
                   {isFaLoading ? (
                     <Loading />
-                  ) :session&& favorites?.some(
+                  ) : session &&
+                    favorites?.some(
                       (item) => item.productId === product?.id
                     ) ? (
                     <Heart className="size-5 text-transparent fill-red-500" />
@@ -197,7 +194,6 @@ const Products = ({ products }: { products: ProductData[] }) => {
                     <Heart className="size-5" />
                   )}
                 </Button>
-
               </div>
               <div className="absolute backdrop-blur-sm opacity-0 bg-slate-200 bg-opacity-20 max-sm:opacity-100 max-sm:translate-y-0  translate-y-5 group-hover:translate-y-0 group-hover:opacity-100 duration-500 transition-all ease-in-out bottom-0 left-0 w-full py-2 px-3">
                 <div className="flex justify-between  px-1 items-center">
@@ -205,19 +201,21 @@ const Products = ({ products }: { products: ProductData[] }) => {
                     {product?.name}
                   </h5>
                   <Dialog>
-                  <DialogTrigger asChild>
-                    <Button className="dark:hover:bg-blue-500  transition-all duration-500 ease-in-out bg-slate-100 hover:text-slate-100  text-slate-900 dark:text-slate-100 dark:bg-slate-500" >
-                      <PackageOpen />
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="lg:min-w-[70vw] border-none md:min-w-[90vw] max-sm:w-[100%] overflow-y-scroll  max-h-[70vh] lg:min-h-[35vh] max-sm:max-h-[80vh]">
-                    <DialogHeader>
-                      <DialogTitle className="truncate w-44 mx-auto text-blue-500 text-center">{product.name}</DialogTitle>
-                    </DialogHeader>
-                    <SingleProudcutImg id={product?.id} />
-                    <ProductReview id={product?.id} />
-                  </DialogContent>
-                </Dialog>
+                    <DialogTrigger asChild>
+                      <Button className="dark:hover:bg-blue-500  transition-all duration-500 ease-in-out bg-slate-100 hover:text-slate-100  text-slate-900 dark:text-slate-100 dark:bg-slate-500">
+                        <PackageOpen />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="lg:min-w-[70vw] border-none md:min-w-[90vw] max-sm:w-[100%] overflow-y-scroll  max-h-[70vh] lg:min-h-[35vh] max-sm:max-h-[80vh]">
+                      <DialogHeader>
+                        <DialogTitle className="truncate w-44 mx-auto text-blue-500 text-center">
+                          {product.name}
+                        </DialogTitle>
+                      </DialogHeader>
+                      <SingleProudcutImg id={product?.id} />
+                      <ProductReview id={product?.id} />
+                    </DialogContent>
+                  </Dialog>
                   <h5 className="px-2 text-sm font-bold dark:text-slate-900 rounded-lg backdrop-blur-sm ">
                     <del className="px-2 max-sm:justify-center text-sm font-bold text-slate-500 ">
                       ${product?.price}

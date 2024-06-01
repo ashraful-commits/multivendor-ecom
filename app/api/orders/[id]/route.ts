@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import db from "../../../../lib/db";
+import { PusherServer } from '../../../../lib/pusher';
 
 export async function GET(
   req: Request,
@@ -99,6 +100,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         const cartDetails = await db.cart.findFirst({
           where: { id: cartItem.id },
         });
+        await PusherServer.trigger(cartItem.useId,"order-complate","your order is completed")
         if (cartDetails) {
           const product = await db.product.findFirst({
             where: { id: cartDetails.productId },

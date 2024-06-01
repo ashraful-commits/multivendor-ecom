@@ -406,12 +406,12 @@ const Navbar = () => {
                     <span>Profile setting</span>
                   </Link>
                 </DropdownMenuItem>
-                {session.user.role!=="USER" &&<DropdownMenuItem className="h-10 w-full max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
+               <DropdownMenuItem className="h-10 w-full max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
                 <LayoutGrid className="mr-2 h-4 w-4" />
                 <Link href="/dashboard">
                   <span>Dashboard</span>
                 </Link>
-              </DropdownMenuItem>}
+              </DropdownMenuItem>
                 <DropdownMenuItem className="h-10 w-full max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
                   <Settings className="mr-2 h-4 w-4" />
                   <Link href="/dashboard">
