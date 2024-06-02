@@ -21,6 +21,7 @@ import CartItems from "./CartItems";
 import ContainerBox from '@/components/frontend/ContainerBox';
 import useSessionData from './../../hooks/useSessionData';
 import { Session } from 'next-auth';
+import StepForm from './checkout/StepForm';
 export default function DrawerDemo() {
   const session:Session|null = useSessionData()
   
@@ -41,7 +42,7 @@ export default function DrawerDemo() {
         <DrawerContent className="border-none z-[999999999999]">
           <div className="max-h-[500px]  overflow-y-scroll">
           {session?.user?.id &&
-            <CartItems id={session?.user?.id} />
+            <StepForm id={session?.user?.id} />
           }
           </div>
         </DrawerContent>

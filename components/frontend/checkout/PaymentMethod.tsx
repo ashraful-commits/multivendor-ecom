@@ -38,8 +38,8 @@ const {
         dispatch(setCurrentStep(currentStep+1))
       }
   return (
-    <ContainerBox>
-        <form onSubmit={handleSubmit(onSubmit)}>
+    <ContainerBox className="mx-5">
+        <form className="px-5" onSubmit={handleSubmit(onSubmit)}>
       <PaymentMethodSystem register={register}  errors={errors?.phone?.message}/>
       <div className="my-5"> 
 

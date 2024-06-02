@@ -7,8 +7,8 @@ import { RootState } from '../../../lib/store';
 const NextButton = () => {
     const steps = useSelector((state:RootState)=>state.checkout.currentStep)
     const dispatch = useDispatch()
-  return <div className="flex gap-x-5 justify-between items-center">
-    {steps >1 &&<Button onClick={()=>dispatch(setCurrentStep(steps-1))}><ChevronLeft />Prev </Button>}
+  return <div className="flex gap-x-5 justify-end items-center">
+    {steps >0 &&<Button onClick={()=>dispatch(setCurrentStep(steps-1))}><ChevronLeft />Prev </Button>}
     <Button>Next<ChevronRight/> </Button>
   </div>;
 };

@@ -56,10 +56,8 @@ const BrandSlider = () => {
   const router = useRouter();
   const handleBrand = (id: string) => {
     if(filter?.brand===id){
-
       dispatch(updateFilterData({ ...filter, brand: "" }));
     }else{
-
       dispatch(updateFilterData({ ...filter, brand: id }));
     }
     
@@ -165,6 +163,7 @@ const BrandSlider = () => {
       </div>
     );
   }
+  if (filterProductLoading) return <Loading/>
 
   return (
     <ContainerBox className="my-2 w-full overflow-hidden ">

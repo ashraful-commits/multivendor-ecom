@@ -8,7 +8,7 @@ export function ShippingCost({register,errors}:{register:any;errors:any}) {
   
   return (
 <div>
-<h2 className="my-2 max-sm:my-10">Shipping cost {errors&&errors}</h2>
+<h2 className="my-2 max-sm:my-10 text-blue-500 text-lg">Shipping cost {errors&&errors}</h2>
  <div className="grid grid-cols-2 gap-x-10">
 
   <ul className="grid w-full gap-6 lg:grid-cols-2 md:grid-cols-2 max-sm:grid-cols-none max-sm:col-span-2">

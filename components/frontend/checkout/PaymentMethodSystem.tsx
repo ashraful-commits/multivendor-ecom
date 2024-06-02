@@ -7,7 +7,7 @@ import { Handshake,MoveRight,CreditCard } from 'lucide-react';
 export default function PaymentMethodSystem({register,errors}:{register:any;errors:any}) {
   return (
 <div className="">
-<h2 className="my-2 max-sm:my-10">Payment Method {errors&&errors}</h2>
+<h2 className="my-10 max-sm:my-10 text-blue-500 text-lg">Payment Method {errors&&errors}</h2>
  <div className="grid grid-cols-2 gap-x-10">
 
   <ul className="grid w-full gap-6 md:grid-cols-2 max-sm:grid-cols-none max-sm:col-span-2">

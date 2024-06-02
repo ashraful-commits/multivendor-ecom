@@ -7,15 +7,18 @@ import PaymentMethod from './PaymentMethod';
 import OrderSummary from './OrderSummary';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../lib/store';
+import CartAllItems from './CartAllItems';
 
 
-const StepForm = () => {
+const StepForm = ({id}:{id:string}) => {
    const currentStep = useSelector((state:RootState)=>state.checkout.currentStep)
    const allCheckoutdata = useSelector((state:RootState)=>state.checkout.checkoutFormData)
    console.log(allCheckoutdata)
    function renderFormByStep(step:number){
-   if(step ===1){
-    return <PersonalDetails  />
+   if(step ===0){
+    return <CartAllItems id={id}  />
+   }else if(step ===1){
+    return <PersonalDetails />
    }else if(step ===2){
     return <ShippingDetails />
    }else if(step ===3){

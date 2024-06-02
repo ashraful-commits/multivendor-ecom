@@ -44,9 +44,9 @@ const PersonalDetails = () => {
         dispatch(setCurrentStep(currentStep+1))
       }
   return (
-    <ContainerBox>
-      <form onSubmit={handleSubmit(onSubmit)} className="" action="" method="">
-      <h2 className="my-10">Personal Details</h2>
+    <ContainerBox className="px-5">
+      <form  onSubmit={handleSubmit(onSubmit)} className="px-5" action="" method="">
+      <h2 className="my-10  text-blue-500 text-lg">Personal Details</h2>
       <div className="space-y-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>

@@ -39,9 +39,9 @@ const ShippingDetails = () => {
     dispatch(setCurrentStep(currentStep+1))
   }
   return (
-    <ContainerBox>
-      <h2 className="my-10">Shipping Details</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <ContainerBox className="mx-5">
+      <h2 className="my-10 px-5 text-blue-500 text-lg">Shipping Details</h2>
+      <form  className="px-5" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <TextInput
             register={register}
