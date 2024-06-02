@@ -156,13 +156,8 @@ const CategoriesSlider = () => {
     }
   };
   const handleCategory = (id: string) => {
-    if(filter.category===id){
-
-      dispatch(updateFilterData({ ...filter, category: "" }));
-    }else{
-
-      dispatch(updateFilterData({ ...filter, category: id }));
-    }
+      dispatch(updateFilterData({ ...filter, brand: "",tag: [], category: id }));
+    
   };
 
   return (

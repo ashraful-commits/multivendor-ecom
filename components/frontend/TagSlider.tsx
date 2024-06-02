@@ -157,15 +157,15 @@ const TagSlider = () => {
     if (isSelected) {
       dispatch(
         updateFilterData({
-          ...filter,
+          ...filter,category: "",brand:"", 
           tag: filter.tag.filter((tagId) => tagId !== id),
         })
       );
     } else {
       dispatch(
         updateFilterData({
-          ...filter,
-          tag: [...filter.tag, id],
+          ...filter,category: "",brand:"",
+          tag: [id],
         })
       );
     }
@@ -334,8 +334,8 @@ const TagSlider = () => {
             );
           })}
         </CarouselContent>
-        <CarouselPrevious className="opacity-0 group-hover:opacity-100 absolute -left-3 top-8 max-sm:hidden" />
-        <CarouselNext className="opacity-0 group-hover:opacity-100 absolute -right-3 top-8 max-sm:hidden " />
+        <CarouselPrevious className="opacity-0 group-hover:opacity-100 left-5 top-8 max-sm:hidden" />
+          <CarouselNext className="opacity-0 group-hover:opacity-100 right-5 top-8 max-sm:hidden" />
       </Carousel>
     </ContainerBox>
   );

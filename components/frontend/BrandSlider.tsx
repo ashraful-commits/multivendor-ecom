@@ -55,11 +55,8 @@ const BrandSlider = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const handleBrand = (id: string) => {
-    if(filter?.brand===id){
-      dispatch(updateFilterData({ ...filter, brand: "" }));
-    }else{
-      dispatch(updateFilterData({ ...filter, brand: id }));
-    }
+      dispatch(updateFilterData({ ...filter,category: "",tag: [] , brand: id }));
+    
     
   };
   const session = useSessionData() as SessionData;
