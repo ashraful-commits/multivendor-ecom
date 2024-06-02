@@ -170,7 +170,7 @@ const CategoriesSlider = () => {
     <ContainerBox className="my-5">
       <div className=" items-center w-full flex justify-between container-fluid md:container lg:container ">
         <TitleComponent
-          className="flex justify-between  !p-0 items-center my-2 w-full"
+          className="flex justify-between  !p-0 items-center my-5 w-full"
           title="Category"
           link=""
         />

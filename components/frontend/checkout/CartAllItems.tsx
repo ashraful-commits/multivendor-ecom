@@ -77,7 +77,7 @@ const handleCheckout=()=>{
     dispatch(setCurrentStep(currentStep+1))
 }
   return <div>
-     <div className="lg:flex px-5 md:flex sm:flex-col w-full shadow-xl">
+     <div className="lg:flex px-5 md:flex sm:flex-col w-full ">
         <div className="flex-1 w-full px-4 py-6 sm:px-6">
           <div className="flex items-start justify-between">
             <h2

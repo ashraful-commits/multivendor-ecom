@@ -12,7 +12,7 @@ const Hero = () => {
   </div>;
    
   return (
-    <div className="w-full min-md:container mt-5">
+    <div className="w-full min-md:container container-fluid">
       <Carousel data={data||[]}/>
     </div>
   )

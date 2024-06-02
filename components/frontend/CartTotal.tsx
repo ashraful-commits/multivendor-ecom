@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBasket } from "lucide-react";
 import { useGetCartQuery } from "../../lib/features/cartapi";
 import Loading from "../Loading";
 import { useSelector } from "react-redux";
@@ -33,7 +33,7 @@ const CartTotal = ({ id }: { id: string }) => {
             {carts?.length >  0&& session ? carts?.length : 0}
           </span>
         </div>
-        <ShoppingBag className="block text-green-500 my-auto" />
+        <ShoppingBasket className="block text-green-500 my-auto" />
       </div>
     </div>
   );

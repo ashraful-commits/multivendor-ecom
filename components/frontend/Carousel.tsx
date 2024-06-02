@@ -13,7 +13,7 @@ import { Mousewheel,Zoom ,Autoplay, EffectFade,Pagination } from 'swiper/modules
 import {bannerData} from "../../typescript"
 export default function Carousel({ data }:{data:bannerData[]}) {
   return (
-    <div className="max-sm:h-[25vh] h-[70vh] w-full container-fluid md:container lg:container px-3  mx-auto">
+    <div className="max-sm:h-[25vh] h-[70vh] w-full container-fluid  mx-auto">
       <Swiper
         direction={'vertical'}
         zoom={true}
@@ -37,7 +37,7 @@ export default function Carousel({ data }:{data:bannerData[]}) {
         centeredSlides={true}
         effect={'fade'}
         autoplay={{
-          delay: 2500,
+          delay: 1000,
           disableOnInteraction: false,
         }}
         pagination={{
@@ -48,7 +48,7 @@ export default function Carousel({ data }:{data:bannerData[]}) {
       >
         {data?.slice(0,5)?.map((item:any, index:number) => (
           <SwiperSlide key={index}>
-            <Image placeholder="blur" blurDataURL={item.imgUrl} width={1000} height={1000} className="h-full w-full" src={item.imgUrl} alt={item.title} />
+            <Image placeholder="blur" blurDataURL={item.imgUrl} width={1000} height={1000} className="min-h-[70vh] w-auto object-fill rounded-none " src={item.imgUrl} alt={item.title} />
           </SwiperSlide>
         ))}
       </Swiper>

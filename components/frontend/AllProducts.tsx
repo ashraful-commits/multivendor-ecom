@@ -210,7 +210,7 @@ const AllProducts = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-full relative top-4 right-[20%] p-4">
-            <div className="flex flex-wrap md:w-[80vw] lg:w-[70vw] max-h-[70vh] overflow-y-scroll w-full gap-2 p-5">
+            <div className="flex flex-wrap md:w-[80vw] lg:w-[70vw] max-h-[8] overflow-y-scroll w-full gap-2 p-5">
               {tags?.length  &&
                 tags?.map((item: any, index: number) => {
                   const isSelected = filter.tag.includes(item.id);
@@ -236,21 +236,21 @@ const AllProducts = () => {
         <DialogTrigger asChild>
           <Button
             size="sm"
-            className="hidden fixed max-sm:flex rounded-full h-10 w-10 justify-center items-center bottom-2 !p-0  right-2 z-[9999]"
+            className=" !hidden max-sm:!fixed max-sm:!block rounded-full h-10 w-10 justify-center items-center bottom-2 !p-0  right-2 z-[999999999999]"
             variant="default"
           >
             <Filter className="block m-auto" />
           </Button>
         </DialogTrigger>
-        <DialogContent className="lg:min-w-[70vw] border-none md:min-w-[90vw] max-sm:w-[100%] overflow-y-scroll  max-h-[70vh] lg:min-h-[35vh] max-sm:max-h-[80vh] ">
+        <DialogContent className=" border-none w-[100%] overflow-y-scroll  ">
           <div
-            className={`m-2 max-sm:group-hover:block flex gap-5 max-sm:flex-col bg-slate-200  dark:bg-slate-900 p-2 w-full max-sm:bottom-10 right-0 z-[99999]`}
+            className={`m-2  flex gap-2 flex-col py-2 w-full`}
           >
             <Input
               placeholder="Search product"
               name="search"
               value={filter.search}
-              className="max-sm:w-full w-72"
+              className="max-sm:w-full mt-2 w-72"
               onChange={handleChange}
             />
             <Select
@@ -321,7 +321,7 @@ const AllProducts = () => {
             <h5 className="flex gap-x-4 my-2 items-center">
               <Tag />Product tags
             </h5>
-            <div className=" border rounded-lg border-slate-500  max-h-[200px] overflow-y-scroll flex flex-wrap gap-4 p-3">
+            <div className=" border rounded-lg border-slate-500  max-h-[110px] overflow-y-scroll flex flex-wrap gap-4 p-3">
               {tags?.length  &&
                 tags?.map((item: any, index: number) => {
                   const isSelected = filter.tag.includes(item.id);
@@ -339,7 +339,7 @@ const AllProducts = () => {
                   );
                 })}
             </div>
-            <Link role="button" className="bg-blue-500 text-sm flex items-center gap-x-2  px-2 py-2" href="/"><ChevronLeft /> Back</Link>
+            <Link role="button" className="bg-blue-500 block w-full mx-auto text-sm flex items-center gap-x-2  px-2 py-2" href="/"><ChevronLeft /> Back</Link>
             <Button
               onClick={() =>
                 dispatch(
@@ -361,7 +361,6 @@ const AllProducts = () => {
           </div>
         </DialogContent>
       </Dialog>
-
       <div className="mt-20 max-sm:mt-0">
         <Products products={products as ProductData[]} />
       </div>
