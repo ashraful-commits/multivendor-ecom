@@ -49,11 +49,13 @@ const Navbar = () => {
 const {data:notifications,refetch} = useGetNotificationQuery(session?.user?.id)
 const [editNotification,{isSuccess}] = useEditNotificationMutation()
   const { theme, setTheme } = useTheme();
+
   const dispatch = useDispatch();
+
   const filter = useSelector((state: RootState) => state.filter.filter);
   const orderStatus = useSelector((state: RootState) => state.checkout.checkoutFormData);
   const router = useRouter();
-
+   const [msg,setMsg]= useState([])
   const handleSignOut = async() => {
     await signOut({ redirect: false, callbackUrl: '/' });
     dispatch(updateCheckoutFormData({...orderStatus, orderStatus: true}));
@@ -66,13 +68,12 @@ const [editNotification,{isSuccess}] = useEditNotificationMutation()
     router.push("/products");
   
   };
-  const [msg, setMsg] = useState<string>("");
 
   useEffect(() => {
     if ( session?.user?.id) {
      PusherClient.subscribe(session.user.id);
-      PusherClient.bind("new-message",(newMessage) => {
-        setMsg(newMessage);
+      PusherClient.bind("new-order",(newMessage) => {
+        setMsg((prev)=>[newMessage,...prev]);
         console.log(newMessage);
       });
       return () => {
@@ -90,6 +91,15 @@ const [editNotification,{isSuccess}] = useEditNotificationMutation()
       refetch()
     }
   },[isSuccess,refetch])
+  useEffect(()=>{
+    if(notifications?.length){
+      const filterData = notifications?.filter((item)=>item.read===false)
+      setMsg(filterData)
+    }
+  },[notifications])
+  const handleUpdate=()=>{
+    refetch()
+  }
   return (
     <div className="bg-slate-200 sticky top-0 left-0 z-[999999]  dark:bg-slate-800">
       <div className="flex  max-sm:container-fluid container  items-center  right-0 justify-between  h-20 px-4">
@@ -317,30 +327,37 @@ const [editNotification,{isSuccess}] = useEditNotificationMutation()
             className="relative inline-flex items-center p-2 text-sm font-medium text-center text-blue-500  rounded-lg hover:bg-blue-800 focus:ring-2 dark:text-white dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Bell className="fill-blue-500 size-5" />
-
-                <div className="absolute inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white dark:text-slate-900 bg-red-500 border-2 border-white rounded-full -top-1 -end-1 dark:border-gray-500 ">
-                {notifications?.filter((item)=>item.read===false)?.length?notifications?.filter((item)=>item.read===false)?.length:0}
+              <DropdownMenuTrigger  >
+            
+             <Bell  onMouseOver={handleUpdate}  className="fill-blue-500 size-5" />
+              <div className="absolute inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white dark:text-slate-900 bg-red-500 border-2 border-white rounded-full -top-1 -end-1 dark:border-gray-500 ">
+              {msg.length?msg.length:0}
                 </div>
+  
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-slate-200 z-[999999] mt-10 mr-5 dark:bg-slate-800 border-none dark:border-slate-500 text-slate-900 dark:text-white shadow-lg">
                 <DropdownMenuLabel>Notifications</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {notifications?.length? notifications?.map((item,index)=>{
-                return<DropdownMenuItem key={index} className="flex gap-x-2">
-                <Avatar className="w-5 h-5">
-                <AvatarImage src={item?.user?.imgUrl?item?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
+                {notifications?.length ? notifications.map((item, index) => {
+    return (
+        <DropdownMenuItem key={index} className="flex gap-x-2">
+            <Avatar className="w-5 h-5">
+                <AvatarImage src={item?.user?.imgUrl ? item?.user?.imgUrl : "/Profile-PNG-Picture.png"} />
                 <AvatarFallback>AB</AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col items-start justify-center">
-                <p onClick={()=>handleEditNotification(item?.id,item?.read)} className="truncate max-w-24 min-w-24 text-[10px]">{item?.message}</p>
-             
-              </div>
-              <X className="size-[14px]"/>
-                </DropdownMenuItem>
-              })
-             :<p>No notification</p>}
+            </Avatar>
+            <div className="flex flex-col items-start justify-center">
+                <p
+                    onClick={() => handleEditNotification(item?.id, item?.read)}
+                    className={`word-wrap max-w-32 min-w-32 text-[10px] ${item.read ? 'text-slate-500' : 'text-red-500'}`}
+                >
+                    {item?.message}
+                </p>
+            </div>
+            <X className="size-[14px]" />
+        </DropdownMenuItem>
+    );
+}) : <p>No notification</p>}
+
               </DropdownMenuContent>
             </DropdownMenu>
           </button>

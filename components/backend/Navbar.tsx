@@ -40,6 +40,7 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
   const router = useRouter()
   const session = useSessionData() as SessionData;
    const {data:notifications,refetch} = useGetNotificationQuery(session?.user?.id)
+   const[msg,setMsg]= useState([])
    const [editNotification,{isSuccess}] = useEditNotificationMutation()
   const handleLogout=async()=>{
     await signOut({ redirect: false, callbackUrl: '/' });
@@ -51,11 +52,9 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
     if ( session?.user?.id) {
      PusherClient.subscribe(session.user.id);
       PusherClient.bind("new-order",(newMessage) => {
-        setMsg(newMessage);
-        console.log(newMessage);
+        setMsg((prev)=>[newMessage,...prev]);
       });
       return () => {
-       
         PusherClient.unsubscribe(session.user.id);
       };
     }
@@ -66,8 +65,18 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
   useEffect(()=>{
     if(isSuccess){
       refetch()
+      
     }
   },[isSuccess,refetch])
+  useEffect(()=>{
+    if(notifications?.length){
+      const filterData = notifications?.filter((item)=>item.read===false)
+      setMsg(filterData)
+    }
+  },[notifications])
+  const handleUpdate=()=>{
+    refetch()
+  }
   return (
     <div className="flex items-center  right-0 justify-between bg-slate-800 dark:bg-slate-200 text-slate-100 dark:text-slate-900 h-20 px-4">
       <button className="border" onClick={()=>setShowSidebar(!showSidebar)}>
@@ -83,31 +92,37 @@ const Navbar = ({setShowSidebar,showSidebar}:NavbarProps) => {
           className="relative inline-flex items-center p-3 text-sm font-medium text-center text-blue-500  rounded-lg hover:bg-blue-800 focus:ring-4 dark:text-white dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger >
               {' '}
-              <Bell className="fill-blue-500" />
+              <Bell  onMouseOver={handleUpdate} className="fill-blue-500" />
               <span className="sr-only">Notifications</span>
               <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white dark:text-slate-900 bg-red-500 border-2 border-white rounded-full -top-1 -start-2 dark:border-gray-500 ">
-              {notifications?.filter((item)=>item.read===false)?.length?notifications?.filter((item)=>item.read===false)?.length:0}
+              {msg?.length?msg?.length:0}
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="bg-slate-700 dark:bg-white dark:border-slate-500 dark:text-slate-900  text-white dark" >
               <DropdownMenuLabel>Notifications</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {notifications?.length? notifications?.map((item,index)=>{
-                return<DropdownMenuItem key={index} className="flex gap-x-2">
-                <Avatar className="w-5 h-5">
-                <AvatarImage src={item?.user?.imgUrl?item?.user?.imgUrl:"/Profile-PNG-Picture.png"} />
+              {notifications?.length ? notifications.map((item, index) => {
+    return (
+        <DropdownMenuItem key={index} className="flex gap-x-2">
+            <Avatar className="w-5 h-5">
+                <AvatarImage src={item?.user?.imgUrl ? item?.user?.imgUrl : "/Profile-PNG-Picture.png"} />
                 <AvatarFallback>AB</AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col items-start justify-center">
-                <p onClick={()=>handleEditNotification(item?.id,item?.read)} className="truncate max-w-24 min-w-24 text-[10px]">{item?.message}</p>
-             
-              </div>
-              <X className="size-[14px]"/>
-                </DropdownMenuItem>
-              })
-             :<p>No notification</p>}
+            </Avatar>
+            <div className="flex flex-col items-start justify-center">
+                <p
+                    onClick={() => handleEditNotification(item?.id, item?.read)}
+                    className={`wrod-wrap max-w-32 min-w-32 text-[10px] ${item.read ? 'text-slate-500' : 'text-red-500'}`}
+                >
+                    {item?.message}
+                </p>
+            </div>
+            <X className="size-[14px]" />
+        </DropdownMenuItem>
+    );
+}) : <p>No notification</p>}
+
            
           
             </DropdownMenuContent>

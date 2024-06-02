@@ -80,7 +80,7 @@ export async function POST(req: Request) {
       })
 
       await PusherServer.trigger(findAdmin.id, 'new-order', {message:`New order from ${firstName} ${lastName} total ${total}`});
-      await PusherServer.trigger(userId, 'new-message', {message:`Your order in pending now total ${total}`});
+      await PusherServer.trigger(userId, 'new-order', {message:`Your order in pending now total ${total}`});
     }
     if (newOrder && cartItems.length > 0) {
       await db.cart.updateMany({

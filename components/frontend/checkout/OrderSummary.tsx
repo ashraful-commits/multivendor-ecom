@@ -19,30 +19,16 @@ import { RootState } from "../../../lib/store";
 
 const OrderSummary = () => {
   const session = useSessionData() as SessionData;
-  const {
-    data: carts,
-    isLoading,
-    
-  } = useGetCartQuery(session?.user?.id);
-  const checkoutFormData: CheckoutFormData = useSelector(
-    (state: RootState) => state.checkout.checkoutFormData
-  );
-  const orderState = useSelector((state: RootState) => state.checkout.checkoutFormData);
+  const { data: carts, isLoading } = useGetCartQuery(session?.user?.id);
+  const checkoutFormData: CheckoutFormData = useSelector((state: RootState) => state.checkout.checkoutFormData);
+  const orderState = useSelector((state: RootState) => state.checkout);
   const steps = useSelector((state: RootState) => state.checkout.currentStep);
   const dispatch = useDispatch();
-  const [addNewOrder, { isLoading: isAddOrderLoading, isSuccess, isError }] =
-    useAddNewOrderMutation();
-  const [
-    addNewPayment,
-    {
-      data: paymentReturnData,
-      isLoading: isAddPaymentLoading,
-      isSuccess: isPaymentSuccess,
-      isError: isPaymentError,
-    },
-  ] = useAddNewPaymentMutation();
+  const [addNewOrder, { isLoading: isAddOrderLoading, isSuccess, isError }] = useAddNewOrderMutation();
+  const [addNewPayment, { data: paymentReturnData, isLoading: isAddPaymentLoading }] = useAddNewPaymentMutation();
   const router = useRouter();
-  const handleSubmit = (e: any) => {
+
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     const cartIds = carts?.map((item) => item.id);
     const paymentDetails = {
@@ -56,31 +42,28 @@ const OrderSummary = () => {
       productIds: carts?.map((item) => item?.productId),
       total: carts?.reduce((total, item) => total + item.total, paymentDetails.shippingCost),
     };
-    addNewOrder(orderDetails);
-    if (checkoutFormData?.paymentMethod == "credit card") {
-      addNewPayment(paymentDetails);
+    try {
+      await addNewOrder(orderDetails);
+      if (checkoutFormData?.paymentMethod === "credit card") {
+        await addNewPayment(paymentDetails);
+      }
+      toast.success("Order confirmed");
+      dispatch(updateCheckoutFormData({ ...orderState, orderStatus: true }));
+      if (paymentReturnData) {
+        window.location.href = paymentReturnData.url;
+      } else {
+        router.push("/success");
+      }
+    } catch (error) {
+      console.error("Error processing order:", error);
+      toast.error("Error processing order. Please try again.");
     }
   };
-  useEffect(() => {
-    if (paymentReturnData) {
-      toast.success("order confirm");
-      dispatch(updateCheckoutFormData({ ...orderState, orderStatus: true }))
-      window.location.href = paymentReturnData?.url;
-    }
-    if (isSuccess) {
-      toast.success("order confirm");
-      router.push("/success");
-      dispatch(updateCheckoutFormData({ ...orderState, orderStatus: true }))
-      
-    }
-  }, [isSuccess, paymentReturnData,router,dispatch,orderState]);
+
   if (isLoading) {
-    return (
-      <div>
-        <Loading />
-      </div>
-    );
+    return <Loading />;
   }
+
   return (
     <ContainerBox>
       <h2 className="my-5">Order summary</h2>

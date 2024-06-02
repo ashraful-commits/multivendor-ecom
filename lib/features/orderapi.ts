@@ -70,7 +70,7 @@ export const OrderApi = api.injectEndpoints({
     }),
     getDeliveredOrders: builder.query<orderData[], void>({
       query: () => `orders/complate`,
-      providesTags: [{ type: 'Order', id: 'COMPLATE' }],
+      providesTags: [{ type: 'Order', id: 'COMPLETE' }],
     }),
     deleteMultiOrder: builder.mutation<orderData, string[]>({
       query: (ids) => ({

@@ -66,8 +66,8 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
       data: { status },
     });
 
-    if (orderItem.status === "COMPLATE" && status !== "COMPLATE") {
-      const cartItemsUpdatePromises = orderItem.cartItems.map(async (cartItem:any) => {
+    if (orderItem?.status === "COMPLETE" && status !== "COMPLETE") {
+      const cartItemsUpdatePromises = orderItem?.cartItems.map(async (cartItem:any) => {
         const cartDetails = await db.cart.findFirst({
           where: { id: cartItem.id },
         });
@@ -95,8 +95,8 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         }
       });
       await Promise.all(cartItemsUpdatePromises);
-    } else if (orderItem.status !== "COMPLATE" && status === "COMPLATE") {
-      const cartItemsUpdatePromises = orderItem.cartItems.map(async (cartItem:any) => {
+    } else if (orderItem?.status !== "COMPLETE" && status === "COMPLETE") {
+      const cartItemsUpdatePromises = orderItem?.cartItems.map(async (cartItem:any) => {
         const cartDetails = await db.cart.findFirst({
           where: { id: cartItem.id },
         });
@@ -123,36 +123,80 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
       });
       await Promise.all(cartItemsUpdatePromises);
     }
-    if (orderItem?.userId && status==="COMPLATE") {
+    if (orderItem?.userId && status==="COMPLETE") {
       try {
-        await PusherServer.trigger(orderItem.userId, 'new-message', 'Your order is completed');
+        const completeData=  await db.notification.create({
+             include:{
+              user:true
+             },
+          data:{
+            userId:orderItem?.userId,
+            message:"your order is complete"
+          }
+        })
+        if(completeData){
+          await PusherServer.trigger(completeData?.userId, 'new-order', completeData);
+        }
         console.log("Pusher event triggered successfully");
       } catch (error) {
         console.error("Error triggering Pusher event:", error);
       }
-    }if (orderItem?.userId && status==="CENCEL") {
+    }if (orderItem?.userId && status==="CANCEL") {
       try {
-        await PusherServer.trigger(orderItem.userId, 'new-message', 'Your order is cencel');
-        console.log("Pusher event triggered successfully");
+      const cancelData=  await db.notification.create({
+           include:{
+            user:true
+           },
+          data:{
+            userId:orderItem.userId,
+            message:"your order is cancel"
+          }
+        })
+        if(cancelData){
+
+          await PusherServer.trigger(cancelData?.userId, 'new-order', cancelData);
+        }
       } catch (error) {
         console.error("Error triggering Pusher event:", error);
       }
     }if (orderItem?.userId && status==="PROCESS") {
       try {
-        await PusherServer.trigger(orderItem.userId, 'new-message', 'Your order is processing');
-        console.log("Pusher event triggered successfully");
+        const processData=  await db.notification.create({
+             include:{
+              user:true
+             },
+          data:{
+            userId:orderItem.userId,
+            message:"your order is processing"
+          }
+        })
+        if(processData){
+          await PusherServer.trigger(processData?.userId, 'new-order', processData);
+        }
       } catch (error) {
         console.error("Error triggering Pusher event:", error);
       }
     }if (orderItem?.userId && status==="PENDING") {
       try {
-        await PusherServer.trigger(orderItem.userId, 'new-message', 'Your order is pending');
-        console.log("Pusher event triggered successfully");
+        const pendingData=  await db.notification.create({
+             include:{
+              user:true
+             },
+          data:{
+            userId:orderItem.userId,
+            message:"your order is pending"
+          }
+        })
+        if(pendingData){
+
+          await PusherServer.trigger(pendingData?.userId, 'new-order', pendingData);
+        }
+
       } catch (error) {
         console.error("Error triggering Pusher event:", error);
       }
     } else {
-      console.error("Error: orderItem.userId is undefined");
+      console.error("Error:  undefined");
     }
     return NextResponse.json({ message: "Order updated successfully" });
   } catch (error) {

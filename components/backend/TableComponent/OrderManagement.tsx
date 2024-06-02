@@ -40,7 +40,7 @@ const OrderManagement = ({id}:{id:string}) => {
      
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button size="sm" variant="default" className={`${data?.status==="PENDING" &&"bg-yellow-500" } ${data?.status==="CANCEL" &&"bg-red-500"} ${data?.status==="COMPLATE" &&"bg-green-500"} ${data?.status==="PROCESS" &&"bg-indigo-500"}`}>{data?.status}</Button>
+          <Button size="sm" variant="default" className={`${data?.status==="PENDING" &&"bg-yellow-500" } ${data?.status==="CANCEL" &&"bg-red-500"} ${data?.status==="COMPLETE" &&"bg-green-500"} ${data?.status==="PROCESS" &&"bg-indigo-500"}`}>{data?.status}</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
           <DropdownMenuSeparator />
@@ -59,9 +59,9 @@ const OrderManagement = ({id}:{id:string}) => {
             </span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={()=>handleUpdateStatus("COMPLATE")}>
+          <DropdownMenuItem onClick={()=>handleUpdateStatus("COMPLETE")}>
             <span className="bg-green-100 text-green-800 text-sm text-center font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 w-full">
-              Complate
+              Complete
             </span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />

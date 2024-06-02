@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const deliveredOrders = await db.order.findMany({
       where: {
-        status: 'COMPLATE',
+        status: 'COMPLETE',
       },
       orderBy: {
         createdAt: 'desc',

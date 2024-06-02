@@ -11,8 +11,8 @@ export async function GET(
     const notificationData = await db.notification.findMany({
       where: {
         userId: id,
-        read:false,
       },
+      take:10,
       include:{
         user:true
       },
@@ -56,8 +56,8 @@ export async function DELETE(
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
   try {
     const { id } = params;
-    const { read }:{read:boolean;} = await req.json();
-  
+    const { notification }:{notification:{id:string;read:boolean};} = await req.json();
+
     const notificationItem = await db.notification.findUnique({
       where: {
         id,
@@ -73,7 +73,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         id,
       },
       data: {
-        read
+        read:notification.read
       },
     });
 
