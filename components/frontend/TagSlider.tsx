@@ -153,6 +153,10 @@ const TagSlider = () => {
         <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[7vh] dark:bg-slate-800" />
       </div>
     );
+  if (filterProductLoading)
+    return (
+    <Loading/>
+    );
   const handleTagClick = (isSelected: boolean, id: string) => {
     if (isSelected) {
       dispatch(
@@ -170,7 +174,7 @@ const TagSlider = () => {
       );
     }
   };
-  console.log(filter);
+
   return (
     <ContainerBox className="my-2 w-full ">
       <div className="items-center w-full flex justify-between container-fluid md:container lg:container ">
@@ -218,7 +222,6 @@ const TagSlider = () => {
         <CarouselContent className="">
           {tags?.map((item: any, index: number) => {
             const isSelected = filter.tag.includes(item.id);
-
             return (
               <Dialog key={index}>
                 <DialogTrigger asChild>

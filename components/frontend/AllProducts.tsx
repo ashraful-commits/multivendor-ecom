@@ -108,7 +108,7 @@ const AllProducts = () => {
       <div
         className={`m-2 max-sm:!hidden  max-h-[65px]  sticky top-0 flex w-full gap-5 bg-slate-200 justify-between max-auto dark:bg-slate-900 p-2 z-[99999] mx-auto`}
       >
-        <Link role="button" className="bg-blue-500 flex items-center gap-x-2  px-2 py-2" href="/"><ChevronLeft /> Back</Link>
+        <Link  className="bg-slate-900 text-white dark:bg-white dark:text-slate-900 flex items-center gap-x-2  px-2 py-2" href="/"><ChevronLeft /> Back</Link>
         <Input
           placeholder="Search product"
           name="search"

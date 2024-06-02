@@ -44,6 +44,7 @@ import {
   useGetFavoriteQuery,
 } from "@/lib/features/favoriteapi";
 import { toast } from "react-hot-toast";
+
 const CategoriesSlider = () => {
   const dispatch = useDispatch();
   const filter = useSelector((state: RootState) => state.filter.filter);
@@ -127,6 +128,11 @@ const CategoriesSlider = () => {
         <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800" />
         <Skeleton className="w-full max-sm:hidden h-full bg-slate-200 min-h-[10vh] dark:bg-slate-800" />
       </div>
+    );
+  }
+  if (filterProductLoading) {
+    return (
+      <Loading/>
     );
   }
 

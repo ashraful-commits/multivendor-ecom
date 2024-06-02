@@ -19,7 +19,7 @@ const CartTotal = ({ id }: { id: string }) => {
 
   if (isLoading) {
     return (
-      <div className="w-full h-full">
+      <div className="w-full">
         <Loading className="mx-auto my-auto" />
       </div>
     );

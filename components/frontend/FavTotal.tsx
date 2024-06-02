@@ -18,7 +18,7 @@ const FavTotal = ({ id }: { id: string }) => {
   }, [orderStatus.orderStatus, refetch]);
   if (isLoading)
     return (
-      <div className="w-full hf-ull">
+      <div className="w-full ">
         <Loading className="mx-auto my-auto" />
       </div>
     );
