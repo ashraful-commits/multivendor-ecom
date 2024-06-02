@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React ,{useState}from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -12,10 +12,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useGetCatProductQuery } from "../../lib/features/productapi";
 import Loading from "../Loading";
+
 type idType = {
   id: string;
+  setProductId:any
 };
-const CategoryProduct = ({ id }: idType) => {
+const CategoryProduct = ({ id ,setProductId}: idType) => {
+
   const { data: products, isLoading, isError } = useGetCatProductQuery(id);
   if (isLoading) {
     return (
@@ -36,15 +39,14 @@ const CategoryProduct = ({ id }: idType) => {
         >
           <CarouselContent className="">
             {products?.map((item: any, index: number) => (
+              
               <CarouselItem
                 key={index}
                 className="md:basis-1/2 h-full lg:basis-1/4 basis-1/2"
               >
                 <div className="p-1">
                   <Card className="border-none bg-slate-200 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 cursor-pointer transition-all duration-500 ease-in-out">
-                    <CardContent className="flex items-center justify-center p-4 gap-x-4">
-                      <Link href={`/products/${item.id}`}>
-                        {" "}
+                    <CardContent onClick={()=>setProductId(item?.id)} className="flex items-center justify-center p-4 gap-x-4">
                         <Image
                         blurDataURL={item?.imgUrl[0]} loading="lazy"
                           width={1000}
@@ -53,7 +55,6 @@ const CategoryProduct = ({ id }: idType) => {
                           src={item?.imgUrl[0]}
                           alt={item.name}
                         />
-                      </Link>
                     </CardContent>
                   </Card>
                 </div>

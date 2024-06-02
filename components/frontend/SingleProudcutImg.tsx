@@ -34,7 +34,8 @@ interface SessionData {
   expires: string;
 }
 const SingleProudcutImg = ({ id }: { id: string }) => {
-  const { data: product, isLoading } = useGetSingleProductQuery(id);
+  const [productId,setProductId]= useState(id)
+  const { data: product, isLoading } = useGetSingleProductQuery(productId);
   const { data: reviews, isLoading:isReviewLoading,refetch:reviewRefetch } = useGetReviewQuery(id);
   const session = useSessionData() as SessionData;
   const [Img, setImg] = useState<string | null>(null);
@@ -254,7 +255,7 @@ const SingleProudcutImg = ({ id }: { id: string }) => {
         </div>
         <div className="col-span-2 w-full">
          
-          {product && <CategoryProduct id={product?.categoryId} />}
+          {product && <CategoryProduct setProductId={setProductId} id={product?.categoryId} />}
         </div>
       </div>
     </ContainerBox>

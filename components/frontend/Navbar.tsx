@@ -148,7 +148,7 @@ const [editNotification,{isSuccess}] = useEditNotificationMutation()
           </div>
         </form>
         <DropdownMenu className=" w-full ">
-          <DropdownMenuTrigger className="w-10 h-10 flex hidden max-sm:block items-center ">
+          <DropdownMenuTrigger className="w-10 h-10  !hidden max-sm:!block ">
             <Search />
           </DropdownMenuTrigger>
           <DropdownMenuContent className=" bg-slate-200 w-screen z-[999999] shadow-lg  mt-5  dark:bg-slate-800 border-none dark:border-slate-500 text-slate-900 dark:text-white">
@@ -199,87 +199,33 @@ const [editNotification,{isSuccess}] = useEditNotificationMutation()
               </DropdownMenuItem>
               <DropdownMenuItem className="h-32 w-32 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
                 <User className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">
+                <Link href="/setting">
                   <span>Edit Profile</span>
                 </Link>
               </DropdownMenuItem>
 
               <DropdownMenuItem className="h-32 w-32 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
                 <Settings className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">
-                  <span>Settings</span>
+                <Link href="/products">
+                  <span>Shop</span>
                 </Link>
               </DropdownMenuItem>
             
-              <DropdownMenuItem className="h-32 w-32 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
-                <LifeBuoy className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">
-                  <span>Support</span>
-                </Link>
-              </DropdownMenuItem>
+             
 
-              <DropdownMenuItem className="h-32 w-32 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
-                <LifeBuoy className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">
-                  <span>Support</span>
-                </Link>
-              </DropdownMenuItem>
+            
 
-              <DropdownMenuItem className="h-32 w-32 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
-                <LifeBuoy className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">
-                  <span>Support</span>
-                </Link>
-              </DropdownMenuItem>
+           
 
-              <DropdownMenuItem className="h-32 w-32 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
-                <LifeBuoy className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">
-                  <span>Support</span>
-                </Link>
-              </DropdownMenuItem>
+        
 
-              <DropdownMenuItem className="h-32 w-32 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
-                <LifeBuoy className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">
-                  <span>Support</span>
-                </Link>
-              </DropdownMenuItem>
+           
 
-              <DropdownMenuItem className="h-32 w-32 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
-                <LifeBuoy className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">
-                  <span>Support</span>
-                </Link>
-              </DropdownMenuItem>
+            
 
-              <DropdownMenuItem className="h-32 w-32 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
-                <LifeBuoy className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">
-                  <span>Support</span>
-                </Link>
-              </DropdownMenuItem>
+   
 
-              <DropdownMenuItem className="h-32 w-32 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
-                <LifeBuoy className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">
-                  <span>Support</span>
-                </Link>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem className="h-32 w-32 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
-                <LifeBuoy className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">
-                  <span>Support</span>
-                </Link>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem className="h-32 w-32 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
-                <LifeBuoy className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">
-                  <span>Support</span>
-                </Link>
-              </DropdownMenuItem>
+          
 
               <DropdownMenuItem className="h-32 w-32 max-sm:w-full items-center justify-center max-sm:border-b-2 border border-slate-200 dark:border-slate-900">
                 <LifeBuoy className="mr-2 h-4 w-4" />
