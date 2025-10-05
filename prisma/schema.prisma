@@ -101,7 +101,7 @@ model Product {
   minWholeSaleQty Int
   unit            Int
   stock           Int
-  sales           Int @default(0)
+  sales           Int        @default(0)
   description     String
   userId          String     @db.ObjectId
   user            User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -139,7 +139,7 @@ model FarmerProfile {
   terms       String?
   notes       String?
   isActive    Boolean
-  productIds  String[] @db.ObjectId @default([])
+  productIds  String[] @default([]) @db.ObjectId
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -191,7 +191,7 @@ model User {
   reviews           Review[]
   createdAt         DateTime       @default(now())
   updatedAt         DateTime       @updatedAt
-  notifications    Notification[]
+  notifications     Notification[]
 }
 
 model Staff {
@@ -238,26 +238,26 @@ model Favorite {
 }
 
 model Order {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
   firstName     String
   lastName      String
   email         String
   phone         String
-  total         Int      @default(0)
+  total         Int         @default(0)
   streetAddress String
   city          String
   country       String
   zipCode       String
-  productIds    String[] @db.ObjectId
-  products      Product[] @relation(fields: [productIds], references: [id])
+  productIds    String[]    @db.ObjectId
+  products      Product[]   @relation(fields: [productIds], references: [id])
   shippingCost  Int
   paymentMethod String
-  status        OrderStatus  @default(PENDING)
-  userId        String   @db.ObjectId
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  status        OrderStatus @default(PENDING)
+  userId        String      @db.ObjectId
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   cartItems     String[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
 
 model Customer {
@@ -285,10 +285,11 @@ model Review {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
+
 model Notification {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
-  message  String
+  message   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
