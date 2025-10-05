@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import db from "@/lib/db";
 interface bannerData {
-    name: string;
-    title: string;
-    imgUrl: string;
-    isActive: boolean;
-  }
+  name: string;
+  title: string;
+  imgUrl: string;
+  isActive: boolean;
+}
 export async function POST(req: Request) {
   try {
     if (!req.body) {
@@ -26,11 +26,13 @@ export async function POST(req: Request) {
 
     const uniqueData = data.filter(
       (banner) =>
-        !existingbanners.some((existingbanner:any) => existingbanner.title === banner.title)
+        !existingbanners.some(
+          (existingbanner: any) => existingbanner.title === banner.title
+        )
     );
 
     const newbanners = await db.banner.createMany({
-      data: uniqueData,
+      data: { uniqueData },
     });
 
     return NextResponse.json(newbanners);
