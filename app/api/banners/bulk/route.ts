@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 import db from "@/lib/db";
-interface bannerData {
+interface BannerData {
   name: string;
   title: string;
   imgUrl: string;
   isActive: boolean;
+}
+
+// Type for the request body
+interface BulkCreateRequest {
+  data: BannerData[];
 }
 export async function POST(req: Request) {
   try {
@@ -12,7 +17,7 @@ export async function POST(req: Request) {
       throw new Error("Request body is missing");
     }
 
-    const { data }: { data: bannerData[] } = await req.json();
+    const { data }: BulkCreateRequest = await req.json();
 
     const titles = data.map((banner) => banner.title);
 
@@ -29,10 +34,14 @@ export async function POST(req: Request) {
         !existingbanners.some(
           (existingbanner: any) => existingbanner.title === banner.title
         )
-    );
-
+    ); // createMany expects an array of banner objects
     const newbanners = await db.banner.createMany({
-      data: { uniqueData },
+      data: uniqueData.map((banner) => ({
+        title: banner.title,
+        imgUrl: banner.imgUrl,
+        link: banner.name, 
+        isActive: banner.isActive,
+      })),
     });
 
     return NextResponse.json(newbanners);

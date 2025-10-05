@@ -169,7 +169,7 @@ enum UserRole {
 
 enum OrderStatus {
   PENDING
-  COMPLATE
+  COMPLETE
   PROCESS
   CANCEL
 }
