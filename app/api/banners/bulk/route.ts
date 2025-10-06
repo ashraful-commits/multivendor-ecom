@@ -39,7 +39,7 @@ export async function POST(req: Request) {
       data: uniqueData.map((banner) => ({
         title: banner.title,
         imgUrl: banner.imgUrl,
-        link: banner.name, 
+        link: banner.name,
         isActive: banner.isActive,
       })),
     });

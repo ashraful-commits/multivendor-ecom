@@ -1,12 +1,12 @@
-import NextAuth from 'next-auth';
-import db from './db';
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import NextAuth from "next-auth";
+import db from "./db";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 
 export const authOptions: any = {
   adapter: PrismaAdapter(db),
-  secret: process.env.NEXTAUTH_SECRET || '',
+  secret: process.env.NEXTAUTH_SECRET || "",
   session: {
     strategy: "jwt",
   },
@@ -34,12 +34,15 @@ export const authOptions: any = {
           throw new Error("No user found");
         }
 
-        const passwordMatch = await compare(credentials.password, existingUser.password);
+        const passwordMatch = await compare(
+          credentials.password,
+          existingUser.password
+        );
         if (!passwordMatch) {
           //console.log("Password incorrect");
           throw new Error("Password Incorrect");
         }
-    
+
         const user = {
           id: existingUser.id,
           name: existingUser.name,
@@ -63,11 +66,10 @@ export const authOptions: any = {
         session.user.imgUrl = token.imgUrl;
         session.user.emailVerified = token.emailVerified;
       }
-      
+
       return session;
     },
     async jwt({ token, user }: { token: any; user: any }) {
-
       if (user) {
         token.id = user.id;
         token.name = user.name;
@@ -80,4 +82,3 @@ export const authOptions: any = {
     },
   },
 };
-
